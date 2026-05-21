@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, PhoneCall, GraduationCap } from "lucide-react";
+import { ArrowRightIcon, PhoneCallIcon, GraduationCapIcon } from "lucide-react";
 import Image from "next/image";
 
 export function HeroSection() {
@@ -34,7 +34,7 @@ export function HeroSection() {
 					<span className="block h-5 border-l" />
 
 					<div className="pr-1">
-						<ArrowRight className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5" />
+						<ArrowRightIcon className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5" />
 					</div>
 				</a>
 
@@ -59,12 +59,12 @@ export function HeroSection() {
 
 				<div className="fade-in slide-in-from-bottom-10 flex w-fit animate-in items-center justify-center gap-3 fill-mode-backwards pt-2 delay-300 duration-500 ease-out">
 					<Button variant="outline" className="rounded-full">
-						<PhoneCall className="size-4 mr-2" />{" "}
+						<PhoneCallIcon className="size-4 mr-2" />{" "}
 						Free Counseling
 					</Button>
 					<Button className="rounded-full">
 						Explore Tests{" "}
-						<ArrowRight className="size-4 ml-2" />
+						<ArrowRightIcon className="size-4 ml-2" />
 					</Button>
 				</div>
 			</div>
@@ -114,7 +114,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="bg-primary p-1.5 rounded-lg">
-              <GraduationCap className="w-5 h-5 text-white" />
+              <GraduationCapIcon className="w-5 h-5 text-white" />
             </div>
             <span className="font-headline font-bold text-xl tracking-tight text-primary">Vidhyaly</span>
           </div>
@@ -128,31 +128,6 @@ export default function Home() {
       </nav>
 
       <HeroSection />
-
-      {/* Feature Snippet */}
-      <section className="max-w-5xl mx-auto py-24 px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div className="space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
-            <GraduationCap className="w-6 h-6" />
-          </div>
-          <h3 className="text-xl font-bold font-headline">NCERT Mastery</h3>
-          <p className="text-muted-foreground">Every line of NCERT Biology, Physics, and Chemistry converted into actionable study material.</p>
-        </div>
-        <div className="space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent">
-            <ArrowRight className="w-6 h-6 rotate-[-45deg]" />
-          </div>
-          <h3 className="text-xl font-bold font-headline">Real-time Analytics</h3>
-          <p className="text-muted-foreground">Identify your weak topics instantly with our AI-driven performance tracking system.</p>
-        </div>
-        <div className="space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
-            <PhoneCall className="w-6 h-6" />
-          </div>
-          <h3 className="text-xl font-bold font-headline">Expert Guidance</h3>
-          <p className="text-muted-foreground">Regular doubt sessions and strategies from top-rankers to keep your preparation on track.</p>
-        </div>
-      </section>
 
       <footer className="border-t py-12">
         <div className="max-w-5xl mx-auto px-4 text-center">
