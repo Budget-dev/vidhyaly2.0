@@ -84,21 +84,21 @@ export function HeroSection() {
 export function AITutorSection() {
   return (
     <section className="py-24 max-w-7xl mx-auto px-4">
-      <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-        <div className="flex-1 space-y-8">
+      <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="flex-1 space-y-6">
           <div>
-            <span className="text-primary font-bold text-sm tracking-widest uppercase mb-4 block">AI TUTOR</span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold leading-tight">
+            <span className="text-primary font-bold text-[10px] tracking-widest uppercase mb-2 block">AI TUTOR</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-headline font-bold leading-tight">
               Your Personal AI <br />
               <span className="text-primary">NEET Mentor</span>
             </h2>
           </div>
           
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
+          <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-md">
             Get instant, accurate, and easy-to-understand answers to any doubt. Our AI Tutor explains concepts, solves questions, and guides you like a top mentor would.
           </p>
           
-          <div className="space-y-4">
+          <div className="space-y-3">
             {[
               "Step-by-step explanations",
               "Concept breakdowns",
@@ -106,17 +106,17 @@ export function AITutorSection() {
               "24/7 doubt solving"
             ].map((feature) => (
               <div key={feature} className="flex items-center gap-3">
-                <div className="bg-primary/10 p-1 rounded-full">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                <div className="bg-primary/10 p-1 rounded-full shrink-0">
+                  <CheckCircle2 className="w-4 h-4 text-primary" />
                 </div>
-                <span className="text-lg font-medium text-foreground">{feature}</span>
+                <span className="text-base font-medium text-foreground">{feature}</span>
               </div>
             ))}
           </div>
         </div>
         
-        <div className="flex-1 relative w-full aspect-[4/3] max-w-xl">
-          <div className="absolute inset-0 bg-primary/5 rounded-3xl -rotate-2 scale-105" />
+        <div className="flex-[1.2] relative w-full aspect-video max-w-2xl">
+          <div className="absolute inset-0 bg-primary/5 rounded-3xl -rotate-1 scale-[1.02]" />
           <div className="relative bg-white rounded-3xl border shadow-xl overflow-hidden h-full">
             <video
               src="https://1234567890.sirv.com/Firefly%20Create%20an%20ultra-premium%20cinematic%208-second%20AI%20tutoring%20interface%20animation%20based%20EXACTLY%20on%20.mp4"
