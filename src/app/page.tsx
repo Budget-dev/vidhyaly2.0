@@ -30,7 +30,7 @@ import {
 import { Testimonials } from "@/components/landing/Testimonials";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export const LampContainer = ({
   children,
@@ -39,17 +39,28 @@ export const LampContainer = ({
   children: React.ReactNode;
   className?: string;
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <div
       className={cn(
-        "relative flex min-h-[800px] flex-col items-center justify-center overflow-hidden bg-slate-50 w-full z-0",
+        "relative flex min-h-[700px] md:min-h-[800px] flex-col items-center justify-center overflow-hidden bg-slate-50 w-full z-0",
         className
       )}
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
         <motion.div
-          initial={{ opacity: 0.5, width: "15rem" }}
-          whileInView={{ opacity: 1, width: "30rem" }}
+          initial={{ opacity: 0.5, width: isMobile ? "8rem" : "15rem" }}
+          whileInView={{ opacity: 1, width: isMobile ? "16rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -64,8 +75,8 @@ export const LampContainer = ({
           <div className="absolute  w-40 h-[100%] left-0 bg-slate-50  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0.5, width: "15rem" }}
-          whileInView={{ opacity: 1, width: "30rem" }}
+          initial={{ opacity: 0.5, width: isMobile ? "8rem" : "15rem" }}
+          whileInView={{ opacity: 1, width: isMobile ? "16rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -83,8 +94,8 @@ export const LampContainer = ({
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
         <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-primary opacity-10 blur-3xl"></div>
         <motion.div
-          initial={{ width: "8rem" }}
-          whileInView={{ width: "16rem" }}
+          initial={{ width: isMobile ? "5rem" : "8rem" }}
+          whileInView={{ width: isMobile ? "10rem" : "16rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -93,8 +104,8 @@ export const LampContainer = ({
           className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-blue-100 blur-2xl"
         ></motion.div>
         <motion.div
-          initial={{ width: "15rem" }}
-          whileInView={{ width: "30rem" }}
+          initial={{ width: isMobile ? "8rem" : "15rem" }}
+          whileInView={{ width: isMobile ? "16rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -106,7 +117,7 @@ export const LampContainer = ({
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-50 "></div>
       </div>
 
-      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
+      <div className="relative z-50 flex -translate-y-64 md:translate-y-[-20rem] flex-col items-center px-5">
         {children}
       </div>
     </div>
@@ -123,20 +134,20 @@ export function HeroSection() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="relative z-10 flex flex-col items-center text-center gap-6 max-w-4xl px-4"
         >
-          <a
+          <Link
             className={cn(
-              "group flex w-fit items-center gap-3 rounded-full border border-white/80 bg-white/20 backdrop-blur-2xl p-1 pr-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all hover:bg-white/40 hover:border-white"
+              "group flex w-fit items-center gap-3 rounded-full border border-white/80 bg-white/40 backdrop-blur-2xl p-1.5 pr-5 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all hover:bg-white/60 hover:border-white border-white/20"
             )}
-            href="/contact"
+            href="/auth"
           >
-            <div className="rounded-full border border-primary/20 bg-primary/10 text-primary px-3 py-1 shadow-sm">
+            <div className="rounded-full border border-primary/20 bg-primary/20 text-primary px-3 py-1 shadow-sm">
               <p className="font-mono text-[10px] font-black">2026</p>
             </div>
-            <span className="text-xs font-bold text-slate-900 tracking-tight">now enrolling for NEET 2026 batches</span>
+            <span className="text-[11px] font-bold text-slate-800 tracking-tight">now enrolling for NEET 2026 batches</span>
             <div className="pl-1">
               <ArrowRightIcon className="size-3.5 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5 text-primary" />
             </div>
-          </a>
+          </Link>
 
           <h1 className="text-balance font-headline font-bold text-4xl text-slate-900 leading-tight md:text-5xl lg:text-7xl">
             Master NEET with India&apos;s Smartest Prep Platform
@@ -155,8 +166,8 @@ export function HeroSection() {
               </Link>
             </Button>
             <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white" asChild>
-              <Link href="/tests">
-                Explore Tests{" "}
+              <Link href="/auth">
+                Get Started{" "}
                 <ArrowRightIcon className="size-4 ml-2" />
               </Link>
             </Button>
@@ -169,7 +180,7 @@ export function HeroSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative -mt-64 z-20 w-full max-w-6xl px-4"
+        className="relative -mt-48 md:-mt-64 z-20 w-full max-w-6xl px-4 pb-20"
       >
 				<div className="relative mx-auto overflow-hidden rounded-2xl border bg-background p-2 shadow-2xl ring-1 ring-border">
 					<img
@@ -667,7 +678,7 @@ export function StudyToolsGrid() {
   ];
 
   return (
-    <section className="py-12 max-w-7xl mx-auto px-4">
+    <section className="py-12 max-w-7xl mx-auto px-4 relative z-0">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tools.map((tool, idx) => (
           <motion.div
@@ -712,9 +723,9 @@ export function StudyToolsGrid() {
 
 export function FeaturesSection() {
     return (
-        <section className="py-24 max-w-7xl mx-auto px-4">
+        <section className="py-24 md:py-32 max-w-7xl mx-auto px-4 relative z-10">
             <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <div className="flex-1 relative h-[500px] w-full">
+                <div className="flex-1 relative h-[400px] md:h-[500px] w-full">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -865,7 +876,7 @@ export function ExamsSection() {
                 <p className="text-primary-foreground/80 text-sm">Every single question is tagged with the exact NCERT page number and difficulty level.</p>
               </div>
               <Button variant="secondary" className="w-fit rounded-full font-bold" asChild>
-                <Link href="/study-tools/mcqs">Discover More</Link>
+                <Link href="/auth">Discover More</Link>
               </Button>
             </motion.div>
 
