@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { DropdownNavigation } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { ConstructionPopup } from "@/components/ConstructionPopup";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://vidhyaly.com'),
@@ -154,6 +155,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased bg-background min-h-screen flex flex-col">
         <DropdownNavigation navItems={navItems} />
+        <ConstructionPopup />
         <main className="flex-grow pt-16">
           {children}
         </main>
