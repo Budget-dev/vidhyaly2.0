@@ -216,7 +216,7 @@ export default function Home() {
     };
 
     return (
-        <div className="bg-background text-foreground min-h-screen flex flex-col -m-6 md:-m-10 relative overflow-hidden">
+        <div className="bg-background text-foreground min-h-screen flex flex-col relative overflow-hidden">
             <nav className="w-full max-w-screen-md mx-auto flex flex-wrap justify-center sm:justify-between items-center px-4 sm:px-8 py-6 text-sm relative z-20">
                 {navItems.map((item) => (
                     <a 

@@ -1,7 +1,5 @@
 import type {Metadata} from 'next';
 import './globals.css';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/layout/app-sidebar';
 
 export const metadata: Metadata = {
   title: 'Vidhyaly - NEET Excellence Platform',
@@ -21,14 +19,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased bg-background min-h-screen">
-        <SidebarProvider>
-          <div className="flex w-full">
-            <AppSidebar />
-            <main className="flex-1 w-full overflow-hidden p-6 md:p-10">
-              {children}
-            </main>
-          </div>
-        </SidebarProvider>
+        <main className="min-h-screen">
+          {children}
+        </main>
       </body>
     </html>
   );
