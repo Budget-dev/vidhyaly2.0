@@ -21,8 +21,6 @@ import { Button } from "@/components/ui/button";
 
 interface FooterProps {
   logo?: {
-    src: React.ReactNode;
-    alt: string;
     title: string;
   };
   sections?: Array<{
@@ -87,8 +85,6 @@ const defaultLegalLinks = [
 
 export const Footer = ({
   logo = {
-    src: <GraduationCap className="size-6" />,
-    alt: "Vidhyaly Logo",
     title: "Vidhyaly",
   },
   sections = defaultSections,
@@ -114,10 +110,9 @@ export const Footer = ({
               viewport={{ once: true }}
               className="flex items-center gap-3"
             >
-              <div className="bg-primary p-2 rounded-xl text-white shadow-lg shadow-primary/20">
-                {logo.src}
-              </div>
-              <h2 className="text-3xl font-headline font-bold text-slate-900 tracking-tight">{logo.title}</h2>
+              <h2 className="text-4xl font-headline font-bold tracking-tighter bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                {logo.title}
+              </h2>
             </motion.div>
             
             <p className="text-slate-500 text-sm leading-relaxed max-w-sm font-medium">

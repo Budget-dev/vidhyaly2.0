@@ -85,11 +85,10 @@ export function DropdownNavigation({ navItems }: Props) {
     <nav className="fixed top-0 w-full z-50 border-b bg-white/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="bg-primary p-1.5 rounded-lg shadow-sm text-white group-hover:scale-105 transition-transform">
-            <GraduationCap className="w-5 h-5" />
-          </div>
-          <span className="font-headline font-bold text-xl tracking-tight text-primary">Vidhyaly</span>
+        <Link href="/" className="flex items-center group">
+          <span className="font-headline font-bold text-2xl tracking-tighter bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent hover:scale-105 transition-transform">
+            Vidhyaly
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -214,11 +213,10 @@ export function DropdownNavigation({ navItems }: Props) {
             </SheetTrigger>
             <SheetContent side="right" className="w-[85%] sm:w-[400px] p-0 flex flex-col">
               <SheetHeader className="p-6 border-b text-left">
-                <SheetTitle className="flex items-center gap-2">
-                  <div className="bg-primary p-1.5 rounded-lg text-white">
-                    <GraduationCap className="w-5 h-5" />
-                  </div>
-                  <span className="font-headline font-bold text-xl text-primary">Vidhyaly</span>
+                <SheetTitle className="flex items-center">
+                  <span className="font-headline font-bold text-2xl tracking-tighter bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                    Vidhyaly
+                  </span>
                 </SheetTitle>
               </SheetHeader>
               
