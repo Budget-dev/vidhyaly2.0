@@ -1,4 +1,3 @@
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, PhoneCallIcon } from "lucide-react";
@@ -62,10 +61,10 @@ export function HeroSection() {
 					href="#link"
 				>
 					<div className="rounded-full border bg-primary/10 text-primary px-2.5 py-0.5 shadow-sm">
-						<p className="font-mono text-[10px] font-bold">2025</p>
+						<p className="font-mono text-[10px] font-bold">2026</p>
 					</div>
 
-					<span className="text-xs font-medium">now enrolling for NEET 2025 batches</span>
+					<span className="text-xs font-medium">now enrolling for NEET 2026 batches</span>
 
 					<div className="pl-1">
 						<ArrowRightIcon className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5" />
@@ -132,7 +131,7 @@ export default function Home() {
 
       <footer className="border-t py-12 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground font-medium">© 2025 Vidhyaly Education. Dedicated to your medical dream.</p>
+          <p className="text-sm text-muted-foreground font-medium">© 2026 Vidhyaly Education. Dedicated to your medical dream.</p>
         </div>
       </footer>
     </main>
