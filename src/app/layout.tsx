@@ -43,6 +43,18 @@ const navItems = [
   },
   {
     id: 3,
+    label: "AI Friend",
+    subMenus: [
+      {
+        title: "Companion",
+        items: [
+          { label: "Vidhyamithra", description: "Your personalized AI study friend", icon: "Bot", href: "/ai-friend/vidhyamithra" },
+        ],
+      },
+    ],
+  },
+  {
+    id: 4,
     label: "Subjects",
     subMenus: [
       {
@@ -56,12 +68,12 @@ const navItems = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     label: "About Us",
     href: "/about",
   },
   {
-    id: 5,
+    id: 6,
     label: "Contact Us",
     href: "/contact",
   },
