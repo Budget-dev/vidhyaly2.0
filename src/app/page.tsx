@@ -82,8 +82,6 @@ export function HeroSection() {
 }
 
 export function AITutorSection() {
-  const imgData = PlaceHolderImages.find(p => p.id === "ai-tutor-visual");
-  
   return (
     <section className="py-24 max-w-7xl mx-auto px-4">
       <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
@@ -119,13 +117,14 @@ export function AITutorSection() {
         
         <div className="flex-1 relative w-full aspect-[4/3] max-w-xl">
           <div className="absolute inset-0 bg-primary/5 rounded-3xl -rotate-2 scale-105" />
-          <div className="relative bg-white rounded-3xl border shadow-xl overflow-hidden h-full flex items-center justify-center p-8">
-            <Image
-              src={imgData?.imageUrl || "https://picsum.photos/seed/aitutor/800/600"}
-              alt="AI Mentor Visualization"
-              fill
-              className="object-cover"
-              data-ai-hint={imgData?.imageHint || "robot teacher"}
+          <div className="relative bg-white rounded-3xl border shadow-xl overflow-hidden h-full">
+            <video
+              src="https://1234567890.sirv.com/Firefly%20Create%20an%20ultra-premium%20cinematic%208-second%20AI%20tutoring%20interface%20animation%20based%20EXACTLY%20on%20.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover rounded-3xl"
             />
           </div>
         </div>
