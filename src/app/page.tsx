@@ -765,7 +765,7 @@ export function ExamsSection() {
             className="lg:col-span-2 relative aspect-[16/10] rounded-3xl overflow-hidden shadow-2xl group"
           >
             <img
-              src="https://picsum.photos/seed/exam1/1200/800"
+              src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2004_10_56%20PM.png"
               alt="Medical Exam Study"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
