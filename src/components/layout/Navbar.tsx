@@ -14,7 +14,10 @@ import {
   MessageCircle, 
   Users, 
   Presentation,
-  GraduationCap
+  GraduationCap,
+  Leaf,
+  FlaskConical,
+  Zap
 } from "lucide-react";
 import Link from "next/link";
 
@@ -27,11 +30,15 @@ const ICON_MAP: Record<string, React.ElementType> = {
   MessageCircle,
   Users,
   Presentation,
+  Leaf,
+  FlaskConical,
+  Zap
 };
 
 type NavItem = {
   id: number;
   label: string;
+  href?: string;
   subMenus?: {
     title: string;
     items: {
@@ -77,26 +84,42 @@ export function DropdownNavigation({ navItems }: Props) {
                 onMouseEnter={() => handleHover(navItem.label)}
                 onMouseLeave={() => handleHover(null)}
               >
-                <button
-                  className="text-sm py-1.5 px-4 flex cursor-pointer group transition-colors duration-300 items-center justify-center gap-1 text-muted-foreground hover:text-foreground relative z-20"
-                  onMouseEnter={() => setIsHover(navItem.id)}
-                  onMouseLeave={() => setIsHover(null)}
-                >
-                  <span className="relative z-10">{navItem.label}</span>
-                  {navItem.subMenus && (
+                {navItem.subMenus ? (
+                  <button
+                    className="text-sm py-1.5 px-4 flex cursor-pointer group transition-colors duration-300 items-center justify-center gap-1 text-muted-foreground hover:text-foreground relative z-20"
+                    onMouseEnter={() => setIsHover(navItem.id)}
+                    onMouseLeave={() => setIsHover(null)}
+                  >
+                    <span className="relative z-10">{navItem.label}</span>
                     <ChevronDown
                       className={`h-4 w-4 group-hover:rotate-180 duration-300 transition-transform relative z-10
                         ${openMenu === navItem.label ? "rotate-180" : ""}`}
                     />
-                  )}
-                  {(isHover === navItem.id || openMenu === navItem.label) && (
-                    <motion.div
-                      layoutId="hover-bg"
-                      className="absolute inset-0 size-full bg-primary/10"
-                      style={{ borderRadius: 99 }}
-                    />
-                  )}
-                </button>
+                    {(isHover === navItem.id || openMenu === navItem.label) && (
+                      <motion.div
+                        layoutId="hover-bg"
+                        className="absolute inset-0 size-full bg-primary/10"
+                        style={{ borderRadius: 99 }}
+                      />
+                    )}
+                  </button>
+                ) : (
+                  <Link
+                    href={navItem.href || "#"}
+                    className="text-sm py-1.5 px-4 flex cursor-pointer group transition-colors duration-300 items-center justify-center gap-1 text-muted-foreground hover:text-foreground relative z-20"
+                    onMouseEnter={() => setIsHover(navItem.id)}
+                    onMouseLeave={() => setIsHover(null)}
+                  >
+                    <span className="relative z-10">{navItem.label}</span>
+                    {(isHover === navItem.id) && (
+                      <motion.div
+                        layoutId="hover-bg"
+                        className="absolute inset-0 size-full bg-primary/10"
+                        style={{ borderRadius: 99 }}
+                      />
+                    )}
+                  </Link>
+                )}
 
                 <AnimatePresence>
                   {openMenu === navItem.label && navItem.subMenus && (

@@ -10,6 +10,11 @@ import { Testimonials } from "@/components/landing/Testimonials";
 const navItems = [
   {
     id: 1,
+    label: "Home",
+    href: "/",
+  },
+  {
+    id: 2,
     label: "Study tools",
     subMenus: [
       {
@@ -32,12 +37,36 @@ const navItems = [
       },
     ],
   },
+  {
+    id: 3,
+    label: "Subjects",
+    subMenus: [
+      {
+        title: "NEET Preparation",
+        items: [
+          { label: "Biology", description: "Deep dive into Botany and Zoology", icon: "Leaf", href: "/subjects/biology" },
+          { label: "Chemistry", description: "Organic, Inorganic & Physical", icon: "FlaskConical", href: "/subjects/chemistry" },
+          { label: "Physics", description: "Mechanics to Modern Physics", icon: "Zap", href: "/subjects/physics" },
+        ],
+      },
+    ],
+  },
+  {
+    id: 4,
+    label: "About Us",
+    href: "/about",
+  },
+  {
+    id: 5,
+    label: "Contact Us",
+    href: "/contact",
+  },
 ];
 
 export function HeroSection() {
 	return (
-		<section className="mx-auto w-full max-w-7xl overflow-hidden pt-32">
-			<div className="relative z-10 flex flex-col items-center text-center gap-6 px-4">
+		<section className="mx-auto w-full max-w-7xl overflow-hidden pt-32 px-4 flex flex-col items-center">
+			<div className="relative z-10 flex flex-col items-center text-center gap-6 max-w-4xl">
 				<a
 					className={cn(
 						"group flex w-fit items-center gap-3 rounded-full border bg-card p-1 pr-3 shadow-sm",
@@ -48,9 +77,7 @@ export function HeroSection() {
 					<div className="rounded-full border bg-primary/10 text-primary px-2.5 py-0.5 shadow-sm">
 						<p className="font-mono text-[10px] font-bold">2026</p>
 					</div>
-
 					<span className="text-xs font-medium">now enrolling for NEET 2026 batches</span>
-
 					<div className="pl-1">
 						<ArrowRightIcon className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5" />
 					</div>
@@ -58,7 +85,7 @@ export function HeroSection() {
 
 				<h1
 					className={cn(
-						"text-balance font-headline font-bold text-4xl text-foreground leading-tight md:text-5xl lg:text-7xl max-w-4xl",
+						"text-balance font-headline font-bold text-4xl text-foreground leading-tight md:text-5xl lg:text-7xl",
 						"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards delay-100 duration-500 ease-out"
 					)}
 				>
@@ -76,9 +103,11 @@ export function HeroSection() {
 				</p>
 
 				<div className="fade-in slide-in-from-bottom-10 flex w-fit animate-in items-center justify-center gap-4 fill-mode-backwards pt-4 delay-300 duration-500 ease-out">
-					<Button variant="outline" size="lg" className="rounded-full px-8">
-						<PhoneCallIcon className="size-4 mr-2" />{" "}
-						Free Counseling
+					<Button variant="outline" size="lg" className="rounded-full px-8" asChild>
+            <a href="/contact">
+              <PhoneCallIcon className="size-4 mr-2" />
+              Free Counseling
+            </a>
 					</Button>
 					<Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90">
 						Explore Tests{" "}
@@ -87,7 +116,7 @@ export function HeroSection() {
 				</div>
 			</div>
 			
-      <div className="relative mt-12 sm:mt-16 md:mt-24 px-4 max-w-6xl mx-auto">
+      <div className="relative mt-12 sm:mt-16 md:mt-24 w-full max-w-6xl">
 				<div
 					className={cn(
 						"relative",
@@ -97,7 +126,7 @@ export function HeroSection() {
 					<div className="relative mx-auto overflow-hidden rounded-2xl border bg-background p-2 shadow-2xl ring-1 ring-border">
 						<img
 							alt="Vidhyaly Platform Preview"
-							className="z-2 aspect-video rounded-xl"
+							className="z-2 aspect-video rounded-xl w-full"
 							src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2012_31_25%20PM.png"
 						/>
 					</div>
