@@ -59,8 +59,8 @@ export const LampContainer = ({
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
         <motion.div
-          initial={{ opacity: 0.5, width: isMobile ? "8rem" : "15rem" }}
-          whileInView={{ opacity: 1, width: isMobile ? "16rem" : "30rem" }}
+          initial={{ opacity: 0.5, width: isMobile ? "6rem" : "15rem" }}
+          whileInView={{ opacity: 1, width: isMobile ? "12rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -75,8 +75,8 @@ export const LampContainer = ({
           <div className="absolute  w-40 h-[100%] left-0 bg-slate-50  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0.5, width: isMobile ? "8rem" : "15rem" }}
-          whileInView={{ opacity: 1, width: isMobile ? "16rem" : "30rem" }}
+          initial={{ opacity: 0.5, width: isMobile ? "6rem" : "15rem" }}
+          whileInView={{ opacity: 1, width: isMobile ? "12rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -94,8 +94,8 @@ export const LampContainer = ({
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
         <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-primary opacity-10 blur-3xl"></div>
         <motion.div
-          initial={{ width: isMobile ? "5rem" : "8rem" }}
-          whileInView={{ width: isMobile ? "10rem" : "16rem" }}
+          initial={{ width: isMobile ? "4rem" : "8rem" }}
+          whileInView={{ width: isMobile ? "8rem" : "16rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -104,8 +104,8 @@ export const LampContainer = ({
           className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-blue-100 blur-2xl"
         ></motion.div>
         <motion.div
-          initial={{ width: isMobile ? "8rem" : "15rem" }}
-          whileInView={{ width: isMobile ? "16rem" : "30rem" }}
+          initial={{ width: isMobile ? "6rem" : "15rem" }}
+          whileInView={{ width: isMobile ? "12rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -678,7 +678,7 @@ export function StudyToolsGrid() {
   ];
 
   return (
-    <section className="py-12 max-w-7xl mx-auto px-4 relative z-0">
+    <section className="pt-12 pb-24 max-w-7xl mx-auto px-4 relative z-0">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tools.map((tool, idx) => (
           <motion.div
@@ -723,9 +723,9 @@ export function StudyToolsGrid() {
 
 export function FeaturesSection() {
     return (
-        <section className="py-24 md:py-32 max-w-7xl mx-auto px-4 relative z-10">
+        <section className="py-24 md:py-32 max-w-7xl mx-auto px-4 relative z-0">
             <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <div className="flex-1 relative h-[400px] md:h-[500px] w-full">
+                <div className="flex-1 relative h-[500px] md:h-[600px] w-full">
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
