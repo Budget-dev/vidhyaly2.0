@@ -1,14 +1,13 @@
+
 "use client"
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { 
   Dialog, 
   DialogContent, 
   DialogHeader, 
   DialogTitle, 
   DialogDescription,
-  DialogFooter
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { HardHat, AlertTriangle, Phone, Globe, ArrowRight } from "lucide-react";
@@ -34,6 +33,14 @@ export function ConstructionPopup() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-w-md bg-white rounded-[2rem] border-none shadow-2xl p-0 overflow-hidden">
+        {/* Accessibility: Screen reader only headers */}
+        <DialogHeader className="sr-only">
+          <DialogTitle>Under Construction Notice</DialogTitle>
+          <DialogDescription>
+            The Vidhyaly platform is currently being developed and features are not yet functional.
+          </DialogDescription>
+        </DialogHeader>
+
         <div className="bg-amber-500 p-8 flex flex-col items-center text-white text-center relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -71,6 +78,7 @@ export function ConstructionPopup() {
             <a 
               href="https://budgetdev.in" 
               target="_blank" 
+              rel="noopener noreferrer"
               className="flex items-center justify-between p-4 bg-slate-900 rounded-2xl text-white hover:bg-slate-800 transition-all group"
             >
               <div className="flex items-center gap-3">
