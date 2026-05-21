@@ -195,7 +195,10 @@ export function DropdownNavigation({ navItems }: Props) {
         </div>
 
         {/* Desktop CTA */}
-        <div className="hidden md:block">
+        <div className="hidden md:flex items-center gap-3">
+          <Button asChild variant="ghost" className="rounded-full px-6 font-bold hover:bg-primary/5 transition-all">
+            <Link href="/auth">Login</Link>
+          </Button>
           <Button asChild className="rounded-full px-6 font-bold shadow-md hover:shadow-lg transition-all">
             <Link href="/auth">Get Started</Link>
           </Button>
@@ -286,9 +289,14 @@ export function DropdownNavigation({ navItems }: Props) {
                     </div>
                   </div>
                 </div>
-                <Button asChild className="w-full rounded-xl font-bold py-6">
-                  <Link href="/auth">Start Free Prep</Link>
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <Button asChild variant="outline" className="w-full rounded-xl font-bold py-6">
+                    <Link href="/auth">Login</Link>
+                  </Button>
+                  <Button asChild className="w-full rounded-xl font-bold py-6">
+                    <Link href="/auth">Start Free Prep</Link>
+                  </Button>
+                </div>
                 <p className="text-[10px] text-center text-slate-400 font-medium italic">
                   "Working with more efforts for your dream seat."
                 </p>

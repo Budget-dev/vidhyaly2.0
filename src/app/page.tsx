@@ -1,3 +1,4 @@
+
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -22,7 +23,9 @@ import {
   FlaskConical,
   Leaf,
   Search,
-  Users
+  Users,
+  BarChart3,
+  Fingerprint
 } from "lucide-react";
 import { Testimonials } from "@/components/landing/Testimonials";
 import Link from "next/link";
@@ -349,7 +352,7 @@ export function AITutorDemo() {
               How can I assist your NEET prep today?
             </h2>
             <p className="text-muted-foreground max-w-md">
-              Ask any doubt or slect a subject to see popular topics.
+              Ask any doubt or select a subject to see popular topics.
             </p>
           </motion.div>
         </div>
@@ -636,45 +639,51 @@ export function FeaturesSection() {
     return (
         <section className="py-24 max-w-7xl mx-auto px-4">
             <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <motion.div 
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8 }}
-                  className="flex-1 flex flex-col gap-6"
-                >
-                    <motion.img 
-                        animate={{ y: [0, -10, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                        className="max-w-xl w-full rounded-3xl shadow-2xl border-4 border-white" 
-                        src="https://picsum.photos/seed/feature1/800/600" 
-                        alt="Vidhyaly Analytics" 
-                    />
-                    <motion.img 
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                        className="max-w-xl w-full rounded-3xl shadow-2xl border-4 border-white -mt-20 ml-10 z-10" 
-                        src="https://picsum.photos/seed/feature2/800/600" 
-                        alt="Vidhyaly Study Plan" 
-                    />
-                </motion.div>
-                <div className="flex-1 space-y-12 px-4 md:px-0">
+                <div className="flex-1 relative h-[500px] w-full">
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="absolute top-0 left-0 w-[85%] aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-0"
+                    >
+                        <img 
+                            src="https://picsum.photos/seed/palms/800/600" 
+                            alt="Analytics Background" 
+                            className="w-full h-full object-cover"
+                            data-ai-hint="tropical palms"
+                        />
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, x: 0, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="absolute bottom-0 right-0 w-[85%] aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-10"
+                    >
+                        <img 
+                            src="https://picsum.photos/seed/city/800/600" 
+                            alt="Platform Interface" 
+                            className="w-full h-full object-cover"
+                            data-ai-hint="city canal"
+                        />
+                    </motion.div>
+                </div>
+                <div className="flex-1 space-y-12">
                     {/* Performance Tracking */}
                     <motion.div 
                       initial={{ opacity: 0, x: 30 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5 }}
-                      className="flex items-center gap-6 max-w-md"
+                      className="flex items-center gap-6"
                     >
-                        <div className="p-6 aspect-square bg-violet-100 rounded-full shrink-0">
-                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14 18.667V24.5m4.668-8.167V24.5m4.664-12.833V24.5m2.333-21L15.578 13.587a.584.584 0 0 1-.826 0l-3.84-3.84a.583.583 0 0 0-.825 0L2.332 17.5M4.668 21v3.5m4.664-12.833V24.5" stroke="#7F22FE" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
+                        <div className="w-16 h-16 bg-[#F3E8FF] rounded-full flex items-center justify-center shrink-0">
+                            <BarChart3 className="w-8 h-8 text-[#7C3AED]" />
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1">
                             <h3 className="text-xl font-bold text-foreground font-headline">Precision Analytics</h3>
-                            <p className="text-muted-foreground leading-relaxed">Track your accuracy across chapters with live AI-driven dashboards and performance insights.</p>
+                            <p className="text-muted-foreground leading-relaxed text-sm">Track your accuracy across chapters with live AI-driven dashboards and performance insights.</p>
                         </div>
                     </motion.div>
 
@@ -684,17 +693,14 @@ export function FeaturesSection() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.1 }}
-                      className="flex items-center gap-6 max-w-md"
+                      className="flex items-center gap-6"
                     >
-                        <div className="p-6 aspect-square bg-emerald-100 rounded-full shrink-0">
-                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14 11.667A2.333 2.333 0 0 0 11.667 14c0 1.19-.117 2.929-.304 4.667m4.972-3.36c0 2.776 0 7.443-1.167 10.36m5.004-1.144c.14-.7.502-2.683.583-3.523M2.332 14a11.667 11.667 0 0 1 21-7m-21 11.667h.01m23.092 0c.233-2.333.152-6.246 0-7" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                <path d="M5.832 22.75C6.415 21 6.999 17.5 6.999 14a7 7 0 0 1 .396-2.333m2.695 13.999c.245-.77.525-1.54.665-2.333m-.255-15.4A7 7 0 0 1 21 14v2.333" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
+                        <div className="w-16 h-16 bg-[#DCFCE7] rounded-full flex items-center justify-center shrink-0">
+                            <Fingerprint className="w-8 h-8 text-[#16A34A]" />
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1">
                             <h3 className="text-xl font-bold text-foreground font-headline">NCERT-Based Precision</h3>
-                            <p className="text-muted-foreground leading-relaxed">Every note, MCQ, and lecture is strictly mapped to the latest NCERT syllabus for 100% relevance.</p>
+                            <p className="text-muted-foreground leading-relaxed text-sm">Every note, MCQ, and lecture is strictly mapped to the latest NCERT syllabus for 100% relevance.</p>
                         </div>
                     </motion.div>
 
@@ -704,17 +710,14 @@ export function FeaturesSection() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: 0.2 }}
-                      className="flex items-center gap-6 max-w-md"
+                      className="flex items-center gap-6"
                     >
-                        <div className="p-6 aspect-square bg-orange-100 rounded-full shrink-0">
-                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4.668 25.666h16.333a2.333 2.333 0 0 0 2.334-2.333V8.166L17.5 2.333H7a2.333 2.333 0 0 0-2.333 2.333v4.667" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                <path d="M16.332 2.333V7a2.334 2.334 0 0 0 2.333 2.333h4.667m-21 8.167h11.667M10.5 21l3.5-3.5-3.5-3.5" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
+                        <div className="w-16 h-16 bg-[#FFEDD5] rounded-full flex items-center justify-center shrink-0">
+                            <FileText className="w-8 h-8 text-[#EA580C]" />
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1">
                             <h3 className="text-xl font-bold text-foreground font-headline">Smart Study Reports</h3>
-                            <p className="text-muted-foreground leading-relaxed">Export personalized reports that highlight your weak areas and suggest targeted improvement paths.</p>
+                            <p className="text-muted-foreground leading-relaxed text-sm">Export personalized reports that highlight your weak areas and suggest targeted improvement paths.</p>
                         </div>
                     </motion.div>
                 </div>
