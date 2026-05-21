@@ -650,10 +650,9 @@ export function FeaturesSection() {
                         className="absolute top-0 left-0 w-[85%] aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-0"
                     >
                         <img 
-                            src="https://picsum.photos/seed/palms/800/600" 
-                            alt="Analytics Background" 
+                            src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2002_18_43%20PM.png" 
+                            alt="Analytics Background Context" 
                             className="w-full h-full object-cover"
-                            data-ai-hint="tropical palms"
                         />
                     </motion.div>
                     <motion.div
