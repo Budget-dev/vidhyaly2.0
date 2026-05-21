@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Bot, Sparkles, MessageCircle, ArrowLeft, Send } from "lucide-react";
 import Link from "next/link";
+import { VoiceChat } from "@/components/voice/voice-chat";
 
 export default function VidhyamithraPage() {
   return (
@@ -41,34 +42,28 @@ export default function VidhyamithraPage() {
         </div>
 
         {/* Content */}
-        <div className="p-8 space-y-8 min-h-[400px] flex flex-col justify-center text-center">
+        <div className="p-8 space-y-8 min-h-[500px] flex flex-col justify-center text-center">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-widest">
               <Sparkles className="w-3.5 h-3.5" />
               AI Study Companion
             </div>
-            <h2 className="text-3xl font-headline font-bold text-slate-800">Hello! I'm your Vidhyamithra.</h2>
+            <h2 className="text-3xl font-headline font-bold text-slate-800">Your Voice-Enabled Mentor</h2>
             <p className="text-slate-500 max-w-md mx-auto leading-relaxed">
-              Think of me as your dedicated study friend. I'm here to help you navigate through NEET prep, organize your schedule, and stay motivated.
+              Experience the next generation of NEET counseling. Talk to Vidhyamithra for instant motivation, schedule planning, and subject guidance.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-left">
-              <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Try asking</p>
-              <p className="text-sm font-medium text-slate-700">"Help me plan my Biology revision for this week."</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-left">
-              <p className="text-[10px] font-bold text-accent uppercase tracking-wider mb-1">Try asking</p>
-              <p className="text-sm font-medium text-slate-700">"Explain the core concept of Thermodynamics simply."</p>
-            </div>
+          {/* Interactive Voice Component */}
+          <div className="bg-slate-50/50 rounded-3xl border border-dashed border-slate-200">
+            <VoiceChat demoMode={true} />
           </div>
 
           <div className="relative pt-4">
             <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent z-20 flex items-center justify-center">
                <div className="bg-slate-900 text-white px-6 py-3 rounded-full font-bold text-sm shadow-xl flex items-center gap-2">
                  <MessageCircle className="w-4 h-4" />
-                 Coming Soon to NEET 2026 Batch
+                 Voice Chat coming to NEET 2026 Batch
                </div>
             </div>
             <div className="flex items-center gap-3 p-2 border rounded-full bg-slate-50 opacity-50 select-none">
