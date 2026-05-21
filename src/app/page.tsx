@@ -1,7 +1,7 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, PhoneCallIcon, BookOpen, Beaker, Leaf, PenTool, BarChart3, Clock, Trophy } from "lucide-react";
+import { ArrowRightIcon, PhoneCallIcon } from "lucide-react";
 import { DropdownNavigation } from "@/components/layout/Navbar";
 
 const navItems = [
@@ -12,16 +12,16 @@ const navItems = [
       {
         title: "Subject Mastery",
         items: [
-          { label: "Physics", description: "Master Mechanics to Modern Physics", icon: Beaker },
-          { label: "Chemistry", description: "Inorganic, Organic & Physical Chemistry", icon: BookOpen },
-          { label: "Biology", description: "Complete NCERT Zoology & Botany", icon: Leaf },
+          { label: "Physics", description: "Master Mechanics to Modern Physics", icon: "Beaker" },
+          { label: "Chemistry", description: "Inorganic, Organic & Physical Chemistry", icon: "BookOpen" },
+          { label: "Biology", description: "Complete NCERT Zoology & Botany", icon: "Leaf" },
         ],
       },
       {
         title: "Test Series",
         items: [
-          { label: "Full Mock Tests", description: "NEET Exam Pattern Simulation", icon: PenTool },
-          { label: "Sectional Drills", description: "Topic-wise accuracy boosters", icon: Clock },
+          { label: "Full Mock Tests", description: "NEET Exam Pattern Simulation", icon: "PenTool" },
+          { label: "Sectional Drills", description: "Topic-wise accuracy boosters", icon: "Clock" },
         ],
       },
     ],
@@ -33,15 +33,15 @@ const navItems = [
       {
         title: "Study Material",
         items: [
-          { label: "NCERT Notes", description: "Hand-crafted NCERT summaries", icon: BookOpen },
-          { label: "Formula Sheets", description: "Quick revision cheatsheets", icon: PenTool },
+          { label: "NCERT Notes", description: "Hand-crafted NCERT summaries", icon: "BookOpen" },
+          { label: "Formula Sheets", description: "Quick revision cheatsheets", icon: "PenTool" },
         ],
       },
       {
         title: "Analytics",
         items: [
-          { label: "Rank Predictor", description: "Predict AIR based on mocks", icon: Trophy },
-          { label: "Performance Tracker", description: "Identify your weak topics", icon: BarChart3 },
+          { label: "Rank Predictor", description: "Predict AIR based on mocks", icon: "Trophy" },
+          { label: "Performance Tracker", description: "Identify your weak topics", icon: "BarChart3" },
         ],
       },
     ],

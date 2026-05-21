@@ -4,7 +4,27 @@
 import { useState } from "react";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, GraduationCap } from "lucide-react";
+import { 
+  ChevronDown, 
+  GraduationCap, 
+  Beaker, 
+  BookOpen, 
+  Leaf, 
+  PenTool, 
+  Clock, 
+  Trophy, 
+  BarChart3 
+} from "lucide-react";
+
+const ICON_MAP: Record<string, React.ElementType> = {
+  Beaker,
+  BookOpen,
+  Leaf,
+  PenTool,
+  Clock,
+  Trophy,
+  BarChart3,
+};
 
 type NavItem = {
   id: number;
@@ -14,7 +34,7 @@ type NavItem = {
     items: {
       label: string;
       description: string;
-      icon: React.ElementType;
+      icon: string;
     }[];
   }[];
   link?: string;
@@ -38,8 +58,8 @@ export function DropdownNavigation({ navItems }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="bg-primary p-1.5 rounded-lg shadow-sm">
-            <GraduationCap className="w-5 h-5 text-white" />
+          <div className="bg-primary p-1.5 rounded-lg shadow-sm text-white">
+            <GraduationCap className="w-5 h-5" />
           </div>
           <span className="font-headline font-bold text-xl tracking-tight text-primary">Vidhyaly</span>
         </div>
@@ -94,7 +114,7 @@ export function DropdownNavigation({ navItems }: NavbarProps) {
                               </h3>
                               <ul className="space-y-5">
                                 {sub.items.map((item) => {
-                                  const Icon = item.icon;
+                                  const Icon = ICON_MAP[item.icon] || BookOpen;
                                   return (
                                     <li key={item.label}>
                                       <a
