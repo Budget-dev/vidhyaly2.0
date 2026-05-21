@@ -14,13 +14,12 @@ import {
   MessageCircle, 
   Users, 
   Presentation,
-  GraduationCap,
   Leaf,
   FlaskConical,
   Zap,
   Menu,
-  X,
-  Phone,
+  User,
+  Settings,
   ArrowRight
 } from "lucide-react";
 import Link from "next/link";
@@ -195,6 +194,9 @@ export function DropdownNavigation({ navItems }: Props) {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <Link href="/profile" className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500">
+            <User className="w-5 h-5" />
+          </Link>
           <Button asChild variant="ghost" className="rounded-full px-6 font-bold hover:bg-primary/5 transition-all">
             <Link href="/auth">Login</Link>
           </Button>
@@ -221,6 +223,18 @@ export function DropdownNavigation({ navItems }: Props) {
               </SheetHeader>
               
               <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                <Link
+                  href="/profile"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-between w-full p-3 rounded-xl bg-primary/5 text-primary transition-colors mb-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <User className="w-5 h-5" />
+                    <span className="font-bold">My Profile</span>
+                  </div>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+
                 {navItems.map((navItem) => (
                   <div key={navItem.id}>
                     {navItem.subMenus ? (
@@ -275,18 +289,6 @@ export function DropdownNavigation({ navItems }: Props) {
 
               {/* Mobile Footer (Contact) */}
               <div className="p-6 bg-slate-50 border-t space-y-4">
-                <div className="space-y-1">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Support</p>
-                  <div className="flex items-center gap-3">
-                    <div className="bg-white p-2 rounded-full border shadow-sm">
-                      <Phone className="w-4 h-4 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-slate-700">Venkatesh Choppa</p>
-                      <p className="text-xs text-slate-500">+91 8466006486</p>
-                    </div>
-                  </div>
-                </div>
                 <div className="flex flex-col gap-2">
                   <Button asChild variant="outline" className="w-full rounded-xl font-bold py-6">
                     <Link href="/auth">Login</Link>
@@ -295,9 +297,6 @@ export function DropdownNavigation({ navItems }: Props) {
                     <Link href="/auth">Start Free Prep</Link>
                   </Button>
                 </div>
-                <p className="text-[10px] text-center text-slate-400 font-medium italic">
-                  "Working with more efforts for your dream seat."
-                </p>
               </div>
             </SheetContent>
           </Sheet>

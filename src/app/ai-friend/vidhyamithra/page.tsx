@@ -4,13 +4,12 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Bot, Sparkles, ArrowLeft, Send, User, Loader2, Key, Settings2, X, AlertCircle } from "lucide-react";
+import { Bot, Sparkles, ArrowLeft, Send, User, Loader2, Settings2, Key, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { VoiceChat } from "@/components/voice/voice-chat";
 import { vidhyamithraChat } from "@/ai/flows/vidhyamithra-chat-flow";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 
 interface Message {
   id: string;
@@ -22,30 +21,16 @@ export default function VidhyamithraPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
   const [apiKey, setApiKey] = useState("");
-  const [isKeyValid, setIsKeyValid] = useState(true);
 
-  // Load key from localStorage on mount
   useEffect(() => {
     const savedKey = localStorage.getItem("vidhyaly_google_ai_key");
     if (savedKey) setApiKey(savedKey);
   }, []);
 
-  const saveKey = () => {
-    localStorage.setItem("vidhyaly_google_ai_key", apiKey);
-    setShowSettings(false);
-    setIsKeyValid(apiKey.length > 10);
-  };
-
   const handleSendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!inputText.trim() || isProcessing) return;
-
-    if (!apiKey) {
-      setShowSettings(true);
-      return;
-    }
+    if (!inputText.trim() || isProcessing || !apiKey) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -70,8 +55,6 @@ export default function VidhyamithraPage() {
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error("Chat error:", error);
-      setIsKeyValid(false);
-      setShowSettings(true);
     } finally {
       setIsProcessing(false);
     }
@@ -97,7 +80,7 @@ export default function VidhyamithraPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full max-w-5xl bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col h-[85vh] mt-8"
+        className="relative z-10 w-full max-w-6xl bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col h-[85vh] mt-8"
       >
         {/* Header */}
         <div className="bg-primary/5 p-6 border-b border-slate-100 flex items-center justify-between">
@@ -110,14 +93,14 @@ export default function VidhyamithraPage() {
               <div className="flex items-center gap-2">
                 <span className={cn("w-2 h-2 rounded-full animate-pulse", apiKey ? "bg-green-500" : "bg-amber-500")} />
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  {apiKey ? "Connected (BYOK)" : "Key Required"}
+                  {apiKey ? "Connected (BYOK)" : "Setup Required"}
                 </p>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button onClick={() => setShowSettings(true)} variant="ghost" size="icon" className="rounded-full">
-              <Settings2 className="w-5 h-5 text-slate-400" />
+            <Button asChild variant="ghost" size="icon" className="rounded-full">
+              <Link href="/profile"><Settings2 className="w-5 h-5 text-slate-400" /></Link>
             </Button>
             <Button asChild variant="ghost" size="icon" className="rounded-full">
               <Link href="/"><ArrowLeft className="w-5 h-5" /></Link>
@@ -127,64 +110,26 @@ export default function VidhyamithraPage() {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-          {/* Key Settings Overlay */}
-          <AnimatePresence>
-            {showSettings && (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 bg-white/95 backdrop-blur-md flex items-center justify-center p-6"
-              >
-                <div className="max-w-md w-full space-y-6">
-                  <div className="text-center space-y-2">
-                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <Key className="w-8 h-8 text-primary" />
-                    </div>
-                    <h2 className="text-2xl font-headline font-bold">Personal AI Key</h2>
-                    <p className="text-sm text-slate-500">
-                      To keep Vidhyaly free for everyone, please provide your own Google AI API Key. 
-                      You get a generous free tier from Google.
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Google AI Key</label>
-                      <Input 
-                        type="password" 
-                        value={apiKey}
-                        onChange={(e) => setApiKey(e.target.value)}
-                        placeholder="Paste your key here..."
-                        className="rounded-xl border-slate-200"
-                      />
-                      {!isKeyValid && (
-                        <p className="text-[10px] text-destructive flex items-center gap-1 font-bold">
-                          <AlertCircle className="w-3 h-3" /> Invalid or missing API key
-                        </p>
-                      )}
-                    </div>
-                    <Button onClick={saveKey} className="w-full rounded-xl py-6 font-bold">
-                      Save & Connect
-                    </Button>
-                    <a 
-                      href="https://aistudio.google.com/app/apikey" 
-                      target="_blank" 
-                      className="text-[10px] text-primary hover:underline block text-center font-bold uppercase tracking-widest"
-                    >
-                      Get your free key here
-                    </a>
-                  </div>
-                  <Button variant="ghost" onClick={() => setShowSettings(false)} className="w-full rounded-xl">
-                    Maybe Later
-                  </Button>
+          {!apiKey && (
+            <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center p-6 text-center">
+              <div className="max-w-sm space-y-6">
+                <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-4 animate-bounce">
+                  <Key className="w-10 h-10 text-primary" />
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                <h2 className="text-2xl font-headline font-bold">Connect Your AI Key</h2>
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  To start chatting with Vidhyamithra, you need to store your personal Google AI key in your profile.
+                </p>
+                <Button asChild className="rounded-2xl px-10 py-6 font-bold text-base shadow-xl">
+                  <Link href="/profile">Setup in Profile</Link>
+                </Button>
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">Takes less than 1 minute</p>
+              </div>
+            </div>
+          )}
 
           {/* Left: Chat History */}
-          <div className="flex-1 flex flex-col border-r border-slate-50 overflow-hidden">
+          <div className="flex-1 flex flex-col border-r border-slate-50 overflow-hidden bg-white">
             <ScrollArea className="flex-1 p-6">
               <div className="space-y-6">
                 {messages.length === 0 && (
@@ -243,7 +188,7 @@ export default function VidhyamithraPage() {
                   type="text"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  placeholder={apiKey ? "Type your message..." : "Connect API key to start..."}
+                  placeholder={apiKey ? "Type your message..." : "Setup key in profile to chat..."}
                   disabled={!apiKey}
                   className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all disabled:opacity-50"
                 />
@@ -259,7 +204,7 @@ export default function VidhyamithraPage() {
           </div>
 
           {/* Right: Voice Assistant */}
-          <div className="w-full md:w-96 bg-slate-50/50 flex flex-col items-center justify-center border-t md:border-t-0">
+          <div className="w-full md:w-[400px] bg-slate-50/50 flex flex-col items-center justify-center border-t md:border-t-0">
             <div className="p-6 text-center space-y-6">
                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Voice Portal</h3>
                <VoiceChat 
@@ -268,14 +213,9 @@ export default function VidhyamithraPage() {
                />
                <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm max-w-xs mx-auto">
                  <p className="text-xs text-slate-500 font-medium leading-relaxed italic">
-                   {apiKey ? "\"Talk to me like a mentor. I can hear your doubts and help you stay on track.\"" : "Please enter your API key to enable voice interaction."}
+                   {apiKey ? "\"Talk to me like a mentor. I can hear your doubts and help you stay on track.\"" : "Please setup your API key in the profile section to enable voice."}
                  </p>
                </div>
-               {!apiKey && (
-                 <Button onClick={() => setShowSettings(true)} variant="outline" className="rounded-full gap-2">
-                   <Key className="w-4 h-4" /> Setup AI Key
-                 </Button>
-               )}
             </div>
           </div>
         </div>
