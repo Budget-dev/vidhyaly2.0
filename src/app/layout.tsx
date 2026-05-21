@@ -2,8 +2,8 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Vidhyaly - NEET Excellence Platform',
-  description: 'Master Physics, Chemistry, and Biology for NEET with our advanced tracking and resource library.',
+  title: 'Digital Excellence - Growth Driven Experiences',
+  description: 'We help brands scale faster through design, development and strategic execution.',
 };
 
 export default function RootLayout({
