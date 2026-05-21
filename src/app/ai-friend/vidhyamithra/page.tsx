@@ -4,11 +4,12 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Bot, Sparkles, ArrowLeft, Send, User, MessageCircle } from "lucide-react";
+import { Bot, Sparkles, ArrowLeft, Send, User, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { VoiceChat } from "@/components/voice/voice-chat";
 import { vidhyamithraChat } from "@/ai/flows/vidhyamithra-chat-flow";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 interface Message {
   id: string;
@@ -71,7 +72,7 @@ export default function VidhyamithraPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full max-w-4xl bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col h-[85vh] mt-8"
+        className="relative z-10 w-full max-w-5xl bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden flex flex-col h-[85vh] mt-8"
       >
         {/* Header */}
         <div className="bg-primary/5 p-6 border-b border-slate-100 flex items-center justify-between">
@@ -94,7 +95,7 @@ export default function VidhyamithraPage() {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-          {/* Left: Chat History (Desktop) or Voice (Mobile) */}
+          {/* Left: Chat History */}
           <div className="flex-1 flex flex-col border-r border-slate-50 overflow-hidden">
             <ScrollArea className="flex-1 p-6">
               <div className="space-y-6">
@@ -169,17 +170,25 @@ export default function VidhyamithraPage() {
           </div>
 
           {/* Right: Voice Assistant */}
-          <div className="w-full md:w-80 bg-slate-50/50 flex flex-col items-center justify-center border-t md:border-t-0">
-            <div className="p-6 text-center space-y-4">
+          <div className="w-full md:w-96 bg-slate-50/50 flex flex-col items-center justify-center border-t md:border-t-0">
+            <div className="p-6 text-center space-y-6">
                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Voice Portal</h3>
                <VoiceChat 
                  onResponse={handleBotResponse} 
                  isProcessingExternal={isProcessing}
                />
-               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-                 <p className="text-[10px] text-slate-500 font-medium leading-relaxed">
-                   "Talk to me just like a friend. I can hear your doubts and help you stay on track."
+               <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm max-w-xs mx-auto">
+                 <p className="text-xs text-slate-500 font-medium leading-relaxed italic">
+                   "Talk to me like a mentor. I can hear your doubts and help you stay on track."
                  </p>
+               </div>
+               <div className="flex flex-col items-center gap-2">
+                 <div className="flex gap-1">
+                   {[1, 2, 3].map((i) => (
+                     <div key={i} className="w-1.5 h-1.5 rounded-full bg-primary/20 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
+                   ))}
+                 </div>
+                 <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">Manual Trigger Only</p>
                </div>
             </div>
           </div>
