@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -10,10 +11,13 @@ import {
   Youtube,
   ArrowUpRight,
   ShieldCheck,
-  Globe
+  Globe,
+  Mail,
+  Phone
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 interface FooterProps {
   logo?: {
@@ -94,11 +98,11 @@ export const Footer = ({
   legalLinks = defaultLegalLinks,
 }: FooterProps) => {
   return (
-    <footer className="relative bg-slate-900 text-slate-200 pt-24 pb-12 overflow-hidden">
+    <footer className="relative bg-white/70 backdrop-blur-xl text-slate-600 pt-20 pb-12 overflow-hidden border-t border-slate-200/60 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
       {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-primary opacity-50" />
-      <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
@@ -113,20 +117,21 @@ export const Footer = ({
               <div className="bg-primary p-2 rounded-xl text-white shadow-lg shadow-primary/20">
                 {logo.src}
               </div>
-              <h2 className="text-3xl font-headline font-bold text-white tracking-tight">{logo.title}</h2>
+              <h2 className="text-3xl font-headline font-bold text-slate-900 tracking-tight">{logo.title}</h2>
             </motion.div>
             
-            <p className="text-slate-400 text-base leading-relaxed max-w-sm font-medium">
+            <p className="text-slate-500 text-sm leading-relaxed max-w-sm font-medium">
               {description}
             </p>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {socialLinks.map((social, idx) => (
                 <motion.a
                   key={idx}
                   href={social.href}
                   whileHover={{ y: -4, scale: 1.1 }}
-                  className="bg-white/5 hover:bg-primary hover:text-white p-3 rounded-full transition-all text-slate-300"
+                  whileTap={{ scale: 0.9 }}
+                  className="bg-slate-100 hover:bg-primary hover:text-white p-3 rounded-2xl transition-all text-slate-500 shadow-sm border border-slate-200/50"
                   aria-label={social.label}
                 >
                   {social.icon}
@@ -134,12 +139,12 @@ export const Footer = ({
               ))}
             </div>
             
-            <div className="flex flex-col gap-3 pt-4">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500">
+            <div className="flex flex-col gap-3 pt-4 border-t border-slate-100">
+              <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-slate-400">
                 <ShieldCheck className="w-4 h-4 text-primary" />
                 Trusted by 10k+ Students
               </div>
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500">
+              <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-slate-400">
                 <Globe className="w-4 h-4 text-accent" />
                 Available Across India
               </div>
@@ -157,13 +162,13 @@ export const Footer = ({
                 transition={{ delay: sectionIdx * 0.1 }}
                 className="space-y-6"
               >
-                <h3 className="text-white font-bold text-lg">{section.title}</h3>
+                <h3 className="text-slate-900 font-bold text-lg">{section.title}</h3>
                 <ul className="space-y-4">
                   {section.links.map((link, linkIdx) => (
                     <li key={linkIdx}>
                       <Link 
                         href={link.href} 
-                        className="text-slate-400 hover:text-primary hover:pl-2 transition-all duration-300 flex items-center group font-medium"
+                        className="text-slate-500 hover:text-primary hover:pl-2 transition-all duration-300 flex items-center group font-medium"
                       >
                         <span className="opacity-0 group-hover:opacity-100 transition-opacity -ml-4 group-hover:ml-0 mr-2 text-primary">
                           <ArrowUpRight className="w-3 h-3" />
@@ -178,12 +183,38 @@ export const Footer = ({
           </div>
         </div>
 
+        {/* Support Section */}
+        <div className="mb-12 p-6 rounded-[2rem] bg-slate-50 border border-slate-200/60 flex flex-col md:flex-row items-center justify-between gap-6 group hover:shadow-lg transition-all duration-500">
+           <div className="flex items-center gap-4">
+              <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                 <Phone className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1">Direct Counseling</p>
+                 <p className="text-lg font-bold text-slate-900">+91 8466006486</p>
+              </div>
+           </div>
+           <div className="h-12 w-[1px] bg-slate-200 hidden md:block" />
+           <div className="flex items-center gap-4">
+              <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                 <Mail className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-1">Support Email</p>
+                 <p className="text-lg font-bold text-slate-900">support@vidhyaly.com</p>
+              </div>
+           </div>
+           <Button className="rounded-full px-8 h-12 bg-slate-900 hover:bg-slate-800 text-white shadow-xl shadow-slate-200 transition-all hover:scale-105" asChild>
+              <Link href="/contact">Get Help Now</Link>
+           </Button>
+        </div>
+
         {/* Bottom bar */}
-        <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-medium">
+        <div className="pt-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-medium">
           <motion.p 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-slate-500"
+            className="text-slate-400"
           >
             {copyright}
           </motion.p>
@@ -191,7 +222,7 @@ export const Footer = ({
           <ul className="flex flex-wrap justify-center gap-8">
             {legalLinks.map((link, idx) => (
               <li key={idx}>
-                <Link href={link.href} className="text-slate-500 hover:text-white transition-colors">
+                <Link href={link.href} className="text-slate-400 hover:text-slate-900 transition-colors">
                   {link.name}
                 </Link>
               </li>
