@@ -645,6 +645,8 @@ export function FeaturesSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
+                        animate={{ y: [0, -15, 0] }}
+                        style={{ transition: 'y 4s ease-in-out infinite' }}
                         className="absolute top-0 left-0 w-[85%] aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-0"
                     >
                         <img 
@@ -659,6 +661,8 @@ export function FeaturesSection() {
                         whileInView={{ opacity: 1, x: 0, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
+                        animate={{ y: [0, 15, 0] }}
+                        style={{ transition: 'y 5s ease-in-out infinite' }}
                         className="absolute bottom-0 right-0 w-[85%] aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-10"
                     >
                         <img 
@@ -802,7 +806,7 @@ export function ExamsSection() {
               className="grow rounded-3xl overflow-hidden shadow-xl"
             >
               <img
-                src="https://picsum.photos/seed/exam2/600/600"
+                src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2004_15_48%20PM.png"
                 alt="NCERT Review"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
               />
