@@ -7,47 +7,28 @@ import { Testimonials } from "@/components/landing/Testimonials";
 const navItems = [
   {
     id: 1,
-    label: "Courses",
+    label: "Study tools",
     subMenus: [
       {
-        title: "Subject Mastery",
+        title: "Students",
         items: [
-          { label: "Physics", description: "Master Mechanics to Modern Physics", icon: "Beaker" },
-          { label: "Chemistry", description: "Inorganic, Organic & Physical Chemistry", icon: "BookOpen" },
-          { label: "Biology", description: "Complete NCERT Zoology & Botany", icon: "Leaf" },
+          { label: "Flashcards", description: "Master concepts with active recall", icon: "Layers" },
+          { label: "Learn", description: "Structured video lectures and content", icon: "BookOpen" },
+          { label: "Study Guides", description: "Comprehensive notes for all chapters", icon: "FileText" },
+          { label: "Practice MCQs", description: "Chapter-wise multiple choice questions", icon: "CheckSquare" },
+          { label: "AI Tutor", description: "24/7 personalized learning assistance", icon: "Bot" },
+          { label: "Expert solutions", description: "Detailed answers by subject experts", icon: "MessageCircle" },
+          { label: "Study groups", description: "Collaborate with fellow aspirants", icon: "Users" },
         ],
       },
       {
-        title: "Test Series",
+        title: "Teachers",
         items: [
-          { label: "Full Mock Tests", description: "NEET Exam Pattern Simulation", icon: "PenTool" },
-          { label: "Sectional Drills", description: "Topic-wise accuracy boosters", icon: "Clock" },
+          { label: "Live Teacher", description: "Connect with educators in real-time", icon: "Presentation" },
         ],
       },
     ],
   },
-  {
-    id: 2,
-    label: "Resources",
-    subMenus: [
-      {
-        title: "Study Material",
-        items: [
-          { label: "NCERT Notes", description: "Hand-crafted NCERT summaries", icon: "BookOpen" },
-          { label: "Formula Sheets", description: "Quick revision cheatsheets", icon: "PenTool" },
-        ],
-      },
-      {
-        title: "Analytics",
-        items: [
-          { label: "Rank Predictor", description: "Predict AIR based on mocks", icon: "Trophy" },
-          { label: "Performance Tracker", description: "Identify your weak topics", icon: "BarChart3" },
-        ],
-      },
-    ],
-  },
-  { id: 3, label: "Counseling", link: "#" },
-  { id: 4, label: "About Us", link: "#" },
 ];
 
 export function HeroSection() {

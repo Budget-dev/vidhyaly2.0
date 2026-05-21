@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -7,23 +6,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   ChevronDown, 
   GraduationCap, 
-  Beaker, 
+  Layers, 
   BookOpen, 
-  Leaf, 
-  PenTool, 
-  Clock, 
-  Trophy, 
-  BarChart3 
+  FileText, 
+  CheckSquare, 
+  Bot, 
+  MessageCircle, 
+  Users, 
+  Presentation 
 } from "lucide-react";
 
 const ICON_MAP: Record<string, React.ElementType> = {
-  Beaker,
+  Layers,
   BookOpen,
-  Leaf,
-  PenTool,
-  Clock,
-  Trophy,
-  BarChart3,
+  FileText,
+  CheckSquare,
+  Bot,
+  MessageCircle,
+  Users,
+  Presentation,
 };
 
 type NavItem = {
