@@ -666,10 +666,9 @@ export function FeaturesSection() {
                         className="absolute bottom-0 right-0 w-[85%] aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-10"
                     >
                         <img 
-                            src="https://picsum.photos/seed/city/800/600" 
-                            alt="Platform Interface" 
+                            src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2004_17_11%20PM.png" 
+                            alt="Precision Analytics Dashboard" 
                             className="w-full h-full object-cover"
-                            data-ai-hint="city canal"
                         />
                     </motion.div>
                 </div>
