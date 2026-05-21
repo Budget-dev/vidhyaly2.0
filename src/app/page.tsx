@@ -1,3 +1,6 @@
+
+"use client"
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, PhoneCallIcon } from "lucide-react";
@@ -12,19 +15,19 @@ const navItems = [
       {
         title: "Students",
         items: [
-          { label: "Flashcards", description: "Master concepts with active recall", icon: "Layers" },
-          { label: "Learn", description: "Structured video lectures and content", icon: "BookOpen" },
-          { label: "Study Guides", description: "Comprehensive notes for all chapters", icon: "FileText" },
-          { label: "Practice MCQs", description: "Chapter-wise multiple choice questions", icon: "CheckSquare" },
-          { label: "AI Tutor", description: "24/7 personalized learning assistance", icon: "Bot" },
-          { label: "Expert solutions", description: "Detailed answers by subject experts", icon: "MessageCircle" },
-          { label: "Study groups", description: "Collaborate with fellow aspirants", icon: "Users" },
+          { label: "Flashcards", description: "Master concepts with active recall", icon: "Layers", href: "/study-tools/flashcards" },
+          { label: "Learn", description: "Structured video lectures and content", icon: "BookOpen", href: "/study-tools/learn" },
+          { label: "Study Guides", description: "Comprehensive notes for all chapters", icon: "FileText", href: "/study-tools/guides" },
+          { label: "Practice MCQs", description: "Chapter-wise multiple choice questions", icon: "CheckSquare", href: "/study-tools/mcqs" },
+          { label: "AI Tutor", description: "24/7 personalized learning assistance", icon: "Bot", href: "/study-tools/ai-tutor" },
+          { label: "Expert solutions", description: "Detailed answers by subject experts", icon: "MessageCircle", href: "/study-tools/solutions" },
+          { label: "Study groups", description: "Collaborate with fellow aspirants", icon: "Users", href: "/study-tools/groups" },
         ],
       },
       {
         title: "Teachers",
         items: [
-          { label: "Live Teacher", description: "Connect with educators in real-time", icon: "Presentation" },
+          { label: "Live Teacher", description: "Connect with educators in real-time", icon: "Presentation", href: "/study-tools/live-teacher" },
         ],
       },
     ],
@@ -106,7 +109,7 @@ export function HeroSection() {
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-background overflow-x-hidden">
+    <main className="relative min-h-screen bg-background overflow-x-hidden pt-16">
       <DropdownNavigation navItems={navItems} />
 
       <HeroSection />

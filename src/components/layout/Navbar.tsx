@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -5,7 +6,6 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ChevronDown, 
-  GraduationCap, 
   Layers, 
   BookOpen, 
   FileText, 
@@ -13,8 +13,10 @@ import {
   Bot, 
   MessageCircle, 
   Users, 
-  Presentation 
+  Presentation,
+  GraduationCap
 } from "lucide-react";
+import Link from "next/link";
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Layers,
@@ -36,16 +38,16 @@ type NavItem = {
       label: string;
       description: string;
       icon: string;
+      href: string;
     }[];
   }[];
-  link?: string;
 };
 
-type NavbarProps = {
+type Props = {
   navItems: NavItem[];
 };
 
-export function DropdownNavigation({ navItems }: NavbarProps) {
+export function DropdownNavigation({ navItems }: Props) {
   const [openMenu, setOpenMenu] = React.useState<string | null>(null);
 
   const handleHover = (menuLabel: string | null) => {
@@ -58,12 +60,12 @@ export function DropdownNavigation({ navItems }: NavbarProps) {
     <nav className="fixed top-0 w-full z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <div className="bg-primary p-1.5 rounded-lg shadow-sm text-white">
             <GraduationCap className="w-5 h-5" />
           </div>
           <span className="font-headline font-bold text-xl tracking-tight text-primary">Vidhyaly</span>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center justify-center">
@@ -118,8 +120,8 @@ export function DropdownNavigation({ navItems }: NavbarProps) {
                                   const Icon = ICON_MAP[item.icon] || BookOpen;
                                   return (
                                     <li key={item.label}>
-                                      <a
-                                        href={navItem.link || "#"}
+                                      <Link
+                                        href={item.href}
                                         className="flex items-start space-x-4 group"
                                       >
                                         <div className="border border-border text-primary rounded-lg flex items-center justify-center size-10 shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">
@@ -133,7 +135,7 @@ export function DropdownNavigation({ navItems }: NavbarProps) {
                                             {item.description}
                                           </p>
                                         </div>
-                                      </a>
+                                      </Link>
                                     </li>
                                   );
                                 })}
