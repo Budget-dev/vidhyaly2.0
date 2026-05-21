@@ -5,19 +5,7 @@ import Image from "next/image";
 
 export function HeroSection() {
 	return (
-		<section className="mx-auto w-full max-w-5xl overflow-hidden pt-16">
-			{/* Shades */}
-			<div
-				aria-hidden="true"
-				className="absolute inset-0 size-full overflow-hidden pointer-events-none"
-			>
-				<div
-					className={cn(
-						"absolute inset-0 isolate -z-10",
-						"bg-[radial-gradient(20%_80%_at_20%_0%,hsla(var(--foreground),0.05),transparent)]"
-					)}
-				/>
-			</div>
+		<section className="mx-auto w-full max-w-5xl overflow-hidden pt-16 pb-20">
 			<div className="relative z-10 flex max-w-2xl flex-col gap-5 px-4">
 				<a
 					className={cn(
@@ -68,17 +56,10 @@ export function HeroSection() {
 					</Button>
 				</div>
 			</div>
-			<div className="relative">
+			<div className="relative mt-8 sm:mt-12 md:mt-20 px-2">
 				<div
 					className={cn(
-						"absolute -inset-x-20 inset-y-0 -translate-y-1/3 scale-125 rounded-full",
-						"bg-[radial-gradient(ellipse_at_center,hsla(var(--foreground),0.03),transparent,transparent)]",
-						"blur-[50px] pointer-events-none"
-					)}
-				/>
-				<div
-					className={cn(
-						"relative mt-8 overflow-hidden px-2 sm:mt-12 md:mt-20",
+						"relative overflow-hidden",
 						"fade-in slide-in-from-bottom-5 animate-in fill-mode-backwards delay-100 duration-1000 ease-out"
 					)}
 				>
