@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -195,8 +196,8 @@ export function DropdownNavigation({ navItems }: Props) {
 
         {/* Desktop CTA */}
         <div className="hidden md:block">
-          <Button className="rounded-full px-6 font-bold shadow-md hover:shadow-lg transition-all">
-            Get Started
+          <Button asChild className="rounded-full px-6 font-bold shadow-md hover:shadow-lg transition-all">
+            <Link href="/auth">Get Started</Link>
           </Button>
         </div>
 
@@ -285,8 +286,8 @@ export function DropdownNavigation({ navItems }: Props) {
                     </div>
                   </div>
                 </div>
-                <Button className="w-full rounded-xl font-bold py-6">
-                  Start Free Prep
+                <Button asChild className="w-full rounded-xl font-bold py-6">
+                  <Link href="/auth">Start Free Prep</Link>
                 </Button>
                 <p className="text-[10px] text-center text-slate-400 font-medium italic">
                   "Working with more efforts for your dream seat."
