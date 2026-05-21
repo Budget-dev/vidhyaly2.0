@@ -18,13 +18,13 @@ export function HeroSection() {
 					)}
 				/>
 			</div>
-			<div className="relative z-10 flex max-w-3xl flex-col gap-5 px-4">
+			<div className="relative z-10 flex max-w-2xl flex-col gap-5 px-4">
 				<a
 					className={cn(
 						"group flex w-fit items-center gap-3 rounded-sm border bg-card p-1 shadow-sm",
 						"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards transition-all delay-500 duration-500 ease-out"
 					)}
-					href="/register"
+					href="/tests"
 				>
 					<div className="rounded border bg-card px-1.5 py-0.5 shadow-sm">
 						<p className="font-mono text-[10px] font-bold">2025</p>
@@ -84,18 +84,10 @@ export function HeroSection() {
 				>
 					<div className="relative mx-auto max-w-5xl overflow-hidden rounded-lg border bg-background p-2 shadow-2xl ring-1 ring-border">
 						<Image
-							alt="Vidhyaly Dashboard Preview"
-							className="z-2 aspect-video rounded-lg border dark:hidden"
+							alt="Vidhyaly Platform Preview"
+							className="z-2 aspect-video rounded-lg border"
 							height={1080}
-							src="https://storage.efferd.com/screen/dashboard-light.webp"
-							width={1920}
-              priority
-						/>
-						<Image
-							alt="Vidhyaly Dashboard Preview Dark"
-							className="hidden aspect-video rounded-lg bg-background dark:block border"
-							height={1080}
-							src="https://storage.efferd.com/screen/dashboard-dark.webp"
+							src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2012_31_25%20PM.png"
 							width={1920}
               priority
 						/>
