@@ -1,7 +1,7 @@
-
 import type {Metadata} from 'next';
 import './globals.css';
 import { DropdownNavigation } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: 'Vidhyaly - Master NEET with Precision',
@@ -79,11 +79,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased bg-background min-h-screen">
+      <body className="font-body antialiased bg-background min-h-screen flex flex-col">
         <DropdownNavigation navItems={navItems} />
-        <main className="min-h-screen pt-16">
+        <main className="flex-grow pt-16">
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -12,7 +11,6 @@ import {
   CheckSquare, 
   BookOpen, 
   Sparkles, 
-  Users,
   ArrowRight,
   Target,
   Zap,
@@ -23,7 +21,8 @@ import {
   BrainCircuit,
   FlaskConical,
   Leaf,
-  Search
+  Search,
+  Users
 } from "lucide-react";
 import { Testimonials } from "@/components/landing/Testimonials";
 import Link from "next/link";
@@ -642,12 +641,21 @@ export function FeaturesSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8 }}
-                  className="flex-1"
+                  className="flex-1 flex flex-col gap-6"
                 >
-                    <img 
-                        className="max-w-2xl w-full rounded-3xl shadow-2xl" 
-                        src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/group-image-1.png" 
-                        alt="Vidhyaly Features" 
+                    <motion.img 
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        className="max-w-xl w-full rounded-3xl shadow-2xl border-4 border-white" 
+                        src="https://picsum.photos/seed/feature1/800/600" 
+                        alt="Vidhyaly Analytics" 
+                    />
+                    <motion.img 
+                        animate={{ y: [0, 10, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        className="max-w-xl w-full rounded-3xl shadow-2xl border-4 border-white -mt-20 ml-10 z-10" 
+                        src="https://picsum.photos/seed/feature2/800/600" 
+                        alt="Vidhyaly Study Plan" 
                     />
                 </motion.div>
                 <div className="flex-1 space-y-12 px-4 md:px-0">
@@ -851,12 +859,6 @@ export default function Home() {
       <div className="py-20">
         <Testimonials />
       </div>
-
-      <footer className="border-t py-12 bg-slate-50/50">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-sm text-muted-foreground font-medium">© 2026 Vidhyaly Education. Dedicated to your medical dream.</p>
-        </div>
-      </footer>
     </div>
   );
 }
