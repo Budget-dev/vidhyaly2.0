@@ -23,6 +23,12 @@
       "description": "Mock test portal interface",
       "imageUrl": "https://picsum.photos/seed/test1/1200/600",
       "imageHint": "computer test"
+    },
+    {
+      "id": "ai-tutor-visual",
+      "description": "AI Tutor feature visualization",
+      "imageUrl": "https://picsum.photos/seed/aitutor/800/600",
+      "imageHint": "robot teacher"
     }
   ]
 }

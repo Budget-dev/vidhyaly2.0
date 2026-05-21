@@ -2,8 +2,10 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, PhoneCallIcon } from "lucide-react";
+import { ArrowRightIcon, PhoneCallIcon, CheckCircle2 } from "lucide-react";
 import { Testimonials } from "@/components/landing/Testimonials";
+import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export function HeroSection() {
 	return (
@@ -78,10 +80,65 @@ export function HeroSection() {
 	);
 }
 
+export function AITutorSection() {
+  const imgData = PlaceHolderImages.find(p => p.id === "ai-tutor-visual");
+  
+  return (
+    <section className="py-24 max-w-7xl mx-auto px-4">
+      <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+        <div className="flex-1 space-y-8">
+          <div>
+            <span className="text-primary font-bold text-sm tracking-widest uppercase mb-4 block">AI TUTOR</span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold leading-tight">
+              Your Personal AI <br />
+              <span className="text-primary">NEET Mentor</span>
+            </h2>
+          </div>
+          
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
+            Get instant, accurate, and easy-to-understand answers to any doubt. Our AI Tutor explains concepts, solves questions, and guides you like a top mentor would.
+          </p>
+          
+          <div className="space-y-4">
+            {[
+              "Step-by-step explanations",
+              "Concept breakdowns",
+              "Diagrams & formula support",
+              "24/7 doubt solving"
+            ].map((feature) => (
+              <div key={feature} className="flex items-center gap-3">
+                <div className="bg-primary/10 p-1 rounded-full">
+                  <CheckCircle2 className="w-5 h-5 text-primary" />
+                </div>
+                <span className="text-lg font-medium text-foreground">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <div className="flex-1 relative w-full aspect-[4/3] max-w-xl">
+          <div className="absolute inset-0 bg-primary/5 rounded-3xl -rotate-2 scale-105" />
+          <div className="relative bg-white rounded-3xl border shadow-xl overflow-hidden h-full flex items-center justify-center p-8">
+            <Image
+              src={imgData?.imageUrl || "https://picsum.photos/seed/aitutor/800/600"}
+              alt="AI Mentor Visualization"
+              fill
+              className="object-cover"
+              data-ai-hint={imgData?.imageHint || "robot teacher"}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <div className="relative bg-background overflow-x-hidden">
       <HeroSection />
+      
+      <AITutorSection />
       
       <div className="py-20">
         <Testimonials />
