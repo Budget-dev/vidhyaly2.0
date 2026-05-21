@@ -32,61 +32,144 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
 
+export const LampContainer = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div
+      className={cn(
+        "relative flex min-h-[800px] flex-col items-center justify-center overflow-hidden bg-slate-950 w-full z-0",
+        className
+      )}
+    >
+      <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
+        <motion.div
+          initial={{ opacity: 0.5, width: "15rem" }}
+          whileInView={{ opacity: 1, width: "30rem" }}
+          transition={{
+            delay: 0.3,
+            duration: 0.8,
+            ease: "easeInOut",
+          }}
+          style={{
+            backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+          }}
+          className="absolute inset-auto right-1/2 h-56 overflow-visible w-[30rem] bg-gradient-conic from-primary via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
+        >
+          <div className="absolute  w-[100%] left-0 bg-slate-950 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute  w-40 h-[100%] left-0 bg-slate-950  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0.5, width: "15rem" }}
+          whileInView={{ opacity: 1, width: "30rem" }}
+          transition={{
+            delay: 0.3,
+            duration: 0.8,
+            ease: "easeInOut",
+          }}
+          style={{
+            backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+          }}
+          className="absolute inset-auto left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-primary text-white [--conic-position:from_290deg_at_center_top]"
+        >
+          <div className="absolute  w-40 h-[100%] right-0 bg-slate-950  bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
+          <div className="absolute  w-[100%] right-0 bg-slate-950 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+        </motion.div>
+        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-slate-950 blur-2xl"></div>
+        <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
+        <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-primary opacity-50 blur-3xl"></div>
+        <motion.div
+          initial={{ width: "8rem" }}
+          whileInView={{ width: "16rem" }}
+          transition={{
+            delay: 0.3,
+            duration: 0.8,
+            ease: "easeInOut",
+          }}
+          className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-blue-400 blur-2xl"
+        ></motion.div>
+        <motion.div
+          initial={{ width: "15rem" }}
+          whileInView={{ width: "30rem" }}
+          transition={{
+            delay: 0.3,
+            duration: 0.8,
+            ease: "easeInOut",
+          }}
+          className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-blue-400 "
+        ></motion.div>
+
+        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950 "></div>
+      </div>
+
+      <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
+        {children}
+      </div>
+    </div>
+  );
+};
+
 export function HeroSection() {
 	return (
-		<section className="mx-auto w-full max-w-7xl overflow-hidden pt-16 flex flex-col items-center">
-			<motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative z-10 flex flex-col items-center text-center gap-6 max-w-4xl px-4"
-      >
-				<a
-					className={cn(
-						"group flex w-fit items-center gap-3 rounded-full border bg-card p-1 pr-3 shadow-sm transition-all hover:bg-slate-50"
-					)}
-					href="#link"
-				>
-					<div className="rounded-full border bg-primary/10 text-primary px-2.5 py-0.5 shadow-sm">
-						<p className="font-mono text-[10px] font-bold">2026</p>
-					</div>
-					<span className="text-xs font-medium">now enrolling for NEET 2026 batches</span>
-					<div className="pl-1">
-						<ArrowRightIcon className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5" />
-					</div>
-				</a>
+		<section className="mx-auto w-full overflow-hidden flex flex-col items-center">
+      <LampContainer>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="relative z-10 flex flex-col items-center text-center gap-6 max-w-4xl px-4"
+        >
+          <a
+            className={cn(
+              "group flex w-fit items-center gap-3 rounded-full border bg-white/10 backdrop-blur-md p-1 pr-3 shadow-sm transition-all hover:bg-white/20 border-white/20"
+            )}
+            href="#link"
+          >
+            <div className="rounded-full border bg-primary/20 text-primary-foreground px-2.5 py-0.5 shadow-sm border-primary/30">
+              <p className="font-mono text-[10px] font-bold">2026</p>
+            </div>
+            <span className="text-xs font-medium text-white/80">now enrolling for NEET 2026 batches</span>
+            <div className="pl-1">
+              <ArrowRightIcon className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5 text-white/80" />
+            </div>
+          </a>
 
-				<h1 className="text-balance font-headline font-bold text-4xl text-foreground leading-tight md:text-5xl lg:text-7xl">
-					Master NEET with India&apos;s Smartest Prep Platform
-				</h1>
+          <h1 className="text-balance font-headline font-bold text-4xl text-white leading-tight md:text-5xl lg:text-7xl">
+            Master NEET with India&apos;s Smartest Prep Platform
+          </h1>
 
-				<p className="text-muted-foreground text-sm tracking-wider sm:text-lg md:text-xl max-w-2xl">
-					Personalized study paths, NCERT-based notes, and AI-driven mock tests <br className="hidden md:block" />
-          to help you secure your dream medical seat.
-				</p>
+          <p className="text-white/60 text-sm tracking-wider sm:text-lg md:text-xl max-w-2xl">
+            Personalized study paths, NCERT-based notes, and AI-driven mock tests <br className="hidden md:block" />
+            to help you secure your dream medical seat.
+          </p>
 
-				<div className="flex w-fit items-center justify-center gap-4 pt-4">
-					<Button variant="outline" size="lg" className="rounded-full px-8" asChild>
-            <Link href="/contact">
-              <PhoneCallIcon className="size-4 mr-2" />
-              Free Counseling
-            </Link>
-					</Button>
-					<Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90" asChild>
-						<Link href="/tests">
-              Explore Tests{" "}
-              <ArrowRightIcon className="size-4 ml-2" />
-            </Link>
-					</Button>
-				</div>
-			</motion.div>
+          <div className="flex w-fit items-center justify-center gap-4 pt-4">
+            <Button variant="outline" size="lg" className="rounded-full px-8 bg-transparent text-white border-white/20 hover:bg-white/10" asChild>
+              <Link href="/contact">
+                <PhoneCallIcon className="size-4 mr-2" />
+                Free Counseling
+              </Link>
+            </Button>
+            <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white" asChild>
+              <Link href="/tests">
+                Explore Tests{" "}
+                <ArrowRightIcon className="size-4 ml-2" />
+              </Link>
+            </Button>
+          </div>
+        </motion.div>
+      </LampContainer>
 			
       <motion.div 
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative mt-12 sm:mt-16 md:mt-24 w-full max-w-6xl px-4"
+        className="relative -mt-64 z-20 w-full max-w-6xl px-4"
       >
 				<div className="relative mx-auto overflow-hidden rounded-2xl border bg-background p-2 shadow-2xl ring-1 ring-border">
 					<img
@@ -267,7 +350,6 @@ export function AITutorDemo() {
   return (
     <section className="py-20 bg-slate-50/50">
       <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center">
-        {/* Logo with animated gradient */}
         <div className="mb-8 w-24 h-24 relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -340,7 +422,6 @@ export function AITutorDemo() {
           </svg>
         </div>
 
-        {/* Welcome message */}
         <div className="mb-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -357,7 +438,6 @@ export function AITutorDemo() {
           </motion.div>
         </div>
 
-        {/* Input area */}
         <div className="w-full bg-white border border-border rounded-3xl shadow-xl overflow-hidden mb-8">
           <div className="p-6">
             <input
@@ -370,7 +450,6 @@ export function AITutorDemo() {
             />
           </div>
 
-          {/* Uploaded files */}
           {uploadedFiles.length > 0 && (
             <div className="px-6 pb-4">
               <div className="flex flex-wrap gap-2">
@@ -397,7 +476,6 @@ export function AITutorDemo() {
             </div>
           )}
 
-          {/* Actions Bar */}
           <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-4 border-t border-slate-50">
             <div className="flex items-center gap-2">
               <button
@@ -448,7 +526,6 @@ export function AITutorDemo() {
             </div>
           </div>
 
-          {/* Upload files trigger */}
           <div className="px-6 py-3 border-t border-slate-50 bg-slate-50/50">
             <button
               onClick={handleUploadFile}
@@ -473,7 +550,6 @@ export function AITutorDemo() {
           </div>
         </div>
 
-        {/* Command categories */}
         <div className="w-full grid grid-cols-3 gap-6">
           <CommandButton
             icon={<Leaf className="w-6 h-6" />}
@@ -495,7 +571,6 @@ export function AITutorDemo() {
           />
         </div>
 
-        {/* Command suggestions dropdown */}
         <AnimatePresence>
           {activeCommandCategory && (
             <motion.div
@@ -672,7 +747,6 @@ export function FeaturesSection() {
                     </motion.div>
                 </div>
                 <div className="flex-1 space-y-12">
-                    {/* Performance Tracking */}
                     <motion.div 
                       initial={{ opacity: 0, x: 30 }}
                       whileInView={{ opacity: 1, x: 0 }}
@@ -689,7 +763,6 @@ export function FeaturesSection() {
                         </div>
                     </motion.div>
 
-                    {/* NCERT Focus */}
                     <motion.div 
                       initial={{ opacity: 0, x: 30 }}
                       whileInView={{ opacity: 1, x: 0 }}
@@ -706,7 +779,6 @@ export function FeaturesSection() {
                         </div>
                     </motion.div>
 
-                    {/* Smart Reports */}
                     <motion.div 
                       initial={{ opacity: 0, x: 30 }}
                       whileInView={{ opacity: 1, x: 0 }}
@@ -838,7 +910,6 @@ export function ExamsSection() {
             </div>
           </div>
           
-          {/* Background Pattern */}
           <div className="pointer-events-none absolute -top-1 right-1 z-0 h-full w-full bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 [mask-image:radial-gradient(circle_at_top_right,#000,transparent_70%)] md:block"></div>
         </motion.div>
       </div>
@@ -867,3 +938,4 @@ export default function Home() {
     </div>
   );
 }
+
