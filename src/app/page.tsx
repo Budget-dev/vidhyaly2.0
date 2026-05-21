@@ -293,9 +293,10 @@ export function HeroSection() {
       >
 				<div className="relative mx-auto overflow-hidden rounded-2xl border bg-background p-2 shadow-2xl ring-1 ring-border">
 					<img
-						alt="Vidhyaly Platform Preview"
+						alt="Vidhyaly Platform Preview - NEET Dashboard"
 						className="z-2 aspect-video rounded-xl w-full object-cover"
 						src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2012_31_25%20PM.png"
+            data-ai-hint="neet platform"
 					/>
 				</div>
 			</motion.div>
@@ -864,8 +865,9 @@ export function FeaturesSection() {
                     >
                         <img 
                             src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2004_17_11%20PM.png" 
-                            alt="Precision Analytics Dashboard" 
+                            alt="Precision Analytics Dashboard for NEET Aspirants" 
                             className="w-full h-full object-cover"
+                            data-ai-hint="analytics dashboard"
                         />
                     </motion.div>
                 </div>
@@ -947,8 +949,9 @@ export function ExamsSection() {
           >
             <img
               src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2004_10_56%20PM.png"
-              alt="Medical Exam Study"
+              alt="Medical Aspirants Studying for NEET UG"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              data-ai-hint="medical students"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-8 left-8 text-white">
@@ -984,8 +987,9 @@ export function ExamsSection() {
             >
               <img
                 src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2004_15_48%20PM.png"
-                alt="NCERT Review"
+                alt="NCERT Review Session"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                data-ai-hint="studying textbook"
               />
             </motion.div>
           </div>
