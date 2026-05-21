@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, PhoneCallIcon } from "lucide-react";
 import { DropdownNavigation } from "@/components/layout/Navbar";
+import { Testimonials } from "@/components/landing/Testimonials";
 
 const navItems = [
   {
@@ -51,7 +52,7 @@ const navItems = [
 
 export function HeroSection() {
 	return (
-		<section className="mx-auto w-full max-w-7xl overflow-hidden pt-32 pb-20">
+		<section className="mx-auto w-full max-w-7xl overflow-hidden pt-32">
 			<div className="relative z-10 flex flex-col items-center text-center gap-6 px-4">
 				<a
 					className={cn(
@@ -128,6 +129,10 @@ export default function Home() {
       <DropdownNavigation navItems={navItems} />
 
       <HeroSection />
+      
+      <div className="py-20">
+        <Testimonials />
+      </div>
 
       <footer className="border-t py-12 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-4 text-center">
