@@ -3,10 +3,22 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowRightIcon, PhoneCallIcon, CheckCircle2 } from "lucide-react";
+import { 
+  ArrowRightIcon, 
+  PhoneCallIcon, 
+  CheckCircle2, 
+  FileText, 
+  Brain, 
+  CheckSquare, 
+  BookOpen, 
+  Sparkles, 
+  Users,
+  ArrowRight
+} from "lucide-react";
 import { Testimonials } from "@/components/landing/Testimonials";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import Link from "next/link";
 
 export function HeroSection() {
 	return (
@@ -133,6 +145,98 @@ export function AITutorSection() {
   );
 }
 
+export function StudyToolsGrid() {
+  const tools = [
+    {
+      title: "Flashcards",
+      description: "Create and master your subjects with smart flashcards.",
+      icon: FileText,
+      bgColor: "bg-[#F5E6F7]",
+      iconBg: "bg-[#7A6A7D]",
+      href: "/study-tools/flashcards"
+    },
+    {
+      title: "Smart Learn",
+      description: "Adaptive learning system tailored to your proficiency.",
+      icon: Brain,
+      bgColor: "bg-[#E3F2FD]",
+      iconBg: "bg-[#6B7A8A]",
+      href: "/study-tools/learn"
+    },
+    {
+      title: "Practice MCQs",
+      description: "Generate practice tests from your study materials.",
+      icon: CheckSquare,
+      bgColor: "bg-[#FFF0E6]",
+      iconBg: "bg-[#8A7B70]",
+      href: "/study-tools/mcqs"
+    },
+    {
+      title: "Study Guides",
+      description: "Create and share comprehensive study guides.",
+      icon: BookOpen,
+      bgColor: "bg-[#E1F7E9]",
+      iconBg: "bg-[#6A7D71]",
+      href: "/study-tools/guides"
+    },
+    {
+      title: "AI Tutor",
+      description: "Your personal AI tutor, available 24/7.",
+      icon: Sparkles,
+      bgColor: "bg-[#FFF9E1]",
+      iconBg: "bg-[#7D7A6A]",
+      href: "/study-tools/ai-tutor",
+      isNew: true
+    },
+    {
+      title: "Group Study",
+      description: "Collaborate with peers in real-time study sessions.",
+      icon: Users,
+      bgColor: "bg-[#F3E8FF]",
+      iconBg: "bg-[#766A7D]",
+      href: "/study-tools/groups"
+    }
+  ];
+
+  return (
+    <section className="py-12 max-w-7xl mx-auto px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {tools.map((tool) => (
+          <div 
+            key={tool.title} 
+            className={cn(
+              "relative p-8 rounded-3xl transition-transform hover:scale-[1.02] duration-300",
+              tool.bgColor
+            )}
+          >
+            {tool.isNew && (
+              <div className="absolute top-4 right-4 bg-[#FF6B9C] text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                NEW <Sparkles className="w-2.5 h-2.5" />
+              </div>
+            )}
+            
+            <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-6", tool.iconBg)}>
+              <tool.icon className="w-6 h-6 text-white" />
+            </div>
+            
+            <h3 className="text-2xl font-bold mb-3 text-slate-900">{tool.title}</h3>
+            <p className="text-slate-600 mb-8 leading-relaxed">
+              {tool.description}
+            </p>
+            
+            <Link 
+              href={tool.href}
+              className="inline-flex items-center gap-2 text-sm font-bold text-slate-800 hover:gap-3 transition-all"
+            >
+              Learn More <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function FeaturesSection() {
     return (
         <section className="py-24 max-w-7xl mx-auto px-4">
@@ -198,6 +302,8 @@ export default function Home() {
       
       <AITutorSection />
 
+      <StudyToolsGrid />
+
       <FeaturesSection />
       
       <div className="py-20">
@@ -212,3 +318,4 @@ export default function Home() {
     </div>
   );
 }
+
