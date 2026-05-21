@@ -15,13 +15,20 @@ import {
   Users,
   ArrowRight,
   Target,
-  Trophy,
   Zap,
-  Microscope
+  Microscope,
+  Mic,
+  ArrowUp,
+  Plus,
+  BrainCircuit,
+  FlaskConical,
+  Leaf,
+  Search
 } from "lucide-react";
 import { Testimonials } from "@/components/landing/Testimonials";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef } from "react";
 
 export function HeroSection() {
 	return (
@@ -149,10 +156,10 @@ export function AITutorSection() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="flex-[1.2] relative w-full aspect-video max-w-2xl"
+          className="flex-[1.4] relative w-full aspect-video max-w-4xl"
         >
           <motion.div 
-            animate={{ rotate: [-1, 1, -1] }}
+            animate={{ rotate: [-1, 1, -1], scale: [1, 1.02, 1] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             className="absolute inset-0 bg-primary/5 rounded-3xl -rotate-1 scale-[1.02]" 
           />
@@ -167,6 +174,363 @@ export function AITutorSection() {
             />
           </div>
         </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function CommandButton({ icon, label, isActive, onClick }: { icon: React.ReactNode; label: string; isActive: boolean; onClick: () => void }) {
+  return (
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={onClick}
+      className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border transition-all ${
+        isActive
+          ? "bg-primary/5 border-primary/20 shadow-sm"
+          : "bg-white border-gray-200 hover:border-gray-300"
+      }`}
+    >
+      <div className={`${isActive ? "text-primary" : "text-gray-500"}`}>
+        {icon}
+      </div>
+      <span
+        className={`text-sm font-bold ${
+          isActive ? "text-primary" : "text-gray-700"
+        }`}
+      >
+        {label}
+      </span>
+    </motion.button>
+  );
+}
+
+export function AITutorDemo() {
+  const [inputValue, setInputValue] = useState("");
+  const [searchEnabled, setSearchEnabled] = useState(false);
+  const [deepResearchEnabled, setDeepResearchEnabled] = useState(false);
+  const [reasonEnabled, setReasonEnabled] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [showUploadAnimation, setShowUploadAnimation] = useState(false);
+  const [activeCommandCategory, setActiveCommandCategory] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const commandSuggestions = {
+    biology: [
+      "Explain the structure of Mitochondria in detail",
+      "What are the main stages of Meiosis?",
+      "Describe the process of Double Fertilization",
+      "How does the human heart function?",
+      "Explain the Central Dogma of Molecular Biology",
+    ],
+    chemistry: [
+      "Explain Hybridization in Carbon compounds",
+      "Difference between SN1 and SN2 reactions",
+      "What are Periodic trends in Atomic Radius?",
+      "Explain the Haber Process mechanism",
+      "Solve: Calculate the molality of 10% w/w NaOH",
+    ],
+    physics: [
+      "Explain the Work-Energy Theorem",
+      "Derive the equations of motion for uniform acceleration",
+      "How does a p-n junction diode work?",
+      "Explain the laws of Thermodynamics",
+      "Principle of Wheatstone Bridge",
+    ],
+  };
+
+  const handleUploadFile = () => {
+    setShowUploadAnimation(true);
+    setTimeout(() => {
+      const newFile = `NCERT_Chapter_Notes.pdf`;
+      setUploadedFiles((prev) => [...prev, newFile]);
+      setShowUploadAnimation(false);
+    }, 1500);
+  };
+
+  const handleCommandSelect = (command: string) => {
+    setInputValue(command);
+    setActiveCommandCategory(null);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  const handleSendMessage = () => {
+    if (inputValue.trim()) {
+      setInputValue("");
+    }
+  };
+
+  return (
+    <section className="py-20 bg-slate-50/50">
+      <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center">
+        {/* Logo with animated gradient */}
+        <div className="mb-8 w-24 h-24 relative">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 200 200"
+            width="100%"
+            height="100%"
+            className="w-full h-full"
+          >
+            <g clipPath="url(#cs_clip_1_ellipse-12)">
+              <mask
+                id="cs_mask_1_ellipse-12"
+                style={{ maskType: "alpha" }}
+                width="200"
+                height="200"
+                x="0"
+                y="0"
+                maskUnits="userSpaceOnUse"
+              >
+                <path
+                  fill="#fff"
+                  fillRule="evenodd"
+                  d="M100 150c27.614 0 50-22.386 50-50s-22.386-50-50-50-50 22.386-50 50 22.386 50 50 50zm0 50c55.228 0 100-44.772 100-100S155.228 0 100 0 0 44.772 0 100s44.772 100 100 100z"
+                  clipRule="evenodd"
+                ></path>
+              </mask>
+              <g mask="url(#cs_mask_1_ellipse-12)">
+                <path fill="#fff" d="M200 0H0v200h200V0z"></path>
+                <path
+                  fill="#3b82f6"
+                  fillOpacity="0.33"
+                  d="M200 0H0v200h200V0z"
+                ></path>
+                <g
+                  filter="url(#filter0_f_844_2811)"
+                  className="animate-pulse"
+                >
+                  <path fill="#3b82f6" d="M110 32H18v68h92V32z"></path>
+                  <path fill="#1d4ed8" d="M188-24H15v98h173v-98z"></path>
+                  <path fill="#60a5fa" d="M175 70H5v156h170V70z"></path>
+                  <path fill="#93c5fd" d="M230 51H100v103h130V51z"></path>
+                </g>
+              </g>
+            </g>
+            <defs>
+              <filter
+                id="filter0_f_844_2811"
+                width="385"
+                height="410"
+                x="-75"
+                y="-104"
+                colorInterpolationFilters="sRGB"
+                filterUnits="userSpaceOnUse"
+              >
+                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
+                <feBlend
+                  in="SourceGraphic"
+                  in2="BackgroundImageFix"
+                  result="shape"
+                ></feBlend>
+                <feGaussianBlur
+                  result="effect1_foregroundBlur_844_2811"
+                  stdDeviation="40"
+                ></feGaussianBlur>
+              </filter>
+              <clipPath id="cs_clip_1_ellipse-12">
+                <path fill="#fff" d="M0 0H200V200H0z"></path>
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Welcome message */}
+        <div className="mb-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-center"
+          >
+            <h2 className="text-3xl font-headline font-bold text-slate-900 mb-2">
+              How can I assist your NEET prep today?
+            </h2>
+            <p className="text-muted-foreground max-w-md">
+              Ask any doubt or slect a subject to see popular topics.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Input area */}
+        <div className="w-full bg-white border border-border rounded-3xl shadow-xl overflow-hidden mb-8">
+          <div className="p-6">
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Explain the mechanism of enzyme action..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="w-full text-slate-800 text-lg outline-none placeholder:text-muted-foreground bg-transparent"
+            />
+          </div>
+
+          {/* Uploaded files */}
+          {uploadedFiles.length > 0 && (
+            <div className="px-6 pb-4">
+              <div className="flex flex-wrap gap-2">
+                {uploadedFiles.map((file, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 bg-slate-50 py-1.5 px-3 rounded-full border border-slate-200"
+                  >
+                    <FileText className="w-3.5 h-3.5 text-primary" />
+                    <span className="text-xs font-medium text-slate-700">{file}</span>
+                    <button
+                      onClick={() =>
+                        setUploadedFiles((prev) =>
+                          prev.filter((_, i) => i !== index)
+                        )
+                      }
+                      className="text-slate-400 hover:text-slate-600"
+                    >
+                      <Plus className="w-3.5 h-3.5 rotate-45" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Actions Bar */}
+          <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-4 border-t border-slate-50">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setSearchEnabled(!searchEnabled)}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all",
+                  searchEnabled ? "bg-primary/10 text-primary" : "bg-slate-100 text-slate-400"
+                )}
+              >
+                <Search className="w-3.5 h-3.5" />
+                <span>NCERT Search</span>
+              </button>
+              <button
+                onClick={() => setDeepResearchEnabled(!deepResearchEnabled)}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all",
+                  deepResearchEnabled ? "bg-primary/10 text-primary" : "bg-slate-100 text-slate-400"
+                )}
+              >
+                <Target className="w-3.5 h-3.5" />
+                <span>Deep Research</span>
+              </button>
+              <button
+                onClick={() => setReasonEnabled(!reasonEnabled)}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all",
+                  reasonEnabled ? "bg-primary/10 text-primary" : "bg-slate-100 text-slate-400"
+                )}
+              >
+                <BrainCircuit className="w-3.5 h-3.5" />
+                <span>Solve & Reason</span>
+              </button>
+            </div>
+            <div className="flex items-center gap-3">
+              <button className="p-2 text-slate-400 hover:text-primary transition-colors">
+                <Mic className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleSendMessage}
+                disabled={!inputValue.trim()}
+                className={cn(
+                  "w-10 h-10 flex items-center justify-center rounded-full transition-all",
+                  inputValue.trim() ? "bg-primary text-white shadow-lg" : "bg-slate-100 text-slate-400"
+                )}
+              >
+                <ArrowUp className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Upload files trigger */}
+          <div className="px-6 py-3 border-t border-slate-50 bg-slate-50/50">
+            <button
+              onClick={handleUploadFile}
+              className="flex items-center gap-2 text-slate-500 text-xs font-bold hover:text-primary transition-colors"
+            >
+              {showUploadAnimation ? (
+                <div className="flex space-x-1">
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="w-1.5 h-1.5 bg-primary rounded-full"
+                      animate={{ opacity: [0.3, 1, 0.3], y: [0, -2, 0] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.1 }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <Plus className="w-4 h-4" />
+              )}
+              <span>Upload Question / Note</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Command categories */}
+        <div className="w-full grid grid-cols-3 gap-6">
+          <CommandButton
+            icon={<Leaf className="w-6 h-6" />}
+            label="Biology"
+            isActive={activeCommandCategory === "biology"}
+            onClick={() => setActiveCommandCategory(activeCommandCategory === "biology" ? null : "biology")}
+          />
+          <CommandButton
+            icon={<FlaskConical className="w-6 h-6" />}
+            label="Chemistry"
+            isActive={activeCommandCategory === "chemistry"}
+            onClick={() => setActiveCommandCategory(activeCommandCategory === "chemistry" ? null : "chemistry")}
+          />
+          <CommandButton
+            icon={<Zap className="w-6 h-6" />}
+            label="Physics"
+            isActive={activeCommandCategory === "physics"}
+            onClick={() => setActiveCommandCategory(activeCommandCategory === "physics" ? null : "physics")}
+          />
+        </div>
+
+        {/* Command suggestions dropdown */}
+        <AnimatePresence>
+          {activeCommandCategory && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="w-full mt-6 overflow-hidden"
+            >
+              <div className="bg-white rounded-3xl border border-border shadow-lg overflow-hidden">
+                <div className="p-4 border-b border-slate-50 bg-slate-50/30">
+                  <h3 className="text-sm font-bold text-slate-700 uppercase tracking-widest">
+                    {activeCommandCategory} Suggestions
+                  </h3>
+                </div>
+                <ul className="divide-y divide-slate-50">
+                  {commandSuggestions[activeCommandCategory as keyof typeof commandSuggestions].map((suggestion, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      onClick={() => handleCommandSelect(suggestion)}
+                      className="p-4 hover:bg-primary/5 cursor-pointer transition-colors flex items-center gap-3 group"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-white transition-colors">
+                        <ArrowRight className="w-3.5 h-3.5 text-primary" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-700 group-hover:text-primary transition-colors">
+                        {suggestion}
+                      </span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
@@ -475,6 +839,8 @@ export default function Home() {
       <HeroSection />
       
       <AITutorSection />
+
+      <AITutorDemo />
 
       <StudyToolsGrid />
 
