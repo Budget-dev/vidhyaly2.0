@@ -1,72 +1,14 @@
-
 "use client"
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, PhoneCallIcon } from "lucide-react";
-import { DropdownNavigation } from "@/components/layout/Navbar";
 import { Testimonials } from "@/components/landing/Testimonials";
-
-const navItems = [
-  {
-    id: 1,
-    label: "Home",
-    href: "/",
-  },
-  {
-    id: 2,
-    label: "Study tools",
-    subMenus: [
-      {
-        title: "Students",
-        items: [
-          { label: "Flashcards", description: "Master concepts with active recall", icon: "Layers", href: "/study-tools/flashcards" },
-          { label: "Learn", description: "Structured video lectures and content", icon: "BookOpen", href: "/study-tools/learn" },
-          { label: "Study Guides", description: "Comprehensive notes for all chapters", icon: "FileText", href: "/study-tools/guides" },
-          { label: "Practice MCQs", description: "Chapter-wise multiple choice questions", icon: "CheckSquare", href: "/study-tools/mcqs" },
-          { label: "AI Tutor", description: "24/7 personalized learning assistance", icon: "Bot", href: "/study-tools/ai-tutor" },
-          { label: "Expert solutions", description: "Detailed answers by subject experts", icon: "MessageCircle", href: "/study-tools/solutions" },
-          { label: "Study groups", description: "Collaborate with fellow aspirants", icon: "Users", href: "/study-tools/groups" },
-        ],
-      },
-      {
-        title: "Teachers",
-        items: [
-          { label: "Live Teacher", description: "Connect with educators in real-time", icon: "Presentation", href: "/study-tools/live-teacher" },
-        ],
-      },
-    ],
-  },
-  {
-    id: 3,
-    label: "Subjects",
-    subMenus: [
-      {
-        title: "NEET Preparation",
-        items: [
-          { label: "Biology", description: "Deep dive into Botany and Zoology", icon: "Leaf", href: "/subjects/biology" },
-          { label: "Chemistry", description: "Organic, Inorganic & Physical", icon: "FlaskConical", href: "/subjects/chemistry" },
-          { label: "Physics", description: "Mechanics to Modern Physics", icon: "Zap", href: "/subjects/physics" },
-        ],
-      },
-    ],
-  },
-  {
-    id: 4,
-    label: "About Us",
-    href: "/about",
-  },
-  {
-    id: 5,
-    label: "Contact Us",
-    href: "/contact",
-  },
-];
 
 export function HeroSection() {
 	return (
-		<section className="mx-auto w-full max-w-7xl overflow-hidden pt-32 px-4 flex flex-col items-center">
-			<div className="relative z-10 flex flex-col items-center text-center gap-6 max-w-4xl">
+		<section className="mx-auto w-full max-w-7xl overflow-hidden pt-16 flex flex-col items-center">
+			<div className="relative z-10 flex flex-col items-center text-center gap-6 max-w-4xl px-4">
 				<a
 					className={cn(
 						"group flex w-fit items-center gap-3 rounded-full border bg-card p-1 pr-3 shadow-sm",
@@ -116,7 +58,7 @@ export function HeroSection() {
 				</div>
 			</div>
 			
-      <div className="relative mt-12 sm:mt-16 md:mt-24 w-full max-w-6xl">
+      <div className="relative mt-12 sm:mt-16 md:mt-24 w-full max-w-6xl px-4">
 				<div
 					className={cn(
 						"relative",
@@ -138,9 +80,7 @@ export function HeroSection() {
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-background overflow-x-hidden pt-16">
-      <DropdownNavigation navItems={navItems} />
-
+    <div className="relative bg-background overflow-x-hidden">
       <HeroSection />
       
       <div className="py-20">
@@ -152,6 +92,6 @@ export default function Home() {
           <p className="text-sm text-muted-foreground font-medium">© 2026 Vidhyaly Education. Dedicated to your medical dream.</p>
         </div>
       </footer>
-    </main>
+    </div>
   );
 }
