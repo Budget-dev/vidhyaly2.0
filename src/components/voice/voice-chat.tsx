@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Mic, Volume2, Sparkles, Loader2, Square, VolumeX } from "lucide-react";
+import { Mic, Volume2, Sparkles, Loader2, Square, VolumeX, Key } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -33,12 +33,17 @@ export function VoiceChat({
   const [waveformData, setWaveformData] = useState<number[]>(Array(32).fill(0));
   const [particles, setParticles] = useState<Particle[]>([]);
   const [volume, setVolume] = useState(0);
+  const [hasKey, setHasKey] = useState(false);
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const recognitionRef = useRef<any>(null);
   const animationRef = useRef<number>(null);
 
-  // Generate particles for ambient effect
+  useEffect(() => {
+    const savedKey = localStorage.getItem("vidhyaly_google_ai_key");
+    setHasKey(!!savedKey);
+  }, [isProcessingExternal]);
+
   useEffect(() => {
     const newParticles: Particle[] = Array.from({ length: 20 }).map((_, i) => ({
       id: i,
@@ -54,7 +59,6 @@ export function VoiceChat({
     setParticles(newParticles);
   }, []);
 
-  // Animate particles
   useEffect(() => {
     const animateParticles = () => {
       setParticles(prev => prev.map(p => ({
@@ -71,7 +75,6 @@ export function VoiceChat({
     };
   }, []);
 
-  // Waveform and Volume simulation
   useEffect(() => {
     if (isListening || isSpeaking) {
       const interval = setInterval(() => {
@@ -87,7 +90,12 @@ export function VoiceChat({
   }, [isListening, isSpeaking]);
 
   const startListening = () => {
-    // Interruption: Stop any existing audio
+    const apiKey = localStorage.getItem("vidhyaly_google_ai_key");
+    if (!apiKey) {
+      alert("Please enter your Google AI API key in settings first.");
+      return;
+    }
+
     if (audioRef.current) {
       audioRef.current.pause();
       setIsSpeaking(false);
@@ -109,7 +117,7 @@ export function VoiceChat({
     
     recognition.onresult = async (event: any) => {
       const text = event.results[0][0].transcript;
-      handleChat(text);
+      handleChat(text, apiKey);
     };
 
     recognition.onerror = () => setIsListening(false);
@@ -124,10 +132,10 @@ export function VoiceChat({
     }
   };
 
-  const handleChat = async (text: string) => {
+  const handleChat = async (text: string, apiKey: string) => {
     setIsProcessing(true);
     try {
-      const result = await vidhyamithraChat({ message: text });
+      const result = await vidhyamithraChat({ message: text, apiKey });
       if (onResponse) onResponse(result.text);
 
       if (result.audio) {
@@ -147,6 +155,7 @@ export function VoiceChat({
   const currentProcessing = isProcessing || isProcessingExternal;
 
   const getStatusText = () => {
+    if (!hasKey) return "API Key Required";
     if (isListening) return "Listening...";
     if (currentProcessing) return "Processing...";
     if (isSpeaking) return "Speaking...";
@@ -154,6 +163,7 @@ export function VoiceChat({
   };
 
   const getStatusColor = () => {
+    if (!hasKey) return "text-amber-500";
     if (isListening) return "text-primary";
     if (currentProcessing) return "text-amber-500";
     if (isSpeaking) return "text-emerald-500";
@@ -162,7 +172,6 @@ export function VoiceChat({
 
   return (
     <div className={cn("flex flex-col items-center justify-center relative py-12 px-4 overflow-hidden", className)}>
-      {/* Ambient particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {particles.map(particle => (
           <motion.div
@@ -175,7 +184,6 @@ export function VoiceChat({
         ))}
       </div>
 
-      {/* Background glow effects */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <motion.div
           className="w-64 h-64 rounded-full bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 blur-3xl"
@@ -191,22 +199,22 @@ export function VoiceChat({
         <motion.div className="relative" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <motion.button
             onClick={isListening ? stopListening : startListening}
+            disabled={!hasKey && !currentProcessing}
             className={cn(
               "relative w-32 h-32 rounded-full flex items-center justify-center transition-all duration-500 bg-white shadow-2xl border",
+              !hasKey ? "border-amber-200 opacity-80" :
               isListening ? "border-primary shadow-primary/20" :
               currentProcessing ? "border-amber-400 shadow-amber-200/50" :
               isSpeaking ? "border-emerald-400 shadow-emerald-200/50" :
               "border-slate-100 hover:border-primary/50"
             )}
-            animate={{
-              boxShadow: isListening 
-                ? ["0 0 0 0 rgba(59, 130, 246, 0.4)", "0 0 0 20px rgba(59, 130, 246, 0)"]
-                : undefined
-            }}
-            transition={{ duration: 1.5, repeat: isListening ? Infinity : 0 }}
           >
             <AnimatePresence mode="wait">
-              {currentProcessing ? (
+              {!hasKey ? (
+                <motion.div key="nokey" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                  <Key className="w-12 h-12 text-amber-500" />
+                </motion.div>
+              ) : currentProcessing ? (
                 <motion.div key="processing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                   <Loader2 className="w-12 h-12 text-amber-500 animate-spin" />
                 </motion.div>
@@ -227,7 +235,6 @@ export function VoiceChat({
           </motion.button>
         </motion.div>
 
-        {/* Waveform visualizer */}
         <div className="flex items-center justify-center space-x-1 h-16">
           {waveformData.map((height, index) => (
             <motion.div
@@ -245,16 +252,6 @@ export function VoiceChat({
           <p className={cn("text-base font-bold uppercase tracking-widest", getStatusColor())}>
             {getStatusText()}
           </p>
-          
-          {volume > 0 && (
-            <motion.div className="flex items-center justify-center space-x-2">
-              <VolumeX className="w-4 h-4 text-slate-300" />
-              <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <motion.div className="h-full bg-primary" animate={{ width: `${volume}%` }} />
-              </div>
-              <Volume2 className="w-4 h-4 text-slate-300" />
-            </motion.div>
-          )}
         </div>
 
         <motion.div
@@ -263,7 +260,7 @@ export function VoiceChat({
           transition={{ duration: 3, repeat: Infinity }}
         >
           <Sparkles className="w-4 h-4 text-primary" />
-          <span>Vidhyaly AI Friend</span>
+          <span>Vidhyaly BYOK Mode</span>
         </motion.div>
       </div>
     </div>

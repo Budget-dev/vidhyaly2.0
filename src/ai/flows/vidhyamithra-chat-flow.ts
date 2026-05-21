@@ -2,16 +2,16 @@
 'use server';
 
 /**
- * @fileOverview A Vidhyamithra chat and voice response flow.
+ * @fileOverview A Vidhyamithra chat and voice response flow using dynamic API keys.
  */
 
-import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { genkit, z } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
 import wav from 'wav';
 
 const ChatInputSchema = z.object({
   message: z.string().describe('The message from the user.'),
+  apiKey: z.string().describe('The user\'s personal Google AI API key.'),
 });
 
 const ChatOutputSchema = z.object({
@@ -50,57 +50,50 @@ async function toWav(
 }
 
 export async function vidhyamithraChat(input: ChatInput): Promise<ChatOutput> {
-  return vidhyamithraChatFlow(input);
-}
+  // Initialize dynamic Genkit instance with user's key
+  const ai = genkit({
+    plugins: [googleAI({ apiKey: input.apiKey })],
+    model: 'googleai/gemini-2.5-flash',
+  });
 
-const chatPrompt = ai.definePrompt({
-  name: 'vidhyamithraChatPrompt',
-  input: { schema: ChatInputSchema },
-  prompt: `You are Vidhyamithra, a friendly and highly supportive AI study friend and mentor for NEET aspirants in India. 
-  Your tone is motivating, professional, yet warm. You specialize in guiding students through the stress of NEET preparation, 
-  helping them with schedules, and providing high-level conceptual summaries.
-  
-  Keep your responses concise and direct so they are easy to listen to.
-  
-  User message: {{{message}}}`,
-});
-
-const vidhyamithraChatFlow = ai.defineFlow(
-  {
-    name: 'vidhyamithraChatFlow',
-    inputSchema: ChatInputSchema,
-    outputSchema: ChatOutputSchema,
-  },
-  async (input) => {
-    const { text } = await chatPrompt(input);
+  const chatPrompt = ai.definePrompt({
+    name: 'vidhyamithraChatPrompt',
+    input: { schema: z.object({ message: z.string() }) },
+    prompt: `You are Vidhyamithra, a friendly and highly supportive AI study friend and mentor for NEET aspirants in India. 
+    Your tone is motivating, professional, yet warm. You specialize in guiding students through the stress of NEET preparation.
+    Keep your responses concise and direct.
     
-    // Generate TTS for the text response
-    const { media } = await ai.generate({
-      model: googleAI.model('gemini-2.5-flash-preview-tts'),
-      config: {
-        responseModalities: ['AUDIO'],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Algenib' },
-          },
+    User message: {{{message}}}`,
+  });
+
+  const { text } = await chatPrompt({ message: input.message });
+  
+  // Generate TTS using the user's key via the dynamic Genkit instance
+  const { media } = await ai.generate({
+    model: googleAI.model('gemini-2.5-flash-preview-tts'),
+    config: {
+      responseModalalities: ['AUDIO'],
+      speechConfig: {
+        voiceConfig: {
+          prebuiltVoiceConfig: { voiceName: 'Algenib' },
         },
       },
-      prompt: text,
-    });
+    },
+    prompt: text,
+  });
 
-    let audioUri = undefined;
-    if (media?.url) {
-      const audioBuffer = Buffer.from(
-        media.url.substring(media.url.indexOf(',') + 1),
-        'base64'
-      );
-      const wavBase64 = await toWav(audioBuffer);
-      audioUri = `data:audio/wav;base64,${wavBase64}`;
-    }
-
-    return {
-      text: text,
-      audio: audioUri,
-    };
+  let audioUri = undefined;
+  if (media?.url) {
+    const audioBuffer = Buffer.from(
+      media.url.substring(media.url.indexOf(',') + 1),
+      'base64'
+    );
+    const wavBase64 = await toWav(audioBuffer);
+    audioUri = `data:audio/wav;base64,${wavBase64}`;
   }
-);
+
+  return {
+    text: text,
+    audio: audioUri,
+  };
+}

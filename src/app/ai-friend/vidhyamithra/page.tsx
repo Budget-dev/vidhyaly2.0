@@ -1,15 +1,16 @@
 
 "use client"
 
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Bot, Sparkles, ArrowLeft, Send, User, Loader2 } from "lucide-react";
+import { Bot, Sparkles, ArrowLeft, Send, User, Loader2, Key, Settings2, X, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { VoiceChat } from "@/components/voice/voice-chat";
 import { vidhyamithraChat } from "@/ai/flows/vidhyamithra-chat-flow";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
 interface Message {
   id: string;
@@ -21,11 +22,30 @@ export default function VidhyamithraPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [showSettings, setShowSettings] = useState(false);
+  const [apiKey, setApiKey] = useState("");
+  const [isKeyValid, setIsKeyValid] = useState(true);
+
+  // Load key from localStorage on mount
+  useEffect(() => {
+    const savedKey = localStorage.getItem("vidhyaly_google_ai_key");
+    if (savedKey) setApiKey(savedKey);
+  }, []);
+
+  const saveKey = () => {
+    localStorage.setItem("vidhyaly_google_ai_key", apiKey);
+    setShowSettings(false);
+    setIsKeyValid(apiKey.length > 10);
+  };
 
   const handleSendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!inputText.trim() || isProcessing) return;
+
+    if (!apiKey) {
+      setShowSettings(true);
+      return;
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -38,7 +58,10 @@ export default function VidhyamithraPage() {
     setIsProcessing(true);
 
     try {
-      const response = await vidhyamithraChat({ message: userMessage.text });
+      const response = await vidhyamithraChat({ 
+        message: userMessage.text,
+        apiKey: apiKey
+      });
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "bot",
@@ -47,6 +70,8 @@ export default function VidhyamithraPage() {
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error("Chat error:", error);
+      setIsKeyValid(false);
+      setShowSettings(true);
     } finally {
       setIsProcessing(false);
     }
@@ -83,18 +108,81 @@ export default function VidhyamithraPage() {
             <div>
               <h1 className="text-xl font-headline font-bold text-slate-900 leading-none mb-1">Vidhyamithra</h1>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Mentor</p>
+                <span className={cn("w-2 h-2 rounded-full animate-pulse", apiKey ? "bg-green-500" : "bg-amber-500")} />
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                  {apiKey ? "Connected (BYOK)" : "Key Required"}
+                </p>
               </div>
             </div>
           </div>
-          <Button asChild variant="ghost" size="icon" className="rounded-full">
-            <Link href="/"><ArrowLeft className="w-5 h-5" /></Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button onClick={() => setShowSettings(true)} variant="ghost" size="icon" className="rounded-full">
+              <Settings2 className="w-5 h-5 text-slate-400" />
+            </Button>
+            <Button asChild variant="ghost" size="icon" className="rounded-full">
+              <Link href="/"><ArrowLeft className="w-5 h-5" /></Link>
+            </Button>
+          </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+          {/* Key Settings Overlay */}
+          <AnimatePresence>
+            {showSettings && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 z-50 bg-white/95 backdrop-blur-md flex items-center justify-center p-6"
+              >
+                <div className="max-w-md w-full space-y-6">
+                  <div className="text-center space-y-2">
+                    <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Key className="w-8 h-8 text-primary" />
+                    </div>
+                    <h2 className="text-2xl font-headline font-bold">Personal AI Key</h2>
+                    <p className="text-sm text-slate-500">
+                      To keep Vidhyaly free for everyone, please provide your own Google AI API Key. 
+                      You get a generous free tier from Google.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Google AI Key</label>
+                      <Input 
+                        type="password" 
+                        value={apiKey}
+                        onChange={(e) => setApiKey(e.target.value)}
+                        placeholder="Paste your key here..."
+                        className="rounded-xl border-slate-200"
+                      />
+                      {!isKeyValid && (
+                        <p className="text-[10px] text-destructive flex items-center gap-1 font-bold">
+                          <AlertCircle className="w-3 h-3" /> Invalid or missing API key
+                        </p>
+                      )}
+                    </div>
+                    <Button onClick={saveKey} className="w-full rounded-xl py-6 font-bold">
+                      Save & Connect
+                    </Button>
+                    <a 
+                      href="https://aistudio.google.com/app/apikey" 
+                      target="_blank" 
+                      className="text-[10px] text-primary hover:underline block text-center font-bold uppercase tracking-widest"
+                    >
+                      Get your free key here
+                    </a>
+                  </div>
+                  <Button variant="ghost" onClick={() => setShowSettings(false)} className="w-full rounded-xl">
+                    Maybe Later
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Left: Chat History */}
           <div className="flex-1 flex flex-col border-r border-slate-50 overflow-hidden">
             <ScrollArea className="flex-1 p-6">
@@ -107,7 +195,7 @@ export default function VidhyamithraPage() {
                     </div>
                     <h2 className="text-2xl font-headline font-bold text-slate-800">Hello Aspirant!</h2>
                     <p className="text-slate-500 max-w-xs mx-auto text-sm leading-relaxed">
-                      Tap the mic to talk, or type your query below. I'm here for motivation, planning, and doubts.
+                      Tap the mic to talk, or type your query below. I'm here for motivation and guidance.
                     </p>
                   </div>
                 )}
@@ -155,12 +243,13 @@ export default function VidhyamithraPage() {
                   type="text"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  placeholder="Type your message..."
-                  className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  placeholder={apiKey ? "Type your message..." : "Connect API key to start..."}
+                  disabled={!apiKey}
+                  className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all disabled:opacity-50"
                 />
                 <Button 
                   type="submit" 
-                  disabled={!inputText.trim() || isProcessing}
+                  disabled={!inputText.trim() || isProcessing || !apiKey}
                   className="rounded-xl w-12 h-12 bg-slate-900 hover:bg-slate-800 shadow-lg"
                 >
                   <Send className="w-5 h-5" />
@@ -179,17 +268,14 @@ export default function VidhyamithraPage() {
                />
                <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm max-w-xs mx-auto">
                  <p className="text-xs text-slate-500 font-medium leading-relaxed italic">
-                   "Talk to me like a mentor. I can hear your doubts and help you stay on track."
+                   {apiKey ? "\"Talk to me like a mentor. I can hear your doubts and help you stay on track.\"" : "Please enter your API key to enable voice interaction."}
                  </p>
                </div>
-               <div className="flex flex-col items-center gap-2">
-                 <div className="flex gap-1">
-                   {[1, 2, 3].map((i) => (
-                     <div key={i} className="w-1.5 h-1.5 rounded-full bg-primary/20 animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />
-                   ))}
-                 </div>
-                 <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">Manual Trigger Only</p>
-               </div>
+               {!apiKey && (
+                 <Button onClick={() => setShowSettings(true)} variant="outline" className="rounded-full gap-2">
+                   <Key className="w-4 h-4" /> Setup AI Key
+                 </Button>
+               )}
             </div>
           </div>
         </div>
@@ -197,7 +283,7 @@ export default function VidhyamithraPage() {
         {/* Footer */}
         <div className="p-4 bg-white border-t border-slate-100 text-center">
           <p className="text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em]">
-            Powered by Vidhyaly GenAI 2.0
+            Powered by Your Personal AI Key
           </p>
         </div>
       </motion.div>
