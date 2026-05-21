@@ -42,7 +42,7 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-[800px] flex-col items-center justify-center overflow-hidden bg-slate-950 w-full z-0",
+        "relative flex min-h-[800px] flex-col items-center justify-center overflow-hidden bg-slate-50 w-full z-0",
         className
       )}
     >
@@ -58,10 +58,10 @@ export const LampContainer = ({
           style={{
             backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
           }}
-          className="absolute inset-auto right-1/2 h-56 overflow-visible w-[30rem] bg-gradient-conic from-primary via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
+          className="absolute inset-auto right-1/2 h-56 overflow-visible w-[30rem] bg-gradient-conic from-primary/40 via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
         >
-          <div className="absolute  w-[100%] left-0 bg-slate-950 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
-          <div className="absolute  w-40 h-[100%] left-0 bg-slate-950  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
+          <div className="absolute  w-[100%] left-0 bg-slate-50 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute  w-40 h-[100%] left-0 bg-slate-50  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}
@@ -74,14 +74,14 @@ export const LampContainer = ({
           style={{
             backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
           }}
-          className="absolute inset-auto left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-primary text-white [--conic-position:from_290deg_at_center_top]"
+          className="absolute inset-auto left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-primary/40 text-white [--conic-position:from_290deg_at_center_top]"
         >
-          <div className="absolute  w-40 h-[100%] right-0 bg-slate-950  bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
-          <div className="absolute  w-[100%] right-0 bg-slate-950 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute  w-40 h-[100%] right-0 bg-slate-50  bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
+          <div className="absolute  w-[100%] right-0 bg-slate-50 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
         </motion.div>
-        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-slate-950 blur-2xl"></div>
+        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-slate-50 blur-2xl"></div>
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
-        <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-primary opacity-50 blur-3xl"></div>
+        <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-primary opacity-20 blur-3xl"></div>
         <motion.div
           initial={{ width: "8rem" }}
           whileInView={{ width: "16rem" }}
@@ -90,7 +90,7 @@ export const LampContainer = ({
             duration: 0.8,
             ease: "easeInOut",
           }}
-          className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-blue-400 blur-2xl"
+          className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-blue-200 blur-2xl"
         ></motion.div>
         <motion.div
           initial={{ width: "15rem" }}
@@ -100,10 +100,10 @@ export const LampContainer = ({
             duration: 0.8,
             ease: "easeInOut",
           }}
-          className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-blue-400 "
+          className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-blue-300 "
         ></motion.div>
 
-        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-950 "></div>
+        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-slate-50 "></div>
       </div>
 
       <div className="relative z-50 flex -translate-y-80 flex-col items-center px-5">
@@ -125,30 +125,30 @@ export function HeroSection() {
         >
           <a
             className={cn(
-              "group flex w-fit items-center gap-3 rounded-full border bg-white/10 backdrop-blur-md p-1 pr-3 shadow-sm transition-all hover:bg-white/20 border-white/20"
+              "group flex w-fit items-center gap-3 rounded-full border bg-primary/5 backdrop-blur-md p-1 pr-3 shadow-sm transition-all hover:bg-primary/10 border-primary/10"
             )}
-            href="#link"
+            href="/contact"
           >
-            <div className="rounded-full border bg-primary/20 text-primary-foreground px-2.5 py-0.5 shadow-sm border-primary/30">
+            <div className="rounded-full border bg-primary/20 text-primary px-2.5 py-0.5 shadow-sm border-primary/30">
               <p className="font-mono text-[10px] font-bold">2026</p>
             </div>
-            <span className="text-xs font-medium text-white/80">now enrolling for NEET 2026 batches</span>
+            <span className="text-xs font-medium text-slate-600">now enrolling for NEET 2026 batches</span>
             <div className="pl-1">
-              <ArrowRightIcon className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5 text-white/80" />
+              <ArrowRightIcon className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5 text-primary" />
             </div>
           </a>
 
-          <h1 className="text-balance font-headline font-bold text-4xl text-white leading-tight md:text-5xl lg:text-7xl">
+          <h1 className="text-balance font-headline font-bold text-4xl text-slate-900 leading-tight md:text-5xl lg:text-7xl">
             Master NEET with India&apos;s Smartest Prep Platform
           </h1>
 
-          <p className="text-white/60 text-sm tracking-wider sm:text-lg md:text-xl max-w-2xl">
+          <p className="text-slate-500 text-sm tracking-wider sm:text-lg md:text-xl max-w-2xl">
             Personalized study paths, NCERT-based notes, and AI-driven mock tests <br className="hidden md:block" />
             to help you secure your dream medical seat.
           </p>
 
           <div className="flex w-fit items-center justify-center gap-4 pt-4">
-            <Button variant="outline" size="lg" className="rounded-full px-8 bg-transparent text-white border-white/20 hover:bg-white/10" asChild>
+            <Button variant="outline" size="lg" className="rounded-full px-8 bg-white text-slate-900 border-slate-200 hover:bg-slate-50" asChild>
               <Link href="/contact">
                 <PhoneCallIcon className="size-4 mr-2" />
                 Free Counseling
@@ -938,4 +938,3 @@ export default function Home() {
     </div>
   );
 }
-
