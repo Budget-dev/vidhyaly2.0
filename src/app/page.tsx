@@ -1,13 +1,11 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, PhoneCall } from "lucide-react";
+import { ArrowRight, PhoneCall, GraduationCap } from "lucide-react";
 import Image from "next/image";
 
-export default function Home() {
+export function HeroSection() {
 	return (
-		<main className="relative min-h-screen bg-background overflow-hidden">
+		<section className="mx-auto w-full max-w-5xl overflow-hidden pt-16">
 			{/* Shades */}
 			<div
 				aria-hidden="true"
@@ -20,94 +18,147 @@ export default function Home() {
 					)}
 				/>
 			</div>
+			<div className="relative z-10 flex max-w-3xl flex-col gap-5 px-4">
+				<a
+					className={cn(
+						"group flex w-fit items-center gap-3 rounded-sm border bg-card p-1 shadow-sm",
+						"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards transition-all delay-500 duration-500 ease-out"
+					)}
+					href="/register"
+				>
+					<div className="rounded border bg-card px-1.5 py-0.5 shadow-sm">
+						<p className="font-mono text-[10px] font-bold">2025</p>
+					</div>
 
-			<section className="mx-auto w-full max-w-5xl overflow-hidden pt-16 px-4">
-				<div className="relative z-10 flex max-w-2xl flex-col gap-5">
-					<a
-						className={cn(
-							"group flex w-fit items-center gap-3 rounded-sm border bg-card p-1 shadow-sm",
-							"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards transition-all delay-500 duration-500 ease-out"
-						)}
-						href="#link"
-					>
-						<div className="rounded border bg-card px-1.5 py-0.5 shadow-sm">
-							<p className="font-mono text-[10px] font-bold">NOW</p>
-						</div>
+					<span className="text-xs">now enrolling for NEET 2025 batches</span>
+					<span className="block h-5 border-l" />
 
-						<span className="text-xs">accepting new client projects</span>
-						<span className="block h-5 border-l" />
+					<div className="pr-1">
+						<ArrowRight className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5" />
+					</div>
+				</a>
 
-						<div className="pr-1">
-							<ArrowRight className="size-3 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5" />
-						</div>
-					</a>
+				<h1
+					className={cn(
+						"text-balance font-headline font-bold text-4xl text-foreground leading-tight md:text-5xl lg:text-6xl",
+						"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards delay-100 duration-500 ease-out"
+					)}
+				>
+					Master NEET with India's Smartest Prep Platform
+				</h1>
 
-					<h1
-						className={cn(
-							"text-balance font-headline font-bold text-4xl text-foreground leading-tight md:text-5xl lg:text-6xl",
-							"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards delay-100 duration-500 ease-out"
-						)}
-					>
-						Building Digital Experiences That Drive Growth
-					</h1>
+				<p
+					className={cn(
+						"text-muted-foreground text-sm tracking-wider sm:text-lg md:text-xl",
+						"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards delay-200 duration-500 ease-out"
+					)}
+				>
+					Personalized study paths, NCERT-based notes, and AI-driven mock tests <br className="hidden md:block" />
+          to help you secure your dream medical seat.
+				</p>
 
-					<p
-						className={cn(
-							"text-muted-foreground text-sm tracking-wider sm:text-lg md:text-xl",
-							"fade-in slide-in-from-bottom-10 animate-in fill-mode-backwards delay-200 duration-500 ease-out"
-						)}
-					>
-						We help brands scale faster through design, development <br className="hidden md:block" /> and
-						strategic execution.
-					</p>
-
-					<div className="fade-in slide-in-from-bottom-10 flex w-fit animate-in items-center justify-center gap-3 fill-mode-backwards pt-2 delay-300 duration-500 ease-out">
-						<Button variant="outline" className="rounded-full">
-							<PhoneCall className="size-4 mr-2" />{" "}
-							Book a Call
-						</Button>
-						<Button className="rounded-full">
-							Get started{" "}
-							<ArrowRight className="size-4 ml-2" />
-						</Button>
+				<div className="fade-in slide-in-from-bottom-10 flex w-fit animate-in items-center justify-center gap-3 fill-mode-backwards pt-2 delay-300 duration-500 ease-out">
+					<Button variant="outline" className="rounded-full">
+						<PhoneCall className="size-4 mr-2" />{" "}
+						Free Counseling
+					</Button>
+					<Button className="rounded-full">
+						Explore Tests{" "}
+						<ArrowRight className="size-4 ml-2" />
+					</Button>
+				</div>
+			</div>
+			<div className="relative">
+				<div
+					className={cn(
+						"absolute -inset-x-20 inset-y-0 -translate-y-1/3 scale-125 rounded-full",
+						"bg-[radial-gradient(ellipse_at_center,hsla(var(--foreground),0.03),transparent,transparent)]",
+						"blur-[50px] pointer-events-none"
+					)}
+				/>
+				<div
+					className={cn(
+						"relative mt-8 overflow-hidden px-2 sm:mt-12 md:mt-20",
+						"fade-in slide-in-from-bottom-5 animate-in fill-mode-backwards delay-100 duration-1000 ease-out"
+					)}
+				>
+					<div className="relative mx-auto max-w-5xl overflow-hidden rounded-lg border bg-background p-2 shadow-2xl ring-1 ring-border">
+						<Image
+							alt="Vidhyaly Dashboard Preview"
+							className="z-2 aspect-video rounded-lg border dark:hidden"
+							height={1080}
+							src="https://storage.efferd.com/screen/dashboard-light.webp"
+							width={1920}
+              priority
+						/>
+						<Image
+							alt="Vidhyaly Dashboard Preview Dark"
+							className="hidden aspect-video rounded-lg bg-background dark:block border"
+							height={1080}
+							src="https://storage.efferd.com/screen/dashboard-dark.webp"
+							width={1920}
+              priority
+						/>
 					</div>
 				</div>
-
-				<div className="relative mt-8 md:mt-20">
-					<div
-						className={cn(
-							"absolute -inset-x-20 inset-y-0 -translate-y-1/3 scale-125 rounded-full",
-							"bg-[radial-gradient(ellipse_at_center,hsla(var(--foreground),0.03),transparent,transparent)]",
-							"blur-[50px] pointer-events-none"
-						)}
-					/>
-					<div
-						className={cn(
-							"relative mt-8 overflow-hidden px-2 pb-20",
-							"fade-in slide-in-from-bottom-5 animate-in fill-mode-backwards delay-100 duration-1000 ease-out"
-						)}
-					>
-						<div className="relative mx-auto max-w-5xl overflow-hidden rounded-lg border bg-background p-2 shadow-2xl ring-1 ring-border">
-							<Image
-								alt="app screen light"
-								className="z-2 aspect-video rounded-lg border dark:hidden"
-								height={1080}
-								src="https://storage.efferd.com/screen/dashboard-light.webp"
-								width={1920}
-								priority
-							/>
-							<Image
-								alt="app screen dark"
-								className="hidden aspect-video rounded-lg bg-background dark:block border"
-								height={1080}
-								src="https://storage.efferd.com/screen/dashboard-dark.webp"
-								width={1920}
-								priority
-							/>
-						</div>
-					</div>
-				</div>
-			</section>
-		</main>
+			</div>
+		</section>
 	);
+}
+
+export default function Home() {
+  return (
+    <main className="relative min-h-screen bg-background overflow-x-hidden">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 border-b bg-background/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="bg-primary p-1.5 rounded-lg">
+              <GraduationCap className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-headline font-bold text-xl tracking-tight text-primary">Vidhyaly</span>
+          </div>
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">Features</a>
+            <a href="/tests" className="text-sm font-medium hover:text-primary transition-colors">Mock Tests</a>
+            <a href="/resources" className="text-sm font-medium hover:text-primary transition-colors">Resources</a>
+            <Button size="sm" className="rounded-full">Get Started</Button>
+          </div>
+        </div>
+      </nav>
+
+      <HeroSection />
+
+      {/* Feature Snippet */}
+      <section className="max-w-5xl mx-auto py-24 px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+            <GraduationCap className="w-6 h-6" />
+          </div>
+          <h3 className="text-xl font-bold font-headline">NCERT Mastery</h3>
+          <p className="text-muted-foreground">Every line of NCERT Biology, Physics, and Chemistry converted into actionable study material.</p>
+        </div>
+        <div className="space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent">
+            <ArrowRight className="w-6 h-6 rotate-[-45deg]" />
+          </div>
+          <h3 className="text-xl font-bold font-headline">Real-time Analytics</h3>
+          <p className="text-muted-foreground">Identify your weak topics instantly with our AI-driven performance tracking system.</p>
+        </div>
+        <div className="space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+            <PhoneCall className="w-6 h-6" />
+          </div>
+          <h3 className="text-xl font-bold font-headline">Expert Guidance</h3>
+          <p className="text-muted-foreground">Regular doubt sessions and strategies from top-rankers to keep your preparation on track.</p>
+        </div>
+      </section>
+
+      <footer className="border-t py-12">
+        <div className="max-w-5xl mx-auto px-4 text-center">
+          <p className="text-sm text-muted-foreground">© 2025 Vidhyaly Education. Dedicated to your medical dream.</p>
+        </div>
+      </footer>
+    </main>
+  );
 }

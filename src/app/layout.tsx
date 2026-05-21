@@ -2,8 +2,8 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Digital Excellence - Growth Driven Experiences',
-  description: 'We help brands scale faster through design, development and strategic execution.',
+  title: 'Vidhyaly - Master NEET with Precision',
+  description: 'India\'s smartest NEET preparation platform. Curated notes, AI-powered mock tests, and personalized analytics for medical aspirants.',
 };
 
 export default function RootLayout({
