@@ -59,8 +59,8 @@ export const LampContainer = ({
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
         <motion.div
-          initial={{ opacity: 0.5, width: isMobile ? "6rem" : "15rem" }}
-          whileInView={{ opacity: 1, width: isMobile ? "12rem" : "30rem" }}
+          initial={{ opacity: 0.5, width: isMobile ? "6rem" : "12rem" }}
+          whileInView={{ opacity: 1, width: isMobile ? "10rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -75,8 +75,8 @@ export const LampContainer = ({
           <div className="absolute  w-40 h-[100%] left-0 bg-slate-50  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0.5, width: isMobile ? "6rem" : "15rem" }}
-          whileInView={{ opacity: 1, width: isMobile ? "12rem" : "30rem" }}
+          initial={{ opacity: 0.5, width: isMobile ? "6rem" : "12rem" }}
+          whileInView={{ opacity: 1, width: isMobile ? "10rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -143,7 +143,7 @@ export function HeroSection() {
             <div className="rounded-full border border-primary/20 bg-primary/20 text-primary px-3 py-1 shadow-sm">
               <p className="font-mono text-[10px] font-black">2026</p>
             </div>
-            <span className="text-[11px] font-bold text-slate-800 tracking-tight">now enrolling for NEET 2026 batches</span>
+            <span className="text-[11px] font-bold text-slate-900 tracking-tight">now enrolling for NEET 2026 batches</span>
             <div className="pl-1">
               <ArrowRightIcon className="size-3.5 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5 text-primary" />
             </div>
@@ -160,9 +160,9 @@ export function HeroSection() {
 
           <div className="flex w-fit items-center justify-center gap-4 pt-4">
             <Button variant="outline" size="lg" className="rounded-full px-8 bg-white text-slate-900 border-slate-200 hover:bg-slate-50" asChild>
-              <Link href="/contact">
-                <PhoneCallIcon className="size-4 mr-2" />
-                Free Counseling
+              <Link href="/ai-friend/vidhyamithra">
+                <Sparkles className="size-4 mr-2 text-primary" />
+                See Demo
               </Link>
             </Button>
             <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white" asChild>
@@ -725,7 +725,7 @@ export function FeaturesSection() {
     return (
         <section className="py-24 md:py-32 max-w-7xl mx-auto px-4 relative z-0">
             <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <div className="flex-1 relative h-[400px] md:h-[500px] w-full flex items-center justify-center">
+                <div className="flex-1 relative h-[300px] md:h-[400px] w-full flex items-center justify-center mb-12 md:mb-0">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -748,22 +748,6 @@ export function FeaturesSection() {
                       transition={{ duration: 0.5 }}
                       className="flex items-center gap-6"
                     >
-                        <div className="w-16 h-16 bg-[#F3E8FF] rounded-full flex items-center justify-center shrink-0">
-                            <BarChart3 className="w-8 h-8 text-[#7C3AED]" />
-                        </div>
-                        <div className="space-y-1">
-                            <h3 className="text-xl font-bold text-foreground font-headline">Precision Analytics</h3>
-                            <p className="text-muted-foreground leading-relaxed text-sm">Track your accuracy across chapters with live AI-driven dashboards and performance insights.</p>
-                        </div>
-                    </motion.div>
-
-                    <motion.div 
-                      initial={{ opacity: 0, x: 30 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.1 }}
-                      className="flex items-center gap-6"
-                    >
                         <div className="w-16 h-16 bg-[#DCFCE7] rounded-full flex items-center justify-center shrink-0">
                             <Fingerprint className="w-8 h-8 text-[#16A34A]" />
                         </div>
@@ -777,7 +761,7 @@ export function FeaturesSection() {
                       initial={{ opacity: 0, x: 30 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
+                      transition={{ duration: 0.5, delay: 0.1 }}
                       className="flex items-center gap-6"
                     >
                         <div className="w-16 h-16 bg-[#FFEDD5] rounded-full flex items-center justify-center shrink-0">
