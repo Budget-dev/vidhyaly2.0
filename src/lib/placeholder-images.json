@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "physics-cover",
+      "description": "Physics study material cover",
+      "imageUrl": "https://picsum.photos/seed/physics1/400/300",
+      "imageHint": "physics book"
+    },
+    {
+      "id": "chemistry-cover",
+      "description": "Chemistry study material cover",
+      "imageUrl": "https://picsum.photos/seed/chemistry1/400/300",
+      "imageHint": "chemistry laboratory"
+    },
+    {
+      "id": "biology-cover",
+      "description": "Biology study material cover",
+      "imageUrl": "https://picsum.photos/seed/biology1/400/300",
+      "imageHint": "biology plants"
+    },
+    {
+      "id": "mock-test-hero",
+      "description": "Mock test portal interface",
+      "imageUrl": "https://picsum.photos/seed/test1/1200/600",
+      "imageHint": "computer test"
+    }
+  ]
 }
