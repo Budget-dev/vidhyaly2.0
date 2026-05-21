@@ -1,8 +1,8 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Bar, BarChart, XAxis, YAxis, ResponsiveContainer, Cell } from "recharts"
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart"
+import { Bar, BarChart, XAxis, YAxis, Cell } from "recharts"
 
 const data = [
   { topic: "Thermodynamics", score: 45, color: "#ef4444" },
@@ -20,7 +20,7 @@ const chartConfig = {
       dark: "hsl(var(--primary))",
     },
   },
-}
+} satisfies ChartConfig
 
 export function WeakTopicAnalytics() {
   return (
@@ -30,7 +30,7 @@ export function WeakTopicAnalytics() {
       </CardHeader>
       <CardContent>
         <div className="h-[250px] w-full mt-4">
-          <ResponsiveContainer width="100%" height="100%">
+          <ChartContainer config={chartConfig}>
             <BarChart data={data} layout="vertical" margin={{ left: 10, right: 20 }}>
               <XAxis type="number" hide />
               <YAxis
@@ -49,7 +49,7 @@ export function WeakTopicAnalytics() {
                 ))}
               </Bar>
             </BarChart>
-          </ResponsiveContainer>
+          </ChartContainer>
         </div>
         <p className="text-[11px] text-muted-foreground mt-4 italic">
           * Accuracy percentages reflect performance in the last 10 mock test sessions.
