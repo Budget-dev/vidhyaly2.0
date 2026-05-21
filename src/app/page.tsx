@@ -16,8 +16,6 @@ import {
   ArrowRight
 } from "lucide-react";
 import { Testimonials } from "@/components/landing/Testimonials";
-import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Link from "next/link";
 
 export function HeroSection() {
@@ -61,14 +59,16 @@ export function HeroSection() {
 
 				<div className="fade-in slide-in-from-bottom-10 flex w-fit animate-in items-center justify-center gap-4 fill-mode-backwards pt-4 delay-300 duration-500 ease-out">
 					<Button variant="outline" size="lg" className="rounded-full px-8" asChild>
-            <a href="/contact">
+            <Link href="/contact">
               <PhoneCallIcon className="size-4 mr-2" />
               Free Counseling
-            </a>
+            </Link>
 					</Button>
-					<Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90">
-						Explore Tests{" "}
-						<ArrowRightIcon className="size-4 ml-2" />
+					<Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90" asChild>
+						<Link href="/tests">
+              Explore Tests{" "}
+              <ArrowRightIcon className="size-4 ml-2" />
+            </Link>
 					</Button>
 				</div>
 			</div>
@@ -202,10 +202,11 @@ export function StudyToolsGrid() {
     <section className="py-12 max-w-7xl mx-auto px-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tools.map((tool) => (
-          <div 
+          <Link 
             key={tool.title} 
+            href={tool.href}
             className={cn(
-              "relative p-8 rounded-3xl transition-transform hover:scale-[1.02] duration-300",
+              "group relative p-8 rounded-3xl transition-all hover:scale-[1.02] duration-300 block shadow-sm hover:shadow-md",
               tool.bgColor
             )}
           >
@@ -215,7 +216,7 @@ export function StudyToolsGrid() {
               </div>
             )}
             
-            <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-6", tool.iconBg)}>
+            <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110", tool.iconBg)}>
               <tool.icon className="w-6 h-6 text-white" />
             </div>
             
@@ -224,13 +225,10 @@ export function StudyToolsGrid() {
               {tool.description}
             </p>
             
-            <Link 
-              href={tool.href}
-              className="inline-flex items-center gap-2 text-sm font-bold text-slate-800 hover:gap-3 transition-all"
-            >
+            <div className="inline-flex items-center gap-2 text-sm font-bold text-slate-800 group-hover:gap-3 transition-all">
               Learn More <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+            </div>
+          </Link>
         ))}
       </div>
     </section>
@@ -318,4 +316,3 @@ export default function Home() {
     </div>
   );
 }
-
