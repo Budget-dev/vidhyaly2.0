@@ -175,6 +175,18 @@ export function VoiceChat({
         ))}
       </div>
 
+      {/* Background glow effects */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <motion.div
+          className="w-64 h-64 rounded-full bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 blur-3xl"
+          animate={{
+            scale: isListening ? [1, 1.2, 1] : [1, 1.1, 1],
+            opacity: isListening ? [0.3, 0.6, 0.3] : [0.1, 0.2, 0.1]
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+
       <div className="relative z-10 flex flex-col items-center space-y-8">
         <motion.div className="relative" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <motion.button
