@@ -5,18 +5,10 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { 
   ArrowRightIcon, 
-  PhoneCallIcon, 
-  CheckCircle2, 
-  FileText, 
-  Brain, 
-  CheckSquare, 
-  BookOpen, 
   Sparkles, 
   ArrowRight,
   Target,
   Zap,
-  Microscope,
-  Mic,
   ArrowUp,
   Plus,
   BrainCircuit,
@@ -24,13 +16,27 @@ import {
   Leaf,
   Search,
   Users,
-  BarChart3,
-  Fingerprint
+  Play,
+  Info,
+  Layers,
+  Bot,
+  FileText,
+  Mic,
+  CheckSquare
 } from "lucide-react";
 import { Testimonials } from "@/components/landing/Testimonials";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 
 export const LampContainer = ({
   children,
@@ -124,6 +130,99 @@ export const LampContainer = ({
   );
 };
 
+export function DemoWalkaround() {
+  const features = [
+    {
+      title: "Vidhyamithra AI",
+      description: "Talk to your AI mentor anytime. It helps with doubts, motivation, and study strategy.",
+      icon: Bot,
+      color: "text-blue-500",
+      bg: "bg-blue-50"
+    },
+    {
+      title: "Active Flashcards",
+      description: "Master Biology and Chemistry with spaced-repetition cards mapped to NCERT.",
+      icon: Layers,
+      color: "text-emerald-500",
+      bg: "bg-emerald-50"
+    },
+    {
+      title: "Mock Test Simulation",
+      description: "Real NEET-pattern tests with AI scaling difficulty to match your level.",
+      icon: Target,
+      color: "text-rose-500",
+      bg: "bg-rose-50"
+    },
+    {
+      title: "Mastery Analytics",
+      description: "Topic-wise accuracy tracking to help you identify and kill your weaknesses.",
+      icon: BrainCircuit,
+      color: "text-amber-500",
+      bg: "bg-amber-50"
+    }
+  ];
+
+  return (
+    <div className="space-y-6 py-4">
+      <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 shadow-2xl border-4 border-white">
+        <video 
+          src="https://1234567890.sirv.com/Firefly%20Create%20an%20ultra-premium%20cinematic%208-second%20AI%20tutoring%20interface%20animation%20based%20EXACTLY%20on%20.mp4"
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-6">
+          <Badge className="w-fit mb-2 bg-primary text-white font-bold">LIVE PLATFORM TOUR</Badge>
+          <h3 className="text-white font-headline font-bold text-xl">The Future of NEET Prep is Here</h3>
+        </div>
+      </div>
+
+      <ScrollArea className="h-[400px] pr-4">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+              <Info className="w-4 h-4" /> Platform Walkthrough
+            </h4>
+            <p className="text-slate-600 leading-relaxed font-medium">
+              Vidhyaly is engineered specifically for India's toughest medical entrance. Every feature is designed to bridge the gap between hard work and a top rank.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">
+            {features.map((f, i) => (
+              <motion.div 
+                key={f.title}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="flex gap-4 p-4 rounded-2xl border border-slate-100 bg-white hover:shadow-md transition-shadow"
+              >
+                <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center shrink-0", f.bg)}>
+                  <f.icon className={cn("w-6 h-6", f.color)} />
+                </div>
+                <div>
+                  <h5 className="font-bold text-slate-900 mb-1">{f.title}</h5>
+                  <p className="text-sm text-slate-500 leading-relaxed">{f.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="p-6 rounded-2xl bg-slate-900 text-white space-y-4">
+            <h4 className="font-bold text-lg">Ready to start your journey?</h4>
+            <p className="text-slate-400 text-sm">Join the 2026 Batch today and get access to all features immediately.</p>
+            <Button className="w-full rounded-xl py-6 font-bold bg-primary hover:bg-primary/90" asChild>
+              <Link href="/auth">Create Free Account <ArrowRight className="ml-2 w-4 h-4" /></Link>
+            </Button>
+          </div>
+        </div>
+      </ScrollArea>
+    </div>
+  );
+}
+
 export function HeroSection() {
 	return (
 		<section className="mx-auto w-full overflow-hidden flex flex-col items-center">
@@ -159,12 +258,22 @@ export function HeroSection() {
           </p>
 
           <div className="flex w-fit items-center justify-center gap-4 pt-4">
-            <Button variant="outline" size="lg" className="rounded-full px-8 bg-white text-slate-900 border-slate-200 hover:bg-slate-50" asChild>
-              <Link href="#ai-demo">
-                <Sparkles className="size-4 mr-2 text-primary" />
-                See Demo
-              </Link>
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="lg" className="rounded-full px-8 bg-white text-slate-900 border-slate-200 hover:bg-slate-50">
+                  <Play className="size-4 mr-2 text-primary fill-primary/10" />
+                  See Demo
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl p-0 overflow-hidden border-none bg-slate-50 rounded-[2.5rem]">
+                <div className="p-8">
+                  <DialogHeader className="mb-4">
+                    <DialogTitle className="text-3xl font-headline font-bold text-slate-900">Platform Experience</DialogTitle>
+                  </DialogHeader>
+                  <DemoWalkaround />
+                </div>
+              </DialogContent>
+            </Dialog>
             <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white" asChild>
               <Link href="/auth">
                 Get Started{" "}
@@ -272,6 +381,26 @@ export function AITutorSection() {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+function CheckCircle2(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
   );
 }
 
@@ -629,7 +758,7 @@ export function StudyToolsGrid() {
     {
       title: "Flashcards",
       description: "Create and master your subjects with smart flashcards.",
-      icon: FileText,
+      icon: Layers,
       bgColor: "bg-[#F5E6F7]",
       iconBg: "bg-[#7A6A7D]",
       href: "/study-tools/flashcards"
@@ -637,7 +766,7 @@ export function StudyToolsGrid() {
     {
       title: "Smart Learn",
       description: "Adaptive learning system tailored to your proficiency.",
-      icon: Brain,
+      icon: BrainCircuit,
       bgColor: "bg-[#E3F2FD]",
       iconBg: "bg-[#6B7A8A]",
       href: "/study-tools/learn"
@@ -653,7 +782,7 @@ export function StudyToolsGrid() {
     {
       title: "Study Guides",
       description: "Create and share comprehensive study guides.",
-      icon: BookOpen,
+      icon: FileText,
       bgColor: "bg-[#E1F7E9]",
       iconBg: "bg-[#6A7D71]",
       href: "/study-tools/guides"
@@ -661,7 +790,7 @@ export function StudyToolsGrid() {
     {
       title: "AI Tutor",
       description: "Your personal AI tutor, available 24/7.",
-      icon: Sparkles,
+      icon: Bot,
       bgColor: "bg-[#FFF9E1]",
       iconBg: "bg-[#7D7A6A]",
       href: "/ai-friend/vidhyamithra",
@@ -749,7 +878,7 @@ export function FeaturesSection() {
                       className="flex items-center gap-6"
                     >
                         <div className="w-16 h-16 bg-[#DCFCE7] rounded-full flex items-center justify-center shrink-0">
-                            <Fingerprint className="w-8 h-8 text-[#16A34A]" />
+                            <Zap className="w-8 h-8 text-[#16A34A]" />
                         </div>
                         <div className="space-y-1">
                             <h3 className="text-xl font-bold text-foreground font-headline">NCERT-Based Precision</h3>
