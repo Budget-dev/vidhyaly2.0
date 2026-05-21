@@ -59,8 +59,8 @@ export const LampContainer = ({
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
         <motion.div
-          initial={{ opacity: 0.5, width: isMobile ? "6rem" : "12rem" }}
-          whileInView={{ opacity: 1, width: isMobile ? "10rem" : "30rem" }}
+          initial={{ opacity: 0.5, width: isMobile ? "8rem" : "12rem" }}
+          whileInView={{ opacity: 1, width: isMobile ? "12rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -75,8 +75,8 @@ export const LampContainer = ({
           <div className="absolute  w-40 h-[100%] left-0 bg-slate-50  bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0.5, width: isMobile ? "6rem" : "12rem" }}
-          whileInView={{ opacity: 1, width: isMobile ? "10rem" : "30rem" }}
+          initial={{ opacity: 0.5, width: isMobile ? "8rem" : "12rem" }}
+          whileInView={{ opacity: 1, width: isMobile ? "12rem" : "30rem" }}
           transition={{
             delay: 0.3,
             duration: 0.8,
@@ -160,7 +160,7 @@ export function HeroSection() {
 
           <div className="flex w-fit items-center justify-center gap-4 pt-4">
             <Button variant="outline" size="lg" className="rounded-full px-8 bg-white text-slate-900 border-slate-200 hover:bg-slate-50" asChild>
-              <Link href="/ai-friend/vidhyamithra">
+              <Link href="#ai-demo">
                 <Sparkles className="size-4 mr-2 text-primary" />
                 See Demo
               </Link>
@@ -359,7 +359,7 @@ export function AITutorDemo() {
   };
 
   return (
-    <section className="py-20 bg-slate-50/50">
+    <section id="ai-demo" className="py-20 bg-slate-50/50 scroll-mt-20">
       <div className="w-full max-w-4xl mx-auto px-4 flex flex-col items-center">
         <div className="mb-8 w-24 h-24 relative">
           <svg
@@ -664,7 +664,7 @@ export function StudyToolsGrid() {
       icon: Sparkles,
       bgColor: "bg-[#FFF9E1]",
       iconBg: "bg-[#7D7A6A]",
-      href: "/study-tools/ai-tutor",
+      href: "/ai-friend/vidhyamithra",
       isNew: true
     },
     {
@@ -723,7 +723,7 @@ export function StudyToolsGrid() {
 
 export function FeaturesSection() {
     return (
-        <section className="py-24 md:py-32 max-w-7xl mx-auto px-4 relative z-0">
+        <section className="py-24 md:py-32 max-w-7xl mx-auto px-4 relative z-0 border-t border-slate-100">
             <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
                 <div className="flex-1 relative h-[300px] md:h-[400px] w-full flex items-center justify-center mb-12 md:mb-0">
                     <motion.div
