@@ -725,30 +725,13 @@ export function FeaturesSection() {
     return (
         <section className="py-24 md:py-32 max-w-7xl mx-auto px-4 relative z-0">
             <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <div className="flex-1 relative h-[500px] md:h-[600px] w-full">
+                <div className="flex-1 relative h-[400px] md:h-[500px] w-full flex items-center justify-center">
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        animate={{ y: [0, -15, 0] }}
-                        style={{ transition: 'y 4s ease-in-out infinite' }}
-                        className="absolute top-0 left-0 w-[85%] aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-0"
-                    >
-                        <img 
-                            src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2002_18_43%20PM.png" 
-                            alt="Analytics Background Context" 
-                            className="w-full h-full object-cover"
-                        />
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, x: 0, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        animate={{ y: [0, 15, 0] }}
-                        style={{ transition: 'y 5s ease-in-out infinite' }}
-                        className="absolute bottom-0 right-0 w-[85%] aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-10"
+                        className="w-full max-w-xl aspect-video rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-10"
                     >
                         <img 
                             src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2004_17_11%20PM.png" 
