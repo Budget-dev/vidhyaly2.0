@@ -1,57 +1,55 @@
-
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { Topbar } from "@/components/dashboard/Topbar";
-import { AIPulseBanner } from "@/components/dashboard/AIPulseBanner";
-import { MetricCards } from "@/components/dashboard/MetricCards";
-import { SubjectHeatmap } from "@/components/dashboard/SubjectHeatmap";
-import { TodaysPlan } from "@/components/dashboard/TodaysPlan";
-import { ErrorPatterns } from "@/components/dashboard/ErrorPatterns";
-import { WeeklyChart } from "@/components/dashboard/WeeklyChart";
-import { FeatureCards } from "@/components/dashboard/FeatureCards";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Dashboards
+import { HomeDashboard } from "@/components/dashboards/HomeDashboard";
+import { FlashcardsDashboard } from "@/components/dashboards/FlashcardsDashboard";
+import { SmartLearnDashboard } from "@/components/dashboards/SmartLearnDashboard";
+import { MCQsDashboard } from "@/components/dashboards/MCQsDashboard";
+import { GuidesDashboard } from "@/components/dashboards/GuidesDashboard";
+import { AITutorDashboard } from "@/components/dashboards/AITutorDashboard";
+import { GroupStudyDashboard } from "@/components/dashboards/GroupStudyDashboard";
 
 export default function DashboardPage() {
+  const [activeTool, setActiveTool] = useState('dashboard');
+
+  const renderContent = () => {
+    switch (activeTool) {
+      case 'dashboard':  return <HomeDashboard />;
+      case 'flashcards': return <FlashcardsDashboard />;
+      case 'smartlearn': return <SmartLearnDashboard />;
+      case 'mcqs':       return <MCQsDashboard />;
+      case 'guides':     return <GuidesDashboard />;
+      case 'aitutor':    return <AITutorDashboard />;
+      case 'groupstudy': return <GroupStudyDashboard />;
+      default:           return <HomeDashboard />;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F8FA] flex">
-      <Sidebar />
+      <Sidebar activeTool={activeTool} setActiveTool={setActiveTool} />
       
-      <main className="flex-1 ml-[260px] relative">
-        <Topbar />
+      <main className="flex-1 ml-[260px] relative min-h-screen">
+        <Topbar activeTool={activeTool} />
         
-        {/* Content Area */}
-        <div className="pt-24 pb-12 px-8 max-w-7xl mx-auto space-y-8">
-          
-          {/* Section 1: AI Pulse */}
-          <AIPulseBanner />
+        <div className="pt-24 pb-12 px-8 max-w-7xl mx-auto">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTool}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              {renderContent()}
+            </motion.div>
+          </AnimatePresence>
 
-          {/* Section 2: Metrics */}
-          <MetricCards />
-
-          {/* Section 3: Mastery & Plan */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            <div className="lg:col-span-7 h-full">
-              <SubjectHeatmap />
-            </div>
-            <div className="lg:col-span-5 h-full">
-              <TodaysPlan />
-            </div>
-          </div>
-
-          {/* Section 4: Performance Analytics */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-            <ErrorPatterns />
-            <WeeklyChart />
-          </div>
-
-          {/* Section 5: Feature Quick Access */}
-          <div className="space-y-6 pt-4">
-            <h2 className="text-2xl font-headline font-bold text-[#1A1A2E] px-2">Your Study Tools</h2>
-            <FeatureCards />
-          </div>
-
-          {/* Accessibility Footer */}
           <footer className="pt-12 text-center">
             <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.4em]">
               Vidhyaly AI Dashboard · Production build v2.6

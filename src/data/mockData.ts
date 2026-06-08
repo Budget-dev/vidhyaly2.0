@@ -1,4 +1,3 @@
-
 export const metrics = [
   {
     id: 1,
@@ -131,4 +130,37 @@ export const weeklyPerformance = [
   { day: "Fri", biology: 80, chemistry: 53, physics: 67 },
   { day: "Sat", biology: 77, chemistry: 58, physics: 62 },
   { day: "Sun", biology: 78, chemistry: 54, physics: 61 }
+];
+
+export const flashcardDecks = [
+  { id: 1, subject: 'biology', label: 'Genetics', chapter: 'Molecular Basis', totalCards: 84, mastery: 62 },
+  { id: 2, subject: 'biology', label: 'Cell Biology', chapter: 'Cell Cycle', totalCards: 56, mastery: 81 },
+  { id: 3, subject: 'chemistry', label: 'Organic Reactions', chapter: 'Hydrocarbons', totalCards: 94, mastery: 48 },
+  { id: 4, subject: 'chemistry', label: 'Thermodynamics', chapter: 'Enthalpy', totalCards: 67, mastery: 35 },
+  { id: 5, subject: 'physics', label: 'Optics', chapter: 'Ray Optics', totalCards: 72, mastery: 55 },
+  { id: 6, subject: 'physics', label: 'Laws of Motion', chapter: 'Newtonian Mech', totalCards: 45, mastery: 79 },
+  { id: 7, subject: 'biology', label: 'Ecology', chapter: 'Populations', totalCards: 38, mastery: 71 },
+  { id: 8, subject: 'chemistry', label: 'Equilibrium', chapter: 'Ionic Eq', totalCards: 55, mastery: 44 }
+];
+
+export const lessonsData = {
+  biology: [
+    { name: "Cell Structure & Function", status: "completed" },
+    { name: "Biomolecules", status: "completed" },
+    { name: "Genetics", status: "in-progress" },
+    { name: "Human Physiology", status: "not-started" },
+    { name: "Plant Physiology", status: "not-started" },
+    { name: "Ecology", status: "not-started" },
+    { name: "Evolution", status: "not-started" },
+    { name: "Biotechnology", status: "not-started" }
+  ]
+};
+
+export const groupMembers = [
+  { name: 'Arjun S', questions: 47, points: 340, active: true, isUser: true },
+  { name: 'Priya M', questions: 34, points: 298, active: true },
+  { name: 'Rahul K', questions: 22, points: 251, active: true },
+  { name: 'Sneha R', questions: 18, points: 187, active: true },
+  { name: 'Dev P', questions: 0, points: 134, active: false },
+  { name: 'Ananya S', questions: 0, points: 89, active: false }
 ];

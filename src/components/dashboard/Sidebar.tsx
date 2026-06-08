@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -15,23 +14,24 @@ import {
   ChevronRight
 } from "lucide-react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
+interface SidebarProps {
+  activeTool: string;
+  setActiveTool: (tool: string) => void;
+}
+
 const navItems = [
-  { label: "Dashboard", icon: Home, href: "/dashboard" },
-  { label: "Flashcards", icon: Layers, href: "/study-tools/flashcards" },
-  { label: "Smart Learn", icon: Brain, href: "/study-tools/learn" },
-  { label: "Practice MCQs", icon: ClipboardList, href: "/study-tools/mcqs" },
-  { label: "Study Guides", icon: BookOpen, href: "/study-tools/guides" },
-  { label: "AI Tutor", icon: Bot, href: "/ai-friend/vidhyamithra", badge: "NEW" },
-  { label: "Group Study", icon: Users, href: "/study-tools/groups" },
+  { id: 'dashboard',  label: 'Dashboard',     icon: Home },
+  { id: 'flashcards', label: 'Flashcards',    icon: Layers },
+  { id: 'smartlearn', label: 'Smart Learn',   icon: Brain },
+  { id: 'mcqs',       label: 'Practice MCQs', icon: ClipboardList },
+  { id: 'guides',     label: 'Study Guides',  icon: BookOpen },
+  { id: 'aitutor',    label: 'AI Tutor',      icon: Bot, badge: 'NEW' },
+  { id: 'groupstudy', label: 'Group Study',   icon: Users },
 ];
 
-export const Sidebar = () => {
-  const pathname = usePathname();
-
+export const Sidebar = ({ activeTool, setActiveTool }: SidebarProps) => {
   return (
     <motion.aside 
       initial={{ x: -260 }}
@@ -40,11 +40,11 @@ export const Sidebar = () => {
     >
       {/* Logo & Countdown */}
       <div className="p-8 space-y-4">
-        <Link href="/" className="block">
+        <div className="flex items-center gap-2">
           <span className="text-2xl font-headline font-bold tracking-tighter bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
             Vidhyaly
           </span>
-        </Link>
+        </div>
         <div className="bg-amber-500/10 border border-amber-500/20 rounded-full px-3 py-1.5 flex items-center gap-2 w-fit">
           <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
           <span className="text-[10px] font-bold uppercase tracking-wider text-amber-500">87 days to NEET</span>
@@ -54,21 +54,21 @@ export const Sidebar = () => {
       {/* Navigation */}
       <nav className="flex-1 px-4 space-y-2">
         {navItems.map((item) => {
-          const isActive = pathname === item.href || (item.href === "/dashboard" && pathname === "/dashboard");
+          const isActive = activeTool === item.id;
           return (
-            <Link 
-              key={item.label} 
-              href={item.href}
-              className="relative group block"
+            <button
+              key={item.id}
+              onClick={() => setActiveTool(item.id)}
+              className="relative group w-full text-left"
             >
               <div className={cn(
                 "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 relative z-10",
                 isActive ? "text-white" : "text-slate-400 hover:text-white"
               )}>
                 <item.icon className="w-5 h-5" />
-                <span className="text-sm font-medium">{item.label}</span>
+                <span className="text-sm font-semibold">{item.label}</span>
                 {item.badge && (
-                  <span className="ml-auto bg-[#FF6B9C] text-white text-[8px] font-black px-1.5 py-0.5 rounded flex items-center">
+                  <span className="ml-auto bg-[#FF3B7A] text-white text-[8px] font-black px-1.5 py-0.5 rounded-full flex items-center">
                     {item.badge}
                   </span>
                 )}
@@ -76,28 +76,25 @@ export const Sidebar = () => {
               {isActive && (
                 <motion.div 
                   layoutId="active-nav"
-                  className="absolute inset-0 bg-[#4F46E5] rounded-xl z-0"
+                  className="absolute inset-0 bg-[#5B50E8] rounded-xl z-0"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-            </Link>
+            </button>
           );
         })}
       </nav>
 
       {/* Footer */}
       <div className="p-4 border-t border-white/5 space-y-4">
-        <Link 
-          href="/settings"
-          className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-white text-sm transition-colors"
-        >
+        <button className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-white text-sm transition-colors w-full">
           <Settings className="w-4 h-4" />
           <span>Settings</span>
-        </Link>
+        </button>
         <div className="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#4F46E5] flex items-center justify-center text-xs font-bold">
-              AS
+            <div className="w-8 h-8 rounded-full bg-[#5B50E8] flex items-center justify-center text-xs font-bold text-white">
+              N
             </div>
             <div>
               <p className="text-xs font-bold">Arjun Sharma</p>

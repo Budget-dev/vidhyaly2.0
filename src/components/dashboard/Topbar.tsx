@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -6,7 +5,21 @@ import { Bell, Search, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
-export const Topbar = () => {
+interface TopbarProps {
+  activeTool: string;
+}
+
+const TOOL_TITLES: Record<string, string> = {
+  dashboard: "Good morning, Arjun 👋",
+  flashcards: "Flashcards",
+  smartlearn: "Smart Learn",
+  mcqs: "Practice MCQs",
+  guides: "Study Guides",
+  aitutor: "AI Tutor — VidhyaMithra",
+  groupstudy: "Group Study",
+};
+
+export const Topbar = ({ activeTool }: TopbarProps) => {
   return (
     <motion.header 
       initial={{ y: -64, opacity: 0 }}
@@ -15,7 +28,7 @@ export const Topbar = () => {
     >
       <div className="flex items-center gap-4">
         <h1 className="text-xl font-headline font-bold text-[#1A1A2E]">
-          Good morning, Arjun <span className="animate-bounce inline-block">👋</span>
+          {TOOL_TITLES[activeTool]}
         </h1>
         <div className="h-4 w-px bg-slate-200" />
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
