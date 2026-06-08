@@ -20,7 +20,8 @@ import {
   Menu,
   User,
   Settings,
-  ArrowRight
+  ArrowRight,
+  LayoutDashboard
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -194,6 +195,13 @@ export function DropdownNavigation({ navItems }: Props) {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <Button asChild variant="ghost" className="rounded-full px-5 font-bold hover:bg-primary/5 transition-all">
+            <Link href="/dashboard" className="flex items-center gap-2">
+              <LayoutDashboard className="w-4 h-4" />
+              Dashboard
+            </Link>
+          </Button>
+          <div className="h-6 w-px bg-slate-200" />
           <Link href="/profile" className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500">
             <User className="w-5 h-5" />
           </Link>
@@ -223,17 +231,24 @@ export function DropdownNavigation({ navItems }: Props) {
               </SheetHeader>
               
               <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                <Link
-                  href="/profile"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-between w-full p-3 rounded-xl bg-primary/5 text-primary transition-colors mb-4"
-                >
-                  <div className="flex items-center gap-3">
-                    <User className="w-5 h-5" />
-                    <span className="font-bold">My Profile</span>
-                  </div>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="grid grid-cols-2 gap-2 mb-4">
+                  <Link
+                    href="/profile"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 text-slate-700 transition-colors border"
+                  >
+                    <User className="w-4 h-4" />
+                    <span className="text-sm font-bold">Profile</span>
+                  </Link>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 p-3 rounded-xl bg-primary/5 text-primary transition-colors border border-primary/10"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    <span className="text-sm font-bold">Dashboard</span>
+                  </Link>
+                </div>
 
                 {navItems.map((navItem) => (
                   <div key={navItem.id}>
