@@ -1,3 +1,4 @@
+
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -761,7 +762,7 @@ export function StudyToolsGrid() {
       title: "Flashcards",
       description: "Create and master your subjects with smart flashcards.",
       icon: Layers,
-      bgColor: "bg-[#F5E6F7]",
+      bgColor: "bg-[#F3E6F7]",
       iconBg: "bg-[#7A6A7D]",
       href: "/study-tools/flashcards"
     },
@@ -774,12 +775,13 @@ export function StudyToolsGrid() {
       href: "/study-tools/learn"
     },
     {
-      title: "Practice MCQs",
-      description: "Generate practice tests from your study materials.",
-      icon: CheckSquare,
+      title: "Rank Predictor",
+      description: "AI-driven estimation of your NEET rank and colleges.",
+      icon: Target,
       bgColor: "bg-[#FFF0E6]",
       iconBg: "bg-[#8A7B70]",
-      href: "/study-tools/mcqs"
+      href: "/tools/neet-rank-predictor",
+      isNew: true
     },
     {
       title: "Study Guides",
@@ -795,8 +797,7 @@ export function StudyToolsGrid() {
       icon: Bot,
       bgColor: "bg-[#FFF9E1]",
       iconBg: "bg-[#7D7A6A]",
-      href: "/ai-friend/vidhyamithra",
-      isNew: true
+      href: "/ai-friend/vidhyamithra"
     },
     {
       title: "Group Study",
