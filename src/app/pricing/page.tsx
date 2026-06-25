@@ -9,7 +9,12 @@ import { Button } from "@/components/ui/button";
 export default function PricingPage() {
   const [loading, setLoading] = useState(false);
 
-  const handlePayment = async () => {
+  const handlePayment = async (planName: string, amount: number) => {
+    if (amount === 0) {
+      window.location.href = "/dashboard";
+      return;
+    }
+
     setLoading(true);
     
     // Check if Razorpay is loaded
@@ -21,10 +26,10 @@ export default function PricingPage() {
 
     const options = {
       key: "rzp_test_placeholder", // Replace with actual Razorpay Key ID
-      amount: 49900, // Amount in paise (₹499.00)
+      amount: amount * 100, // Amount in paise
       currency: "INR",
       name: "Vidhyaly Education",
-      description: "NEET Pro Aspirant Plan - 1 Year",
+      description: `NEET ${planName} Plan - 1 Year`,
       image: "https://vidhyaly.com/logo.svg",
       handler: function (response: any) {
         alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
