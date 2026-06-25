@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from "react";
@@ -16,7 +15,8 @@ import {
   Sparkles,
   ArrowLeft,
   Mail,
-  Smartphone
+  Smartphone,
+  Crown
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -85,19 +85,19 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="bg-primary/5 border border-primary/10 rounded-[2rem] p-8 space-y-4">
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-800 rounded-[2rem] p-8 space-y-4 shadow-xl">
               <div className="flex items-center gap-3">
-                <div className="bg-primary/10 p-2 rounded-xl">
-                  <ShieldCheck className="w-5 h-5 text-primary" />
+                <div className="bg-primary/20 p-2 rounded-xl">
+                  <Crown className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-bold">Subscription Status</h3>
+                <h3 className="font-bold text-white">Subscription Status</h3>
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                You are currently on the <span className="text-primary font-bold">Free Tier</span>. 
-                Using your own API key allows unlimited AI usage.
+              <p className="text-sm text-slate-400 leading-relaxed font-medium">
+                You are currently on the <span className="text-white font-bold">Free Tier</span>. 
+                Unlock unlimited AI features and 20k+ practice questions.
               </p>
-              <Button className="w-full rounded-xl font-bold bg-white text-primary border border-primary/20 hover:bg-primary/5">
-                Upgrade to Premium
+              <Button asChild className="w-full rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg transition-all hover:scale-[1.02]">
+                <Link href="/pricing">Upgrade to Premium (₹499)</Link>
               </Button>
             </div>
           </div>

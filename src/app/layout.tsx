@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { DropdownNavigation } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://vidhyaly.com'),
@@ -158,6 +159,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       </body>
     </html>
   );
