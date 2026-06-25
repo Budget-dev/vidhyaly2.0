@@ -11,10 +11,29 @@
         "email": { "type": "string" },
         "phoneNumber": { "type": "string" },
         "age": { "type": "string" },
-        "googleAiApiKey": { "type": "string", "description": "The user's personal Google AI API key for BYOK strategy." },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "googleAiApiKey": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "admin", "super-admin"], "default": "student" },
+        "status": { "type": "string", "enum": ["active", "inactive", "blocked"], "default": "active" },
+        "isVerified": { "type": "boolean", "default": false },
+        "profileCompletion": { "type": "number" },
+        "blockReason": { "type": "string" },
+        "lastLoginAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "deletedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["uid", "email"]
+    },
+    "AdminAuditLog": {
+      "title": "Admin Audit Log",
+      "description": "Tracks all administrative actions for security.",
+      "type": "object",
+      "properties": {
+        "adminId": { "type": "string" },
+        "action": { "type": "string" },
+        "targetUserId": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
     }
   },
   "auth": {
@@ -24,6 +43,10 @@
     "/users/{userId}": {
       "schema": "#/entities/UserProfile",
       "description": "User profile document containing settings and API keys."
+    },
+    "/audit_logs/{logId}": {
+      "schema": "#/entities/AdminAuditLog",
+      "description": "Logs of administrative actions."
     }
   }
 }
