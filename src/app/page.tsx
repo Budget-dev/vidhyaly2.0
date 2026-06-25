@@ -1,4 +1,3 @@
-
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -22,7 +21,8 @@ import {
   Bot,
   FileText,
   Mic,
-  CheckSquare
+  CheckSquare,
+  Rocket
 } from "lucide-react";
 import { Testimonials } from "@/components/landing/Testimonials";
 import Link from "next/link";
@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { Banner } from "@/components/ui/banner";
 
 export const LampContainer = ({
   children,
@@ -1029,8 +1030,33 @@ export function ExamsSection() {
 }
 
 export default function Home() {
+  const [showBanner, setShowBanner] = useState(true);
+
   return (
     <div className="relative bg-background overflow-x-hidden">
+      <Banner
+        show={showBanner}
+        onHide={() => setShowBanner(false)}
+        variant="primary"
+        title="AI Dashboard is here!"
+        description="Experience the future of medical entrance analytics"
+        showShade={true}
+        closable={true}
+        icon={<Rocket />}
+        action={
+          <Button
+            asChild
+            className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary px-4 py-1.5 text-xs font-bold transition-all hover:bg-primary/20"
+            variant="ghost"
+          >
+            <Link href="/dashboard">
+              Try now
+              <ArrowRightIcon className="h-3 w-3" />
+            </Link>
+          </Button>
+        }
+      />
+
       <HeroSection />
       
       <AITutorSection />
