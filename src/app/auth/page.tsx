@@ -2,15 +2,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { LogIn, Lock, Mail, UserPlus, ArrowRight, Phone, Calendar } from "lucide-react";
+import { LogIn, Lock, Mail, UserPlus, ArrowRight, Phone, Calendar, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth, useFirestore, useUser } from "@/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+
+const ADMIN_EMAIL = "venkateshchop14@gmail.com";
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -50,6 +52,9 @@ const AuthPage = () => {
         const userCredential = await createUserWithEmailAndPassword(auth!, email, password);
         const firebaseUser = userCredential.user;
         
+        // Check for Admin Hardcoding
+        const isAdmin = email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+        
         // Create profile in Firestore
         const userRef = doc(db!, "users", firebaseUser.uid);
         await setDoc(userRef, {
@@ -58,13 +63,16 @@ const AuthPage = () => {
           email: firebaseUser.email,
           phoneNumber: phoneNumber,
           age: age,
-          googleAiApiKey: "", // Placeholder for BYOK strategy
+          role: isAdmin ? "super-admin" : "student",
+          status: "active",
+          isVerified: isAdmin ? true : false,
+          googleAiApiKey: "", 
           createdAt: serverTimestamp(),
         });
         
         toast({
-          title: "Account Created!",
-          description: "Welcome to Vidhyaly. Let's start your journey.",
+          title: isAdmin ? "Admin Initialized" : "Account Created!",
+          description: isAdmin ? "Welcome Venkatesh. Secure access granted." : "Welcome to Vidhyaly. Let's start your journey.",
         });
       } else {
         await signInWithEmailAndPassword(auth!, email, password);
@@ -106,7 +114,11 @@ const AuthPage = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.5, opacity: 0 }}
               >
-                <UserPlus className="w-7 h-7 text-primary" />
+                {email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? (
+                  <ShieldCheck className="w-7 h-7 text-primary" />
+                ) : (
+                  <UserPlus className="w-7 h-7 text-primary" />
+                )}
               </motion.div>
             ) : (
               <motion.div
@@ -122,11 +134,11 @@ const AuthPage = () => {
         </div>
 
         <h2 className="text-2xl font-headline font-bold mb-1 text-center text-slate-900">
-          {isSignUp ? "Create Account" : "Welcome Back"}
+          {isSignUp ? (email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? "Admin Setup" : "Create Account") : "Welcome Back"}
         </h2>
         <p className="text-slate-500 text-xs mb-6 text-center max-w-[240px]">
           {isSignUp 
-            ? "Join 10,000+ medical aspirants."
+            ? (email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? "One-time administrator initialization." : "Join 10,000+ medical aspirants.")
             : "Continue your journey to your dream medical seat."}
         </p>
 
@@ -215,12 +227,13 @@ const AuthPage = () => {
             <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
           ) : (
             <>
-              {isSignUp ? "Get Started" : "Sign In"}
+              {isSignUp ? "Set Password & Create" : "Sign In"}
               <ArrowRight className="w-4 h-4" />
             </>
           )}
         </Button>
 
+        {/* Hide signup toggle if we are on the admin email login path to encourage secure entry */}
         <div className="mt-6 text-center">
           <p className="text-slate-500 text-xs font-medium">
             {isSignUp ? "Already have an account?" : "New to Vidhyaly?"}{" "}
