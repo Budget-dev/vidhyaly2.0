@@ -91,7 +91,7 @@ export function Testimonials() {
                 onMouseLeave={() => setHoveredIndex(null)}
                 className={cn(
                   "relative flex items-center gap-0 rounded-full cursor-pointer",
-                  "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                  "transition-all duration-500 ease-in-out",
                   isActive ? "bg-primary shadow-lg" : "bg-transparent hover:bg-primary/5",
                   showName ? "pr-4 pl-2 py-1.5" : "p-0.5",
                 )}
@@ -102,7 +102,7 @@ export function Testimonials() {
                     alt={testimonial.author}
                     className={cn(
                       "w-10 h-10 rounded-full object-cover border-2",
-                      "transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                      "transition-all duration-500 ease-in-out",
                       isActive ? "border-white/40" : "border-transparent",
                       !isActive && "hover:scale-110",
                     )}
@@ -111,7 +111,7 @@ export function Testimonials() {
 
                 <div
                   className={cn(
-                    "grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                    "grid transition-all duration-500 ease-in-out",
                     showName ? "grid-cols-[1fr] opacity-100 ml-2" : "grid-cols-[0fr] opacity-0 ml-0",
                   )}
                 >
