@@ -1,11 +1,10 @@
-
 "use client"
 
 import React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Stethoscope, GraduationCap, Phone, User, ArrowRight, CheckCircle2, HeartPulse } from "lucide-react";
+import { Stethoscope, GraduationCap, Phone, User, ArrowRight, CheckCircle2, HeartPulse, Code2 } from "lucide-react";
 import Link from "next/link";
 
 interface CoreValueCard {
@@ -79,7 +78,7 @@ export default function AboutPage() {
 
           {/* Subtitle */}
           <p className="font-body text-slate-600 text-lg md:text-xl max-w-2xl leading-relaxed">
-            Vidhyaly is more than a platform; it's a dedicated mentor system designed by experts to guide you through the rigors of medical entrance preparation.
+            Vidhyaly is more than a platform; it's a dedicated mentor system designed by experts who understand exactly what it takes to succeed.
           </p>
 
           {/* Action Buttons */}
@@ -90,13 +89,13 @@ export default function AboutPage() {
             className="flex flex-col sm:flex-row items-center gap-4 pt-4"
           >
             <Button size="lg" className="rounded-full px-8 bg-slate-900 hover:bg-slate-800 text-white shadow-xl h-14 text-lg font-bold" asChild>
-              <Link href="/contact">
+              <Link href="/auth">
                 Join 2026 Batch
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg font-bold border-slate-200" asChild>
-              <Link href="#founder">The Founder</Link>
+              <Link href="#founder">Our Story</Link>
             </Button>
           </motion.div>
 
@@ -184,14 +183,14 @@ export default function AboutPage() {
             <div className="absolute -inset-4 bg-primary/10 rounded-full blur-3xl" />
             <div className="relative bg-slate-200 aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
               <img 
-                src="https://picsum.photos/seed/venkatesh/800/1000" 
+                src="https://yasodha.in/assets/venkatesh-profile.png" 
                 alt="Venkatesh Choppa" 
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="absolute bottom-8 -right-8 bg-white p-6 rounded-2xl shadow-xl border max-w-xs">
               <p className="text-slate-500 italic text-sm">
-                "We are working on each feature with more efforts every single day to bring you the best counseling experience."
+                "My mission is to ensure no student ever fails the medical entrance due to a lack of precise guidance."
               </p>
             </div>
           </motion.div>
@@ -203,20 +202,31 @@ export default function AboutPage() {
             className="flex-1 space-y-8"
           >
             <div className="space-y-4">
-              <span className="text-primary font-bold text-[10px] tracking-widest uppercase">The Visionary</span>
+              <span className="text-primary font-bold text-[10px] tracking-widest uppercase">Founder & Visionary</span>
               <h2 className="text-4xl md:text-5xl font-headline font-bold text-slate-900">Venkatesh Choppa</h2>
-              <p className="text-slate-600 text-lg leading-relaxed">
-                As the founder of Vidhyaly, Venkatesh's mission is to democratize high-quality medical education in India. He believes that with the right combination of NCERT precision and AI assistance, every student can achieve their dream medical seat.
-              </p>
+              <div className="space-y-4 text-slate-600 text-lg leading-relaxed">
+                <p>
+                  Venkatesh Choppa is a seasoned technologist who spent two years as a Software Engineer, honing his skills in building complex systems. But his true calling came from his personal struggle.
+                </p>
+                <p>
+                  Having faced the deep emotional toll of missing a NEET seat three times, Venkatesh realized that many hardworking aspirants fail not because of effort, but because of a lack of precision in their preparation.
+                </p>
+                <p className="font-bold text-slate-900">
+                  He built Vidhyaly with one singular vision: "No more failures due to the gap between NCERT and execution."
+                </p>
+                <p>
+                  By combining AI-driven analytics with software precision, he is dedicated to providing every future doctor with the exact tools he wished he had during his journey.
+                </p>
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="bg-white p-6 rounded-2xl border shadow-sm space-y-2">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <User className="w-5 h-5 text-primary" />
+                  <Code2 className="w-5 h-5 text-primary" />
                 </div>
-                <h4 className="font-bold text-slate-800">Support Exec</h4>
-                <p className="text-xs text-slate-500">Directly involved in student success.</p>
+                <h4 className="font-bold text-slate-800">Software Expert</h4>
+                <p className="text-xs text-slate-500">2 Years Experience in Tech</p>
               </div>
               <div className="bg-white p-6 rounded-2xl border shadow-sm space-y-2">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
