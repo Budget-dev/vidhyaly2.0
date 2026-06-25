@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from "react";
@@ -5,7 +6,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { 
-  User, 
+  User as UserIcon, 
   Key, 
   Settings, 
   ShieldCheck, 
@@ -16,27 +17,75 @@ import {
   ArrowLeft,
   Mail,
   Smartphone,
-  Crown
+  Crown,
+  Calendar
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useUser, useFirestore, useAuth } from "@/firebase";
+import { doc, updateDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ProfilePage() {
+  const { user, profile, loading } = useUser();
   const [apiKey, setApiKey] = useState("");
   const [isSaved, setIsSaved] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const auth = useAuth();
+  const db = useFirestore();
+  const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
-    const savedKey = localStorage.getItem("vidhyaly_google_ai_key");
-    if (savedKey) {
-      setApiKey(savedKey);
+    if (profile?.googleAiApiKey) {
+      setApiKey(profile.googleAiApiKey);
       setIsSaved(true);
     }
-  }, []);
+  }, [profile]);
 
-  const handleSaveKey = () => {
-    localStorage.setItem("vidhyaly_google_ai_key", apiKey);
-    setIsSaved(true);
+  const handleSaveKey = async () => {
+    if (!user || !db) return;
+    setIsUpdating(true);
+    try {
+      await updateDoc(doc(db, "users", user.uid), {
+        googleAiApiKey: apiKey
+      });
+      setIsSaved(true);
+      toast({
+        title: "API Key Saved",
+        description: "Your key is now securely linked to your account.",
+      });
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Error Saving Key",
+        description: error.message || "Failed to update profile.",
+      });
+    } finally {
+      setIsUpdating(false);
+    }
   };
+
+  const handleSignOut = async () => {
+    await signOut(auth!);
+    router.push("/");
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="h-8 w-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    router.push("/auth");
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50/50 py-12 px-4">
@@ -49,7 +98,11 @@ export default function ProfilePage() {
             </Button>
             <h1 className="text-3xl font-headline font-bold">Account Settings</h1>
           </div>
-          <Button variant="ghost" className="text-destructive font-bold text-xs uppercase tracking-widest gap-2">
+          <Button 
+            variant="ghost" 
+            onClick={handleSignOut}
+            className="text-destructive font-bold text-xs uppercase tracking-widest gap-2"
+          >
             <LogOut className="w-4 h-4" /> Sign Out
           </Button>
         </div>
@@ -59,12 +112,12 @@ export default function ProfilePage() {
           <div className="lg:col-span-5 space-y-6">
             <div className="bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center text-center">
               <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-4 relative">
-                <User className="w-12 h-12 text-primary" />
+                <UserIcon className="w-12 h-12 text-primary" />
                 <div className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md border">
                   <Settings className="w-4 h-4 text-slate-400" />
                 </div>
               </div>
-              <h2 className="text-xl font-bold mb-1">Aspirant User</h2>
+              <h2 className="text-xl font-bold mb-1">{profile?.displayName || "Aspirant"}</h2>
               <p className="text-sm text-slate-500 mb-6 font-medium">NEET 2026 Batch</p>
               
               <div className="w-full space-y-4">
@@ -72,14 +125,21 @@ export default function ProfilePage() {
                   <Mail className="w-4 h-4 text-slate-400" />
                   <div className="text-left">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Email</p>
-                    <p className="text-sm font-bold text-slate-700">user@example.com</p>
+                    <p className="text-sm font-bold text-slate-700 truncate max-w-[180px]">{user.email}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                   <Smartphone className="w-4 h-4 text-slate-400" />
                   <div className="text-left">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Phone</p>
-                    <p className="text-sm font-bold text-slate-700">+91 98765 43210</p>
+                    <p className="text-sm font-bold text-slate-700">{profile?.phoneNumber || "Not provided"}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                  <Calendar className="w-4 h-4 text-slate-400" />
+                  <div className="text-left">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Age</p>
+                    <p className="text-sm font-bold text-slate-700">{profile?.age || "Not provided"}</p>
                   </div>
                 </div>
               </div>
@@ -140,16 +200,17 @@ export default function ProfilePage() {
                   </div>
                   <p className="text-[10px] text-slate-500 font-medium flex items-start gap-1.5 mt-2">
                     <AlertCircle className="w-3 h-3 mt-0.5 shrink-0" />
-                    Your key is stored locally on your device and is only used to power your AI study features.
+                    Your key is securely stored in your account and used only for AI features.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
                   <Button 
                     onClick={handleSaveKey} 
+                    disabled={isUpdating}
                     className="rounded-2xl py-6 font-bold shadow-lg transition-all active:scale-95"
                   >
-                    Save & Test Connection
+                    {isUpdating ? "Saving..." : "Save Key"}
                   </Button>
                   <a 
                     href="https://aistudio.google.com/app/apikey" 

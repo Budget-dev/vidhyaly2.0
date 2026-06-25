@@ -21,11 +21,15 @@ import {
   User,
   Settings,
   ArrowRight,
-  LayoutDashboard
+  LayoutDashboard,
+  LogOut
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useUser, useAuth } from "@/firebase";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -77,8 +81,17 @@ export function DropdownNavigation({ navItems }: Props) {
   const [isHover, setIsHover] = useState<number | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const { user, profile } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+
   const handleHover = (menuLabel: string | null) => {
     setOpenMenu(menuLabel);
+  };
+
+  const handleSignOut = async () => {
+    await signOut(auth!);
+    router.push("/");
   };
 
   return (
@@ -195,22 +208,35 @@ export function DropdownNavigation({ navItems }: Props) {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
-          <Button asChild variant="ghost" className="rounded-full px-5 font-bold hover:bg-primary/5 transition-all">
-            <Link href="/dashboard" className="flex items-center gap-2">
-              <LayoutDashboard className="w-4 h-4" />
-              Dashboard
-            </Link>
-          </Button>
-          <div className="h-6 w-px bg-slate-200" />
-          <Link href="/profile" className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500">
-            <User className="w-5 h-5" />
-          </Link>
-          <Button asChild variant="ghost" className="rounded-full px-6 font-bold hover:bg-primary/5 transition-all">
-            <Link href="/auth">Login</Link>
-          </Button>
-          <Button asChild className="rounded-full px-6 font-bold shadow-md hover:shadow-lg transition-all">
-            <Link href="/auth">Get Started</Link>
-          </Button>
+          {user ? (
+            <>
+              <Button asChild variant="ghost" className="rounded-full px-5 font-bold hover:bg-primary/5 transition-all">
+                <Link href="/dashboard" className="flex items-center gap-2">
+                  <LayoutDashboard className="w-4 h-4" />
+                  Dashboard
+                </Link>
+              </Button>
+              <div className="h-6 w-px bg-slate-200" />
+              <Link href="/profile" className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-500 relative group">
+                <User className="w-5 h-5" />
+                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  My Profile
+                </div>
+              </Link>
+              <Button onClick={handleSignOut} variant="ghost" size="icon" className="rounded-full text-slate-400 hover:text-destructive">
+                <LogOut className="w-4 h-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="ghost" className="rounded-full px-6 font-bold hover:bg-primary/5 transition-all">
+                <Link href="/auth">Login</Link>
+              </Button>
+              <Button asChild className="rounded-full px-6 font-bold shadow-md hover:shadow-lg transition-all">
+                <Link href="/auth">Get Started</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -231,24 +257,26 @@ export function DropdownNavigation({ navItems }: Props) {
               </SheetHeader>
               
               <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                <div className="grid grid-cols-2 gap-2 mb-4">
-                  <Link
-                    href="/profile"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 text-slate-700 transition-colors border"
-                  >
-                    <User className="w-4 h-4" />
-                    <span className="text-sm font-bold">Profile</span>
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 p-3 rounded-xl bg-primary/5 text-primary transition-colors border border-primary/10"
-                  >
-                    <LayoutDashboard className="w-4 h-4" />
-                    <span className="text-sm font-bold">Dashboard</span>
-                  </Link>
-                </div>
+                {user && (
+                  <div className="grid grid-cols-2 gap-2 mb-4">
+                    <Link
+                      href="/profile"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-center gap-2 p-3 rounded-xl bg-slate-50 text-slate-700 transition-colors border"
+                    >
+                      <User className="w-4 h-4" />
+                      <span className="text-sm font-bold">Profile</span>
+                    </Link>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center justify-center gap-2 p-3 rounded-xl bg-primary/5 text-primary transition-colors border border-primary/10"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      <span className="text-sm font-bold">Dashboard</span>
+                    </Link>
+                  </div>
+                )}
 
                 {navItems.map((navItem) => (
                   <div key={navItem.id}>
@@ -304,14 +332,20 @@ export function DropdownNavigation({ navItems }: Props) {
 
               {/* Mobile Footer (Contact) */}
               <div className="p-6 bg-slate-50 border-t space-y-4">
-                <div className="flex flex-col gap-2">
-                  <Button asChild variant="outline" className="w-full rounded-xl font-bold py-6">
-                    <Link href="/auth">Login</Link>
+                {!user ? (
+                  <div className="flex flex-col gap-2">
+                    <Button asChild variant="outline" className="w-full rounded-xl font-bold py-6">
+                      <Link href="/auth" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+                    </Button>
+                    <Button asChild className="w-full rounded-xl font-bold py-6">
+                      <Link href="/auth" onClick={() => setIsMobileMenuOpen(false)}>Start Free Prep</Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <Button onClick={() => { handleSignOut(); setIsMobileMenuOpen(false); }} variant="ghost" className="w-full text-destructive font-bold">
+                    <LogOut className="w-4 h-4 mr-2" /> Sign Out
                   </Button>
-                  <Button asChild className="w-full rounded-xl font-bold py-6">
-                    <Link href="/auth">Start Free Prep</Link>
-                  </Button>
-                </div>
+                )}
               </div>
             </SheetContent>
           </Sheet>

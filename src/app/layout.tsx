@@ -1,9 +1,9 @@
-
 import type { Metadata } from 'next';
 import './globals.css';
 import { DropdownNavigation } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Script from 'next/script';
+import { FirebaseClientProvider } from '@/firebase/client-provider';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://vidhyaly.com'),
@@ -109,13 +109,13 @@ const navItems = [
   },
   {
     id: 5,
-    label: "About Us",
-    href: "/about",
+    label: "Pricing",
+    href: "/pricing",
   },
   {
     id: 6,
-    label: "Contact Us",
-    href: "/contact",
+    label: "About Us",
+    href: "/about",
   },
 ];
 
@@ -155,11 +155,13 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased bg-background min-h-screen flex flex-col">
-        <DropdownNavigation navItems={navItems} />
-        <main className="flex-grow pt-16">
-          {children}
-        </main>
-        <Footer />
+        <FirebaseClientProvider>
+          <DropdownNavigation navItems={navItems} />
+          <main className="flex-grow pt-16">
+            {children}
+          </main>
+          <Footer />
+        </FirebaseClientProvider>
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       </body>
     </html>

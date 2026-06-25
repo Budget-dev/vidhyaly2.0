@@ -1,34 +1,89 @@
 
 "use client";
 
-import React, { useState } from "react";
-import { LogIn, Lock, Mail, UserPlus, ArrowRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { LogIn, Lock, Mail, UserPlus, ArrowRight, Phone, Calendar } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAuth, useFirestore, useUser } from "@/firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const AuthPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [error, setError] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [age, setAge] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const auth = useAuth();
+  const db = useFirestore();
+  const { user } = useUser();
+  const router = useRouter();
+  const { toast } = useToast();
 
-  const validateEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [user, router]);
 
-  const handleAuth = () => {
-    if (!email || !password || (isSignUp && !fullName)) {
-      setError("Please fill in all fields.");
+  const handleAuth = async () => {
+    if (!email || !password || (isSignUp && (!fullName || !phoneNumber || !age))) {
+      toast({
+        variant: "destructive",
+        title: "Missing Fields",
+        description: "Please fill in all required fields.",
+      });
       return;
     }
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
+
+    setIsLoading(true);
+    try {
+      if (isSignUp) {
+        const userCredential = await createUserWithEmailAndPassword(auth!, email, password);
+        const firebaseUser = userCredential.user;
+        
+        // Create profile in Firestore
+        const userRef = doc(db!, "users", firebaseUser.uid);
+        await setDoc(userRef, {
+          uid: firebaseUser.uid,
+          displayName: fullName,
+          email: firebaseUser.email,
+          phoneNumber: phoneNumber,
+          age: age,
+          googleAiApiKey: "", // Placeholder for BYOK strategy
+          createdAt: serverTimestamp(),
+        });
+        
+        toast({
+          title: "Account Created!",
+          description: "Welcome to Vidhyaly. Let's start your journey.",
+        });
+      } else {
+        await signInWithEmailAndPassword(auth!, email, password);
+        toast({
+          title: "Welcome Back!",
+          description: "Successfully signed in.",
+        });
+      }
+      router.push("/dashboard");
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Authentication Error",
+        description: error.message || "Failed to authenticate.",
+      });
+    } finally {
+      setIsLoading(false);
     }
-    setError("");
-    alert(`${isSignUp ? "Account created" : "Sign in"} successful! (Demo)`);
   };
 
   return (
@@ -79,21 +134,47 @@ const AuthPage = () => {
           <AnimatePresence mode="popLayout">
             {isSignUp && (
               <motion.div
-                initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-                animate={{ opacity: 1, height: "auto", marginBottom: 2 }}
-                exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                className="relative overflow-hidden"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="flex flex-col gap-3 overflow-hidden"
               >
-                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
-                  <div className="w-4 h-4 border-2 border-slate-300 rounded-sm" />
-                </span>
-                <input
-                  placeholder="Full Name"
-                  type="text"
-                  value={fullName}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-slate-50/50 text-slate-900 text-sm transition-all"
-                  onChange={(e) => setFullName(e.target.value)}
-                />
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                    <UserPlus className="w-4 h-4" />
+                  </span>
+                  <input
+                    placeholder="Full Name"
+                    type="text"
+                    value={fullName}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-slate-50/50 text-slate-900 text-sm transition-all"
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                    <Phone className="w-4 h-4" />
+                  </span>
+                  <input
+                    placeholder="Phone Number"
+                    type="text"
+                    value={phoneNumber}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-slate-50/50 text-slate-900 text-sm transition-all"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </div>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+                    <Calendar className="w-4 h-4" />
+                  </span>
+                  <input
+                    placeholder="Age"
+                    type="number"
+                    value={age}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-slate-50/50 text-slate-900 text-sm transition-all"
+                    onChange={(e) => setAge(e.target.value)}
+                  />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -123,27 +204,21 @@ const AuthPage = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
-          <div className="w-full flex justify-between items-center px-1">
-            {error ? (
-              <span className="text-[10px] font-bold text-destructive">{error}</span>
-            ) : (
-              <div />
-            )}
-            {!isSignUp && (
-              <button className="text-[10px] text-primary hover:underline font-bold">
-                Forgot password?
-              </button>
-            )}
-          </div>
         </div>
 
         <Button
           onClick={handleAuth}
+          disabled={isLoading}
           className="w-full py-6 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-base shadow-lg transition-all flex items-center justify-center gap-2"
         >
-          {isSignUp ? "Get Started" : "Sign In"}
-          <ArrowRight className="w-4 h-4" />
+          {isLoading ? (
+            <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
+            <>
+              {isSignUp ? "Get Started" : "Sign In"}
+              <ArrowRight className="w-4 h-4" />
+            </>
+          )}
         </Button>
 
         <div className="mt-6 text-center">
