@@ -1,19 +1,21 @@
 
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { useUser } from '@/firebase';
-import { useRouter } from 'next/navigation';
-import { Loader2, ShieldAlert, Lock } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
+import { Lock, ShieldAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, profile, loading } = useUser();
-  const router = useRouter();
+  const pathname = usePathname();
 
-  // Strict Role-Based Access Control
+  // Exclude login and signup pages from the strict RBAC layout check
+  const isAuthPage = pathname === '/admin/login' || pathname === '/admin/signup';
+
   const isAdmin = profile?.role === 'admin' || profile?.role === 'super-admin';
 
   if (loading) {
@@ -27,6 +29,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </div>
     );
+  }
+
+  // If it's the login or signup page, render without the sidebar or check
+  if (isAuthPage) {
+    return <>{children}</>;
   }
 
   // If not authenticated or not an admin, show specialized access denied
@@ -43,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </p>
           <div className="flex flex-col gap-3">
              <Button asChild className="rounded-2xl py-7 font-bold text-base shadow-lg">
-               <Link href="/auth">Admin Login</Link>
+               <Link href="/admin/login">Admin Login</Link>
              </Button>
              <Button asChild variant="ghost" className="rounded-2xl py-7 font-bold text-slate-400">
                <Link href="/">Back to Vidhyaly</Link>
