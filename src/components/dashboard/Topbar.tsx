@@ -1,16 +1,19 @@
+
 "use client";
 
 import React from "react";
 import { Bell, Search, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/firebase";
+import Link from "next/link";
 
 interface TopbarProps {
   activeTool: string;
 }
 
 const TOOL_TITLES: Record<string, string> = {
-  dashboard: "Good morning, Arjun 👋",
+  dashboard: "Overview",
   flashcards: "Flashcards",
   smartlearn: "Smart Learn",
   mcqs: "Practice MCQs",
@@ -20,6 +23,9 @@ const TOOL_TITLES: Record<string, string> = {
 };
 
 export const Topbar = ({ activeTool }: TopbarProps) => {
+  const { profile } = useUser();
+  const firstName = profile?.displayName?.split(' ')[0] || "Aspirant";
+
   return (
     <motion.header 
       initial={{ y: -64, opacity: 0 }}
@@ -28,7 +34,7 @@ export const Topbar = ({ activeTool }: TopbarProps) => {
     >
       <div className="flex items-center gap-4">
         <h1 className="text-xl font-headline font-bold text-[#1A1A2E]">
-          {TOOL_TITLES[activeTool]}
+          {activeTool === 'dashboard' ? `Good morning, ${firstName} 👋` : TOOL_TITLES[activeTool]}
         </h1>
         <div className="h-4 w-px bg-slate-200" />
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
@@ -39,19 +45,21 @@ export const Topbar = ({ activeTool }: TopbarProps) => {
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full border">
           <span className="text-lg">🔥</span>
-          <span className="text-sm font-bold text-slate-700">14 day streak</span>
+          <span className="text-sm font-bold text-slate-700">0 day streak</span>
         </div>
 
-        <motion.button 
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          animate={{ scale: [1, 1.03, 1] }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="group flex items-center gap-2 px-6 py-2 rounded-full border-2 border-[#4F46E5] text-[#4F46E5] hover:bg-[#4F46E5] hover:text-white transition-all duration-300 shadow-sm"
-        >
-          <Sparkles className="w-4 h-4 group-hover:animate-spin" />
-          <span className="text-sm font-bold">Ask VidhyaMithra...</span>
-        </motion.button>
+        <Link href="/ai-friend/vidhyamithra">
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            animate={{ scale: [1, 1.03, 1] }}
+            transition={{ duration: 8, repeat: Infinity }}
+            className="group flex items-center gap-2 px-6 py-2 rounded-full border-2 border-[#4F46E5] text-[#4F46E5] hover:bg-[#4F46E5] hover:text-white transition-all duration-300 shadow-sm"
+          >
+            <Sparkles className="w-4 h-4 group-hover:animate-spin" />
+            <span className="text-sm font-bold">Ask VidhyaMithra...</span>
+          </motion.button>
+        </Link>
 
         <div className="relative">
           <button className="w-10 h-10 rounded-full bg-slate-50 border flex items-center justify-center hover:bg-slate-100 transition-colors">

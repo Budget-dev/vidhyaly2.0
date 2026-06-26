@@ -5,8 +5,52 @@ import React from "react";
 import * as Icons from "lucide-react";
 import { motion } from "framer-motion";
 import { CountUpNumber } from "@/components/ui/CountUpNumber";
-import { metrics } from "@/data/mockData";
 import { cn } from "@/lib/utils";
+
+const metrics = [
+  {
+    id: 1,
+    label: "Current Accuracy",
+    value: 0,
+    suffix: "%",
+    delta: "Start practicing",
+    deltaType: "neutral",
+    icon: "Target",
+    bg: "#F3EEFF",
+    color: "#4F46E5"
+  },
+  {
+    id: 2,
+    label: "Study Streak",
+    value: 0,
+    delta: "No active streak",
+    deltaType: "warning",
+    icon: "Flame",
+    bg: "#FFF4E8",
+    color: "#F59E0B"
+  },
+  {
+    id: 3,
+    label: "Mastery Level",
+    value: 0,
+    suffix: "%",
+    delta: "Take a mock test",
+    deltaType: "neutral",
+    icon: "TrendingUp",
+    bg: "#E8F4FF",
+    color: "#3B82F6"
+  },
+  {
+    id: 4,
+    label: "Tasks Due",
+    value: 0,
+    delta: "Queue empty",
+    deltaType: "success",
+    icon: "Bell",
+    bg: "#E8F5EE",
+    color: "#10B981"
+  }
+];
 
 export const MetricCards = () => {
   return (
@@ -48,11 +92,11 @@ export const MetricCards = () => {
               </div>
 
               <div className={cn(
-                "text-xs font-bold flex items-center gap-1",
+                "text-[10px] font-bold flex items-center gap-1",
                 m.deltaType === 'success' ? "text-emerald-600" : 
-                m.deltaType === 'warning' ? "text-amber-600" : "text-red-600"
+                m.deltaType === 'warning' ? "text-amber-600" : 
+                m.deltaType === 'neutral' ? "text-slate-400" : "text-red-600"
               )}>
-                {m.delta.startsWith('↑') ? '▲ ' : m.delta.startsWith('↓') ? '▼ ' : ''}
                 {m.delta}
               </div>
             </div>

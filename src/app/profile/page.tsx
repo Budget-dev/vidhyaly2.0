@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from "react";
@@ -17,7 +18,8 @@ import {
   Mail,
   Smartphone,
   Crown,
-  Calendar
+  Calendar,
+  UserCheck
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -97,7 +99,7 @@ export default function ProfilePage() {
             <Button asChild variant="ghost" size="icon" className="rounded-full">
               <Link href="/"><ArrowLeft className="w-5 h-5" /></Link>
             </Button>
-            <h1 className="text-3xl font-headline font-bold">Account Settings</h1>
+            <h1 className="text-3xl font-headline font-bold">My Profile</h1>
           </div>
           <Button 
             variant="ghost" 
@@ -115,11 +117,11 @@ export default function ProfilePage() {
               <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-4 relative">
                 <UserIcon className="w-12 h-12 text-primary" />
                 <div className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md border">
-                  <Settings className="w-4 h-4 text-slate-400" />
+                  <UserCheck className="w-4 h-4 text-emerald-500" />
                 </div>
               </div>
               <h2 className="text-xl font-bold mb-1">{profile?.displayName || "Aspirant"}</h2>
-              <p className="text-sm text-slate-500 mb-6 font-medium">NEET 2027 Batch</p>
+              <p className="text-sm text-slate-500 mb-6 font-medium">NEET 2027 Aspirant</p>
               
               <div className="w-full space-y-4">
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
@@ -136,6 +138,13 @@ export default function ProfilePage() {
                     <p className="text-sm font-bold text-slate-700">{profile?.phoneNumber || "Not provided"}</p>
                   </div>
                 </div>
+                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                  <Calendar className="w-4 h-4 text-slate-400" />
+                  <div className="text-left">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Age</p>
+                    <p className="text-sm font-bold text-slate-700">{profile?.age || "Not provided"}</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -147,10 +156,10 @@ export default function ProfilePage() {
                 <div className="bg-white/20 p-2 rounded-xl">
                   <Crown className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="font-bold text-white">Subscription Status</h3>
+                <h3 className="font-bold text-white">Subscription</h3>
               </div>
               <p className="text-sm text-white/70 leading-relaxed font-medium">
-                {isPro ? "You are a Pro Aspirant with unlimited access." : "You are currently on the Free Tier with limited features."}
+                {isPro ? "Pro Plan Active - Enjoy unlimited NCERT mastery." : "Free Tier - Upgrade to unlock all study tools."}
               </p>
               {!isPro && (
                 <Button asChild className="w-full rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg transition-all hover:scale-[1.02]">
@@ -170,12 +179,12 @@ export default function ProfilePage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold">AI Companion Config</h3>
-                    <p className="text-xs text-slate-400 font-medium">Power your study friend Vidhyamithra</p>
+                    <p className="text-xs text-slate-400 font-medium">Power Vidhyamithra with your key</p>
                   </div>
                 </div>
                 {isSaved && (
                   <div className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1 border border-green-100">
-                    <ShieldCheck className="w-3 h-3" /> Connected
+                    <ShieldCheck className="w-3 h-3" /> Linked
                   </div>
                 )}
               </div>
@@ -198,7 +207,7 @@ export default function ProfilePage() {
                   </div>
                   <p className="text-[10px] text-slate-500 font-medium flex items-start gap-1.5 mt-2">
                     <AlertCircle className="w-3 h-3 mt-0.5 shrink-0" />
-                    Your key is used to bypass internal credit limits and maintain 100% privacy.
+                    Your key is used to provide unlimited personalized AI mentoring.
                   </p>
                 </div>
 
@@ -208,7 +217,7 @@ export default function ProfilePage() {
                     disabled={isUpdating}
                     className="rounded-2xl py-6 font-bold shadow-lg transition-all active:scale-95 bg-slate-900"
                   >
-                    {isUpdating ? "Saving..." : "Save Key"}
+                    {isUpdating ? "Saving..." : "Save Configuration"}
                   </Button>
                 </div>
               </div>
@@ -224,7 +233,7 @@ export default function ProfilePage() {
                 </div>
                 <div>
                   <h4 className="font-bold">Chat with Vidhyamithra</h4>
-                  <p className="text-[10px] text-white/50 uppercase tracking-widest">Go to Companion</p>
+                  <p className="text-[10px] text-white/50 uppercase tracking-widest">Start Session</p>
                 </div>
               </div>
               <ChevronRight className="w-6 h-6 text-white/30 group-hover:translate-x-1 transition-transform" />
