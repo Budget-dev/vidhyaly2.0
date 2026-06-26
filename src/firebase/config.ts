@@ -1,4 +1,3 @@
-
 'use client';
 
 /**
@@ -6,7 +5,7 @@
  */
 
 export const firebaseConfig = {
-  apiKey: "placeholder-api-key",
+  apiKey: "AIzaSyCEwBXzorIDLabS-ApmVtc0sW30YDXPiPk",
   authDomain: "vidhyaly-neet.firebaseapp.com",
   projectId: "vidhyaly-neet",
   storageBucket: "vidhyaly-neet.firebasestorage.app",
