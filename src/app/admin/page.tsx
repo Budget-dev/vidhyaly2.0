@@ -1,6 +1,7 @@
+
 "use client";
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Users, 
@@ -14,14 +15,18 @@ import {
 } from 'lucide-react';
 import { StatCard } from '@/components/ui/StatCard';
 import { useCollection } from '@/firebase';
-import { collection, query, where, limit, orderBy } from 'firebase/firestore';
+import { collection, query } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
 
 export default function AdminDashboard() {
   const db = useFirestore();
   
-  // Real-time metrics
-  const usersQuery = query(collection(db!, 'users'));
+  // Real-time metrics - Memoized to prevent infinite re-renders
+  const usersQuery = useMemo(() => {
+    if (!db) return null;
+    return query(collection(db, 'users'));
+  }, [db]);
+
   const { data: allUsers } = useCollection(usersQuery);
 
   const stats = [

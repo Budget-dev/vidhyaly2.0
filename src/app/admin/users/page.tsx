@@ -6,10 +6,7 @@ import { useCollection, useFirestore, useUser } from '@/firebase';
 import { collection, query, orderBy } from 'firebase/firestore';
 import { 
   Search, 
-  Filter, 
   MoreVertical, 
-  ShieldCheck, 
-  ShieldX, 
   Eye, 
   Trash2, 
   UserX, 
@@ -44,11 +41,12 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { cn } from '@/lib/utils';
 
 export default function UserManagementPage() {
   const db = useFirestore();
   const { user: currentAdmin } = useUser();
-  const adminService = useMemo(() => new AdminService(db!), [db]);
+  const adminService = useMemo(() => (db ? new AdminService(db) : null), [db]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'blocked'>('all');
@@ -59,7 +57,12 @@ export default function UserManagementPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [blockReason, setBlockReason] = useState('');
 
-  const usersQuery = query(collection(db!, 'users'), orderBy('createdAt', 'desc'));
+  // Memoized query to prevent infinite re-renders
+  const usersQuery = useMemo(() => {
+    if (!db) return null;
+    return query(collection(db, 'users'), orderBy('createdAt', 'desc'));
+  }, [db]);
+
   const { data: users, loading } = useCollection(usersQuery);
 
   const filteredUsers = useMemo(() => {
@@ -77,7 +80,7 @@ export default function UserManagementPage() {
   }, [users, searchTerm, filterStatus]);
 
   const handleToggleBlock = async () => {
-    if (!selectedUser || !currentAdmin) return;
+    if (!selectedUser || !currentAdmin || !adminService) return;
     const nextStatus = selectedUser.status === 'blocked' ? 'active' : 'blocked';
     await adminService.updateUserStatus(currentAdmin.uid, selectedUser.uid, nextStatus, blockReason);
     setIsBlockModalOpen(false);
@@ -86,7 +89,7 @@ export default function UserManagementPage() {
   };
 
   const handleDeleteUser = async () => {
-    if (!selectedUser || !currentAdmin) return;
+    if (!selectedUser || !currentAdmin || !adminService) return;
     await adminService.softDeleteUser(currentAdmin.uid, selectedUser.uid);
     setIsDeleteModalOpen(false);
     setSelectedUser(null);
