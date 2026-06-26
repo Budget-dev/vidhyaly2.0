@@ -8,11 +8,11 @@ import { FirebaseClientProvider } from '@/firebase/client-provider';
 export const metadata: Metadata = {
   metadataBase: new URL('https://vidhyaly.com'),
   title: {
-    default: 'Vidhyaly - Master NEET 2026 with NCERT-Based Precision',
+    default: 'Vidhyaly - Master NEET 2027 with NCERT-Based Precision',
     template: '%s | Vidhyaly NEET Prep'
   },
   description: 'India\'s smartest NEET preparation platform. Access 20,000+ NCERT-mapped MCQs, AI-powered doubt solving (Vidhyamithra), and personalized analytics for medical aspirants.',
-  keywords: ['NEET 2026 Preparation', 'Best NEET Online Coaching', 'NCERT Biology NEET', 'NEET Mock Tests', 'Vidhyamithra AI'],
+  keywords: ['NEET 2027 Preparation', 'Best NEET Online Coaching', 'NCERT Biology NEET', 'NEET Mock Tests', 'Vidhyamithra AI'],
   authors: [{ name: 'Venkatesh Choppa' }],
   creator: 'Vidhyaly Education',
   publisher: 'Vidhyaly Education',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vidhyaly - Crack NEET 2026',
+    title: 'Vidhyaly - Crack NEET 2027',
     description: 'The future of NEET preparation is here. NCERT precision meets AI mentorship.',
     images: ['https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2012_31_25%20PM.png'],
   },

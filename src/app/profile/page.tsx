@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from "react";
@@ -120,7 +119,7 @@ export default function ProfilePage() {
                 </div>
               </div>
               <h2 className="text-xl font-bold mb-1">{profile?.displayName || "Aspirant"}</h2>
-              <p className="text-sm text-slate-500 mb-6 font-medium">NEET 2026 Batch</p>
+              <p className="text-sm text-slate-500 mb-6 font-medium">NEET 2027 Batch</p>
               
               <div className="w-full space-y-4">
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">

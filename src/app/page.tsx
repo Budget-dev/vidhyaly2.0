@@ -1,4 +1,3 @@
-
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -214,7 +213,7 @@ export function DemoWalkaround() {
 
           <div className="p-6 rounded-2xl bg-slate-900 text-white space-y-4">
             <h4 className="font-bold text-lg">Ready to start your journey?</h4>
-            <p className="text-slate-400 text-sm">Join the 2026 Batch today and get access to all features immediately.</p>
+            <p className="text-slate-400 text-sm">Join the 2027 Batch today and get access to all features immediately.</p>
             <Button className="w-full rounded-xl py-6 font-bold bg-primary hover:bg-primary/90" asChild>
               <Link href="/auth">Create Free Account <ArrowRight className="ml-2 w-4 h-4" /></Link>
             </Button>
@@ -242,9 +241,9 @@ export function HeroSection() {
             href="/auth"
           >
             <div className="rounded-full border border-primary/20 bg-primary/20 text-primary px-3 py-1 shadow-sm">
-              <p className="font-mono text-[10px] font-black">2026</p>
+              <p className="font-mono text-[10px] font-black">2027</p>
             </div>
-            <span className="text-[11px] font-bold text-slate-900 tracking-tight">now enrolling for NEET 2026 batches</span>
+            <span className="text-[11px] font-bold text-slate-900 tracking-tight">now enrolling for NEET 2027 batches</span>
             <div className="pl-1">
               <ArrowRightIcon className="size-3.5 -translate-x-0.5 duration-150 ease-out group-hover:translate-x-0.5 text-primary" />
             </div>
@@ -957,7 +956,7 @@ export function ExamsSection() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-8 left-8 text-white">
-              <h3 className="text-2xl font-bold mb-2">NEET UG 2026 Batch</h3>
+              <h3 className="text-2xl font-bold mb-2">NEET UG 2027 Batch</h3>
               <p className="text-white/80 max-w-md">Comprehensive NCERT-aligned modules for Physics, Chemistry, and Biology.</p>
             </div>
           </motion.div>

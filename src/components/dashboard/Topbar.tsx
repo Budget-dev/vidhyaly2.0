@@ -32,7 +32,7 @@ export const Topbar = ({ activeTool }: TopbarProps) => {
         </h1>
         <div className="h-4 w-px bg-slate-200" />
         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-          NEET 2026 — <span className="text-amber-500">87 days to go</span>
+          NEET 2027 — <span className="text-amber-500">87 days to go</span>
         </p>
       </div>
 

@@ -1,4 +1,3 @@
-
 "use client"
 
 import React from "react";
@@ -62,7 +61,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
           >
             <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-bold text-primary mb-4">
               <Sparkles className="mr-2 h-4 w-4 fill-primary" />
-              NEET 2026 Batch Plans
+              NEET 2027 Batch Plans
             </div>
             <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-slate-900">
               Choose Your <span className="text-primary">Success Path</span>

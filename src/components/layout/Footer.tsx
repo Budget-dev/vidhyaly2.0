@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -90,7 +89,7 @@ export const Footer = ({
   sections = defaultSections,
   description = "India's smartest NEET preparation platform. We bridge the gap between hard work and medical seats with NCERT-based precision and AI-driven insights.",
   socialLinks = defaultSocialLinks,
-  copyright = "© 2026 Vidhyaly Education. All rights reserved.",
+  copyright = "© 2027 Vidhyaly Education. All rights reserved.",
   legalLinks = defaultLegalLinks,
 }: FooterProps) => {
   return (

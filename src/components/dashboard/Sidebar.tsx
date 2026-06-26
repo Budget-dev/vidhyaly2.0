@@ -47,7 +47,7 @@ export const Sidebar = ({ activeTool, setActiveTool }: SidebarProps) => {
         </div>
         <div className="bg-amber-500/10 border border-amber-500/20 rounded-full px-3 py-1.5 flex items-center gap-2 w-fit">
           <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
-          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600">87 days to NEET</span>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600">87 days to NEET 2027</span>
         </div>
       </div>
 

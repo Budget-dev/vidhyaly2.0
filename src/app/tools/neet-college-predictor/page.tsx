@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useMemo } from "react";
@@ -102,11 +101,11 @@ export default function CollegePredictorPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
               <Sparkles className="w-3.5 h-3.5" />
-              NEET AI PREDICTOR 2026
+              NEET AI PREDICTOR 2027
             </div>
             <h1 className="text-4xl md:text-6xl font-headline font-bold text-slate-900 leading-tight">
               Predict your NEET rank <br className="hidden md:block" />
-              & colleges 2026
+              & colleges 2027
             </h1>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
               Enter your expected score to see which medical colleges you may get based on previous year trends and AI-driven analysis.
@@ -245,7 +244,7 @@ export default function CollegePredictorPage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl font-headline font-bold">Frequently Asked Questions</h2>
-            <p className="text-slate-500 font-medium">Everything you need to know about NEET 2026 predictions and rankings.</p>
+            <p className="text-slate-500 font-medium">Everything you need to know about NEET 2027 predictions and rankings.</p>
           </div>
 
           <Accordion type="single" collapsible className="space-y-4">
@@ -285,7 +284,7 @@ export default function CollegePredictorPage() {
             </AccordionItem>
 
             <AccordionItem value="item-2" className="border rounded-[1.5rem] px-6 bg-slate-50/50">
-              <AccordionTrigger className="font-bold text-left py-6 hover:no-underline">What are the cut-off predictions for NEET 2026?</AccordionTrigger>
+              <AccordionTrigger className="font-bold text-left py-6 hover:no-underline">What are the cut-off predictions for NEET 2027?</AccordionTrigger>
               <AccordionContent className="pb-6 text-slate-600 leading-relaxed font-medium">
                 Early NEET trends and data analysis suggest the NEET UG entrance exam cut-off for government MBBS seats may range between 610-625 marks. The National Testing Agency (NTA) is expected to maintain an optimal difficulty level, and scoring a 650+ is recommended for top tier NEET colleges.
               </AccordionContent>
@@ -321,7 +320,7 @@ export default function CollegePredictorPage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div className="space-y-3">
               <h2 className="text-3xl font-headline font-bold">Related counseling stories</h2>
-              <p className="text-slate-500 font-medium">Essential advice for medical aspirants entering the 2026 cycle.</p>
+              <p className="text-slate-500 font-medium">Essential advice for medical aspirants entering the 2027 cycle.</p>
             </div>
             <Button variant="outline" className="rounded-full px-8 h-12 font-bold border-slate-200">View All Stories</Button>
           </div>
@@ -335,7 +334,7 @@ export default function CollegePredictorPage() {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   data-ai-hint="medical students"
                 />
-                <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">Counseling 2026</div>
+                <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">Counseling 2027</div>
               </div>
               <CardContent className="p-8 space-y-4">
                 <h3 className="text-2xl font-bold text-slate-900 group-hover:text-primary transition-colors">Why every NEET aspirant needs a Plan B (and why it's not failure)</h3>
@@ -357,8 +356,8 @@ export default function CollegePredictorPage() {
                 <div className="absolute top-4 left-4 bg-accent text-white text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">Admissions Guide</div>
               </div>
               <CardContent className="p-8 space-y-4">
-                <h3 className="text-2xl font-bold text-slate-900 group-hover:text-primary transition-colors">NEET 2026 College Predictor: Check Colleges Based on Your Rank</h3>
-                <p className="text-slate-500 font-medium leading-relaxed">Estimate your NEET 2026 rank and identify medical college options with our comprehensive guide to rank and college prediction.</p>
+                <h3 className="text-2xl font-bold text-slate-900 group-hover:text-primary transition-colors">NEET 2027 College Predictor: Check Colleges Based on Your Rank</h3>
+                <p className="text-slate-500 font-medium leading-relaxed">Estimate your NEET 2027 rank and identify medical college options with our comprehensive guide to rank and college prediction.</p>
                 <div className="pt-4 flex items-center gap-2 text-sm font-black text-slate-900 uppercase tracking-widest">
                   Read Full Story <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>

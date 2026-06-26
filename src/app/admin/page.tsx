@@ -1,5 +1,4 @@
-
-'use client';
+"use client";
 
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -42,7 +41,7 @@ export default function AdminDashboard() {
         <div className="flex gap-4">
           <div className="bg-white px-4 py-2 rounded-2xl border shadow-sm flex items-center gap-2">
             <Calendar className="w-4 h-4 text-slate-400" />
-            <span className="text-xs font-bold text-slate-700">Oct 24, 2026</span>
+            <span className="text-xs font-bold text-slate-700">Oct 24, 2027</span>
           </div>
           <button className="bg-slate-900 text-white px-6 py-2 rounded-2xl text-xs font-bold shadow-lg hover:bg-slate-800 transition-all">
             Generate Growth Report

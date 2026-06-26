@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState } from "react";
@@ -97,11 +96,11 @@ export default function RankPredictorPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
               <Sparkles className="w-3.5 h-3.5" />
-              NEET AI RANK PREDICTOR 2026
+              NEET AI RANK PREDICTOR 2027
             </div>
             <h1 className="text-4xl md:text-6xl font-headline font-bold text-slate-900 leading-tight">
               Predict your NEET rank <br className="hidden md:block" />
-              & colleges 2026
+              & colleges 2027
             </h1>
             <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium leading-relaxed">
               Enter your expected score to see which medical colleges you may get based on previous year trends and AI-driven analysis.
@@ -229,7 +228,7 @@ export default function RankPredictorPage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-16 space-y-4">
             <h2 className="text-4xl font-headline font-bold">Frequently Asked Questions</h2>
-            <p className="text-slate-500 font-medium">Everything you need to know about NEET 2026 predictions and rankings.</p>
+            <p className="text-slate-500 font-medium">Everything you need to know about NEET 2027 predictions and rankings.</p>
           </div>
 
           <Accordion type="single" collapsible className="space-y-4">
@@ -241,7 +240,7 @@ export default function RankPredictorPage() {
             </AccordionItem>
 
             <AccordionItem value="item-2" className="border rounded-[1.5rem] px-6 bg-slate-50/50">
-              <AccordionTrigger className="font-bold text-left py-6 hover:no-underline">What are the cut-off predictions for NEET 2026?</AccordionTrigger>
+              <AccordionTrigger className="font-bold text-left py-6 hover:no-underline">What are the cut-off predictions for NEET 2027?</AccordionTrigger>
               <AccordionContent className="pb-6 text-slate-600 leading-relaxed font-medium">
                 Early NEET trends and data analysis suggest the NEET UG entrance exam cut-off for government MBBS seats may range between 610-625 marks. The National Testing Agency (NTA) is expected to maintain an optimal difficulty level, and scoring a 650+ is recommended for top tier NEET colleges.
               </AccordionContent>

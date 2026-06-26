@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Button } from "@/components/ui/button"
@@ -14,7 +13,7 @@ export default function LiveTeacherPage() {
       <h1 className="text-4xl font-headline font-bold mb-4">Live Teacher Access</h1>
       <p className="text-xl text-muted-foreground max-w-2xl mb-8 leading-relaxed">
         Real-time interaction with subject matter experts. Join live doubt-solving 
-        sessions and intensive crash courses tailored for NEET 2026 aspirants.
+        sessions and intensive crash courses tailored for NEET 2027 aspirants.
       </p>
       <div className="bg-slate-50 border border-border rounded-2xl p-6 mb-10 max-w-md w-full">
         <span className="text-primary font-bold text-sm uppercase tracking-widest mb-2 block">Coming Soon</span>

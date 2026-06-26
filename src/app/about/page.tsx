@@ -90,7 +90,7 @@ export default function AboutPage() {
           >
             <Button size="lg" className="rounded-full px-8 bg-slate-900 hover:bg-slate-800 text-white shadow-xl h-14 text-lg font-bold" asChild>
               <Link href="/auth">
-                Join 2026 Batch
+                Join 2027 Batch
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
@@ -248,7 +248,7 @@ export default function AboutPage() {
 
       {/* Footer */}
       <footer className="relative z-10 py-12 px-4 border-t text-center">
-        <p className="text-sm text-slate-400 font-medium">© 2026 Vidhyaly Education. Dedicated to your medical dream.</p>
+        <p className="text-sm text-slate-400 font-medium">© 2027 Vidhyaly Education. Dedicated to your medical dream.</p>
       </footer>
     </div>
   );

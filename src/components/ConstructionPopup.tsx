@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from "react";
@@ -51,7 +50,7 @@ export function ConstructionPopup() {
             <HardHat className="w-12 h-12 text-white" />
           </div>
           <h2 className="text-2xl font-headline font-bold relative z-10">Building Vidhyaly</h2>
-          <p className="text-amber-50 text-sm mt-2 font-medium relative z-10 uppercase tracking-widest">NEET 2026 Platform</p>
+          <p className="text-amber-50 text-sm mt-2 font-medium relative z-10 uppercase tracking-widest">NEET 2027 Platform</p>
         </div>
 
         <div className="p-8 space-y-6">
