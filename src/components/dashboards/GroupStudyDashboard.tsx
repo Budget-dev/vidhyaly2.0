@@ -1,16 +1,50 @@
+
 "use client";
 
 import React from "react";
 import { motion } from "framer-motion";
 import { StatCard } from "@/components/ui/StatCard";
 import { groupMembers } from "@/data/mockData";
-import { Users, Target, Video, Trophy, Hand, Plus, Play, ChevronRight, Pin } from "lucide-react";
+import { Users, Target, Video, Trophy, Hand, Plus, Play, ChevronRight, Pin, Lock, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/firebase";
+import Link from "next/link";
 
 export const GroupStudyDashboard = () => {
+  const { profile } = useUser();
+  const isFree = profile?.role !== 'admin' && profile?.role !== 'super-admin' && !profile?.isPro;
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 relative">
+      {isFree && (
+        <div className="absolute inset-0 z-50 bg-white/60 backdrop-blur-[6px] flex items-center justify-center rounded-[2rem]">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="max-w-md bg-white p-12 rounded-[2.5rem] shadow-2xl border border-slate-100 text-center space-y-6"
+          >
+            <div className="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center mx-auto shadow-inner">
+              <Lock className="w-10 h-10 text-indigo-600" />
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-headline font-bold text-slate-900">Study Groups are Premium</h2>
+              <p className="text-slate-500 font-medium text-sm leading-relaxed">
+                Collaborate with 10k+ fellow aspirants, participate in live challenges, and compete on the leaderboard.
+              </p>
+            </div>
+            <div className="pt-4 flex flex-col gap-3">
+              <Button asChild className="rounded-2xl py-7 font-bold text-base bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-100 transition-all active:scale-95">
+                <Link href="/pricing">Unlock Groups — ₹199/mo</Link>
+              </Button>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
+                <Crown className="w-3 h-3" /> Exclusive for Pro Members
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard label="Group Members" value={6} icon="Users" bg="#F0EEFF" color="#4F46E5" index={0} />
@@ -42,23 +76,14 @@ export const GroupStudyDashboard = () => {
                     <p className="text-[9px] font-bold text-slate-400 uppercase">{m.active ? `${m.questions} Qs today` : 'Offline'}</p>
                   </div>
                 </div>
-                {!m.isUser && m.active && <button className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-indigo-600"><Hand className="w-4 h-4" /></button>}
               </div>
             ))}
           </div>
-          <button className="mt-8 text-indigo-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:gap-3 transition-all">
-            <Plus className="w-3.5 h-3.5" /> Invite Member
-          </button>
         </div>
 
         {/* Room */}
         <div className="lg:col-span-6 space-y-6">
           <div className="bg-white rounded-[20px] p-8 shadow-xl border-2 border-emerald-100 relative overflow-hidden h-full flex flex-col justify-center text-center">
-            <div className="absolute top-4 right-4 flex items-center gap-2 text-emerald-600">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Live Now</span>
-            </div>
-            
             <div className="mb-8">
               <div className="bg-emerald-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Video className="w-10 h-10 text-emerald-500" />
@@ -66,14 +91,6 @@ export const GroupStudyDashboard = () => {
               <h2 className="text-2xl font-headline font-bold text-[#1A1A2E] mb-2">Genetics — Mock Drill</h2>
               <p className="text-slate-500 font-medium">Started by Priya M · 14:32 elapsed</p>
             </div>
-
-            <div className="flex items-center justify-center -space-x-3 mb-8">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="w-10 h-10 rounded-full border-4 border-white bg-slate-200 flex items-center justify-center text-xs font-bold">P</div>
-              ))}
-              <div className="w-10 h-10 rounded-full border-4 border-white bg-emerald-100 text-emerald-600 flex items-center justify-center text-[10px] font-black">+2</div>
-            </div>
-
             <Button className="mx-auto px-12 py-7 rounded-2xl bg-emerald-500 text-white font-bold text-lg shadow-2xl shadow-emerald-100 hover:bg-emerald-600">
               Join Session <ChevronRight className="ml-2 w-5 h-5" />
             </Button>
@@ -84,7 +101,6 @@ export const GroupStudyDashboard = () => {
         <div className="lg:col-span-3 bg-white rounded-[20px] p-6 shadow-sm space-y-8">
           <div>
             <h3 className="text-sm font-bold text-slate-900 mb-1">Weekly Rankings</h3>
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Resets every Monday</p>
           </div>
           
           <div className="space-y-4">
@@ -100,14 +116,6 @@ export const GroupStudyDashboard = () => {
                 <span className="text-xs font-black">{m.points} <span className="text-[8px] opacity-60">pts</span></span>
               </div>
             ))}
-          </div>
-
-          <div className="pt-6 border-t border-slate-50 space-y-4">
-            <div className="bg-amber-50 rounded-xl p-3 text-center">
-              <p className="text-[9px] font-black text-amber-800 uppercase tracking-widest mb-1">Vidhyaly All-India</p>
-              <p className="text-sm font-black text-amber-900">Top 34% Percentile</p>
-            </div>
-            <p className="text-[8px] font-bold text-slate-400 text-center leading-relaxed">Based on activity data of 2.3L+ students nationwide.</p>
           </div>
         </div>
       </div>

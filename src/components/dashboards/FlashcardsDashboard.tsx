@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -5,11 +6,16 @@ import { motion } from "framer-motion";
 import { StatCard } from "@/components/ui/StatCard";
 import { AIInsightPanel } from "@/components/ui/AIInsightPanel";
 import { flashcardDecks } from "@/data/mockData";
-import { Search, Layers, CheckCircle, Bell, Flame, Play, Plus, ChevronRight } from "lucide-react";
+import { Search, Layers, CheckCircle, Bell, Flame, Play, Plus, ChevronRight, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/firebase";
+import Link from "next/link";
 
 export const FlashcardsDashboard = () => {
+  const { profile } = useUser();
+  const isFree = profile?.role !== 'admin' && profile?.role !== 'super-admin' && !profile?.isPro;
+
   return (
     <div className="space-y-8">
       {/* Stats Row */}
@@ -53,7 +59,10 @@ export const FlashcardsDashboard = () => {
                         deck.subject === 'chemistry' ? "bg-amber-500" : "bg-blue-500"
                       )} />
                       <div>
-                        <h4 className="text-sm font-bold text-slate-900">{deck.label}</h4>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-sm font-bold text-slate-900">{deck.label}</h4>
+                          {isFree && <span className="bg-amber-100 text-amber-600 text-[8px] font-black px-1.5 py-0.5 rounded">LOCKED (10 Cards)</span>}
+                        </div>
                         <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">{deck.chapter}</p>
                       </div>
                     </div>
@@ -62,9 +71,6 @@ export const FlashcardsDashboard = () => {
                       <div className="hidden group-hover:flex items-center gap-2">
                         <Button className="h-8 px-3 text-[10px] font-bold bg-[#5B50E8] rounded-full">
                           <Play className="w-3 h-3 mr-1 fill-white" /> Start Review
-                        </Button>
-                        <Button variant="ghost" className="h-8 px-3 text-[10px] font-bold text-slate-400 rounded-full">
-                          <Plus className="w-3 h-3 mr-1" /> Add
                         </Button>
                       </div>
                     </div>
@@ -94,53 +100,37 @@ export const FlashcardsDashboard = () => {
         {/* Right Column: Queue */}
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-white rounded-[20px] p-8 shadow-sm flex flex-col items-center text-center">
-            <h2 className="text-xl font-headline font-bold text-[#1A1A2E] mb-2">Due for Review Today</h2>
+            <h2 className="text-xl font-headline font-bold text-[#1A1A2E] mb-2">Review Today</h2>
             <div className="relative mb-6">
-              <span className="text-6xl font-black text-red-500">42</span>
-              <div className="absolute -top-2 -right-4 bg-red-100 text-red-600 text-[10px] font-black px-2 py-0.5 rounded-full">OVERDUE</div>
+              <span className="text-6xl font-black text-slate-900">{isFree ? '10' : '42'}</span>
+              <div className="absolute -top-2 -right-4 bg-amber-100 text-amber-600 text-[10px] font-black px-2 py-0.5 rounded-full">DAILY CAP</div>
             </div>
             
-            <div className="w-full space-y-4 mb-8">
-              {[
-                { front: "What is the primary function of DNA Polymerase?", subject: "Biology", overdue: 3 },
-                { front: "Define the term Enthalpy of Formation.", subject: "Chemistry", overdue: 1 }
-              ].map((card, i) => (
-                <div key={i} className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-left">
-                  <p className="text-xs font-medium text-slate-600 mb-2 truncate">{card.front}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black uppercase text-slate-400 tracking-widest">{card.subject}</span>
-                    <span className="text-[10px] font-bold text-red-500 bg-red-50 px-2 py-0.5 rounded-full">{card.overdue}d overdue</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {isFree && (
+              <div className="p-6 bg-indigo-50 rounded-2xl border border-indigo-100 mb-8 space-y-4">
+                <Crown className="w-10 h-10 text-indigo-500 mx-auto" />
+                <p className="text-xs font-bold text-indigo-900">Unlock Unlimited Recall</p>
+                <p className="text-[10px] text-indigo-700">Free users can only review 10 cards per chapter. Don't let limits slow your revision.</p>
+                <Button asChild className="w-full bg-indigo-600 rounded-xl font-bold h-10 text-xs">
+                  <Link href="/pricing">Upgrade Now</Link>
+                </Button>
+              </div>
+            )}
 
-            <Button className="w-full py-6 rounded-2xl bg-[#5B50E8] text-white font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all">
-              Review All 42 Cards <ChevronRight className="ml-2 w-4 h-4" />
-            </Button>
-          </div>
-
-          <div className="bg-white rounded-[20px] p-6 shadow-sm">
-            <h3 className="text-sm font-bold text-slate-900 mb-4">Upcoming review load</h3>
-            <div className="flex items-end justify-between h-20 gap-2">
-              {[12, 18, 42, 8, 24, 15, 30].map((v, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                  <motion.div 
-                    initial={{ height: 0 }}
-                    animate={{ height: `${(v / 42) * 100}%` }}
-                    className={cn("w-full rounded-t-md transition-colors", i === 2 ? "bg-red-400" : "bg-indigo-400")}
-                  />
-                  <span className="text-[8px] font-bold text-slate-400">{"MTWTFSS"[i]}</span>
-                </div>
-              ))}
-            </div>
+            {!isFree && (
+              <Button className="w-full py-6 rounded-2xl bg-[#5B50E8] text-white font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all">
+                Review All Cards <ChevronRight className="ml-2 w-4 h-4" />
+              </Button>
+            )}
           </div>
         </div>
       </div>
 
       <AIInsightPanel 
-        message="Your Organic Reactions deck has 28 cards you consistently rate Hard. The common confusion is nucleophile vs electrophile behaviour. Want me to create 10 simpler explanation cards for these concepts?"
-        actions={[
+        message={isFree ? "Vidhyamithra can analyze your mistake patterns, but you need Pro to see the results." : "Your Organic Reactions deck has 28 cards you consistently rate Hard. Want me to create 10 simpler explanation cards?"}
+        actions={isFree ? [
+          { label: "Upgrade to See Insights", primary: true, onClick: () => window.location.href = '/pricing' }
+        ] : [
           { label: "Yes, generate cards", primary: true },
           { label: "Show me which ones" }
         ]}

@@ -1,3 +1,4 @@
+
 "use client"
 
 import React from "react";
@@ -15,28 +16,31 @@ const plans = [
   {
     name: "Free",
     price: 0,
-    description: "Perfect for testing the waters",
+    interval: "",
+    description: "Basic access for new aspirants",
     features: [
-      "Basic NCERT Digital Notes",
-      "100 Daily Practice MCQs",
-      "Community Study Groups",
-      "Limited AI Tutor access"
+      "10 MCQs per NCERT Unit",
+      "10 Flashcards per Chapter",
+      "10 AI Tutor Credits",
+      "1 Full Mock Test",
+      "No Study Group access"
     ],
-    buttonText: "Start for Free",
+    buttonText: "Current Plan",
     variant: "outline",
     icon: Zap,
     color: "slate"
   },
   {
-    name: "Pro",
-    price: 249,
-    description: "Structured prep for serious students",
+    name: "Pro Monthly",
+    price: 199,
+    interval: "/ Month",
+    description: "Complete preparation for serious students",
     features: [
-      "5,000+ NCERT-Mapped MCQs",
-      "Full Class 11 & 12 Flashcards",
-      "AI Mistake Pattern Analysis",
-      "Standard AI Assistant access",
-      "Ad-free Experience"
+      "Unlimited MCQs (20k+ Bank)",
+      "Unlimited NCERT Flashcards",
+      "Unlimited AI Tutor Access",
+      "Unlimited Mock Tests",
+      "Study Group Membership"
     ],
     buttonText: "Upgrade to Pro",
     variant: "primary",
@@ -45,41 +49,23 @@ const plans = [
     color: "blue"
   },
   {
-    name: "Elite",
-    price: 599,
+    name: "Elite Annual",
+    price: 1499,
+    interval: "/ Year",
     description: "The complete AI-powered mentor system",
     features: [
-      "Unlimited AI Mentor Access",
-      "20,000+ Master MCQ Bank",
+      "Everything in Pro",
       "Priority WhatsApp Support",
       "AI Rank & College Predictor",
-      "Custom Study Plan Generation"
+      "Custom Study Plan Generation",
+      "Best Value (Save ₹889)"
     ],
     buttonText: "Go Elite",
     variant: "accent",
-    icon: Crown,
+    icon: Trophy,
     color: "amber"
   }
 ];
-
-function Crown(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
-    </svg>
-  );
-}
 
 export default function PricingSection1({ onPlanSelect, isLoading }: PricingSectionProps) {
   return (
@@ -99,7 +85,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
               Choose Your <span className="text-primary">Success Path</span>
             </h2>
             <p className="mx-auto max-w-[700px] text-slate-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed font-medium">
-              Flexible plans tailored for every stage of your medical entrance journey.
+              Start for free or unlock the full power of Vidhyaly for just ₹199.
             </p>
           </motion.div>
         </div>
@@ -134,7 +120,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
                 <p className="text-sm font-medium text-slate-400 mt-1">{plan.description}</p>
                 <div className="mt-6 flex items-baseline gap-1">
                   <span className="text-5xl font-black tracking-tight text-slate-900">₹{plan.price}</span>
-                  <span className="text-sm font-bold text-slate-400">/ Year</span>
+                  <span className="text-sm font-bold text-slate-400">{plan.interval}</span>
                 </div>
               </div>
 
@@ -151,7 +137,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
 
               <Button 
                 onClick={() => onPlanSelect(plan.name, plan.price)}
-                disabled={isLoading}
+                disabled={isLoading || plan.price === 0}
                 variant={plan.variant === 'outline' ? 'outline' : 'default'}
                 className={cn(
                   "group w-full py-7 rounded-[1.5rem] font-bold text-lg transition-all active:scale-[0.98] shadow-lg",
@@ -164,7 +150,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
                 ) : (
                   <div className="flex items-center justify-center gap-2">
                     {plan.buttonText}
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    {plan.price > 0 && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />}
                   </div>
                 )}
               </Button>
@@ -173,7 +159,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
         </div>
         
         <p className="mt-12 text-center text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
-          <ShieldCheck className="w-4 h-4" /> 100% Money Back Guarantee for first 7 days
+          <ShieldCheck className="w-4 h-4" /> Secure Razorpay Checkout
         </p>
       </div>
     </section>

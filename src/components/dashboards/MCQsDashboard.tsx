@@ -1,20 +1,43 @@
+
 "use client";
 
 import React from "react";
 import { motion } from "framer-motion";
 import { StatCard } from "@/components/ui/StatCard";
 import { SubjectHeatmap } from "@/components/dashboard/SubjectHeatmap";
-import { Target, PieChart, Calendar, Zap, ClipboardList, Clock, Trophy, ChevronRight } from "lucide-react";
+import { Target, PieChart, Calendar, Zap, ClipboardList, Clock, Trophy, ChevronRight, AlertCircle, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProgressRing } from "@/components/ui/ProgressRing";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/firebase";
+import Link from "next/link";
 
 export const MCQsDashboard = () => {
+  const { profile } = useUser();
+  const isFree = profile?.role !== 'admin' && profile?.role !== 'super-admin' && !profile?.isPro;
+
   return (
     <div className="space-y-8">
+      {isFree && (
+        <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl flex items-center justify-between gap-4 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="bg-amber-100 p-2 rounded-xl">
+              <AlertCircle className="w-5 h-5 text-amber-600" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-amber-900">Free Tier Limit</p>
+              <p className="text-xs text-amber-700">You can only practice 10 questions per unit on the free plan.</p>
+            </div>
+          </div>
+          <Button asChild size="sm" className="bg-amber-600 hover:bg-amber-700 rounded-full font-bold">
+            <Link href="/pricing">Unlock All Questions</Link>
+          </Button>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard label="Total Attempted" value={1247} icon="Target" bg="#FFF4E8" color="#F59E0B" index={0} />
         <StatCard label="Overall Accuracy" value={61} suffix="%" delta="↑ 3% this month" deltaType="success" icon="PieChart" bg="#E8F5EE" color="#10B981" index={1} />
@@ -38,7 +61,15 @@ export const MCQsDashboard = () => {
         </div>
 
         <div className="lg:col-span-5">
-          <div className="bg-white rounded-[20px] p-8 shadow-xl border border-orange-50 h-full flex flex-col">
+          <div className="bg-white rounded-[20px] p-8 shadow-xl border border-orange-50 h-full flex flex-col relative overflow-hidden">
+            {isFree && (
+              <div className="absolute top-4 right-4 z-10">
+                <div className="bg-amber-50 text-amber-600 px-3 py-1 rounded-full text-[10px] font-black uppercase flex items-center gap-1">
+                  <Crown className="w-3 h-3" /> Basic
+                </div>
+              </div>
+            )}
+            
             <h2 className="text-xl font-headline font-bold text-[#1A1A2E] mb-6">Start Practice Session</h2>
             
             <div className="space-y-8 flex-1">
@@ -74,78 +105,22 @@ export const MCQsDashboard = () => {
               <div>
                 <div className="flex justify-between items-center mb-4">
                   <Label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">3. Question Count</Label>
-                  <span className="text-lg font-black text-indigo-600">45</span>
+                  <span className="text-lg font-black text-indigo-600">{isFree ? '10' : '45'}</span>
                 </div>
-                <Slider defaultValue={[45]} max={180} step={5} className="py-4" />
+                <Slider 
+                  defaultValue={[isFree ? 10 : 45]} 
+                  max={isFree ? 10 : 180} 
+                  disabled={isFree}
+                  step={5} 
+                  className="py-4" 
+                />
+                {isFree && <p className="text-[10px] text-amber-600 font-bold mt-2">Upgrade to set more than 10 questions</p>}
               </div>
             </div>
 
             <Button className="w-full py-8 mt-8 rounded-2xl bg-[#5B50E8] text-white text-lg font-bold shadow-2xl shadow-indigo-100 hover:bg-indigo-700">
               Start Session <ChevronRight className="ml-2 w-5 h-5" />
             </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-[20px] p-6 shadow-sm">
-          <h3 className="text-sm font-bold text-slate-900 mb-4">Recent Sessions</h3>
-          <div className="space-y-4">
-            {[
-              { date: 'Oct 24', score: '14/20', accuracy: 70, subject: 'Bio' },
-              { date: 'Oct 23', score: '32/45', accuracy: 71, subject: 'Phy' },
-              { date: 'Oct 21', score: '8/10', accuracy: 80, subject: 'Chem' }
-            ].map((s, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-slate-50/50 hover:bg-white transition-all cursor-pointer border border-transparent hover:border-slate-100">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-[10px] font-black shadow-sm">{s.subject}</div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-700">{s.score}</p>
-                    <p className="text-[8px] font-bold text-slate-400 uppercase">{s.date}</p>
-                  </div>
-                </div>
-                <span className={cn(
-                  "text-xs font-black",
-                  s.accuracy >= 80 ? "text-emerald-500" : "text-amber-500"
-                )}>{s.accuracy}%</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-[20px] p-6 shadow-sm">
-          <h3 className="text-sm font-bold text-slate-900 mb-4">Recent Wrong Answers</h3>
-          <div className="space-y-4">
-            {[
-              { q: 'The link reaction of respiration occurs in...', chapter: 'Cellular Respiration' },
-              { q: 'In a dihybrid cross, the F2 ratio is...', chapter: 'Genetics' }
-            ].map((err, i) => (
-              <div key={i} className="space-y-2">
-                <p className="text-[10px] font-medium text-slate-600 line-clamp-1">{err.q}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-[8px] font-black bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full uppercase">{err.chapter}</span>
-                  <button className="text-[8px] font-black text-indigo-600 uppercase hover:underline">Practice Similar</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-white rounded-[20px] p-6 shadow-sm">
-          <h3 className="text-sm font-bold text-slate-900 mb-4">Achievements</h3>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { l: '1k Qs', p: 100, i: '🏆' },
-              { l: 'Bio Master', p: 80, i: '🎯' },
-              { l: 'Speed Demon', p: 78, i: '⚡' },
-              { l: 'Optics Pro', p: 65, i: '💎' }
-            ].map(a => (
-              <div key={a.l} className="flex flex-col items-center p-3 rounded-xl bg-slate-50/50">
-                <ProgressRing percentage={a.p} size={40} color={a.p === 100 ? '#10B981' : '#4F46E5'} />
-                <p className="text-[8px] font-black text-slate-500 uppercase mt-2 tracking-tighter">{a.l}</p>
-              </div>
-            ))}
           </div>
         </div>
       </div>

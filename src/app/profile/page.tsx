@@ -39,6 +39,8 @@ export default function ProfilePage() {
   const router = useRouter();
   const { toast } = useToast();
 
+  const isPro = profile?.role === 'admin' || profile?.role === 'super-admin' || profile?.isPro;
+
   useEffect(() => {
     if (profile?.googleAiApiKey) {
       setApiKey(profile.googleAiApiKey);
@@ -135,30 +137,27 @@ export default function ProfilePage() {
                     <p className="text-sm font-bold text-slate-700">{profile?.phoneNumber || "Not provided"}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <Calendar className="w-4 h-4 text-slate-400" />
-                  <div className="text-left">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Age</p>
-                    <p className="text-sm font-bold text-slate-700">{profile?.age || "Not provided"}</p>
-                  </div>
-                </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-800 rounded-[2rem] p-8 space-y-4 shadow-xl">
+            <div className={cn(
+              "rounded-[2rem] p-8 space-y-4 shadow-xl border",
+              isPro ? "bg-gradient-to-br from-emerald-600 to-emerald-800 border-emerald-500" : "bg-gradient-to-br from-slate-900 to-slate-800 border-slate-800"
+            )}>
               <div className="flex items-center gap-3">
-                <div className="bg-primary/20 p-2 rounded-xl">
-                  <Crown className="w-5 h-5 text-primary" />
+                <div className="bg-white/20 p-2 rounded-xl">
+                  <Crown className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="font-bold text-white">Subscription Status</h3>
               </div>
-              <p className="text-sm text-slate-400 leading-relaxed font-medium">
-                You are currently on the <span className="text-white font-bold">Free Tier</span>. 
-                Unlock unlimited AI features and 20k+ practice questions.
+              <p className="text-sm text-white/70 leading-relaxed font-medium">
+                {isPro ? "You are a Pro Aspirant with unlimited access." : "You are currently on the Free Tier with limited features."}
               </p>
-              <Button asChild className="w-full rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg transition-all hover:scale-[1.02]">
-                <Link href="/pricing">Upgrade to Premium (₹499)</Link>
-              </Button>
+              {!isPro && (
+                <Button asChild className="w-full rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg transition-all hover:scale-[1.02]">
+                  <Link href="/pricing">Unlock All Features (₹199)</Link>
+                </Button>
+              )}
             </div>
           </div>
 
@@ -176,7 +175,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 {isSaved && (
-                  <div className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 border border-green-100">
+                  <div className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1 border border-green-100">
                     <ShieldCheck className="w-3 h-3" /> Connected
                   </div>
                 )}
@@ -200,7 +199,7 @@ export default function ProfilePage() {
                   </div>
                   <p className="text-[10px] text-slate-500 font-medium flex items-start gap-1.5 mt-2">
                     <AlertCircle className="w-3 h-3 mt-0.5 shrink-0" />
-                    Your key is securely stored in your account and used only for AI features.
+                    Your key is used to bypass internal credit limits and maintain 100% privacy.
                   </p>
                 </div>
 
@@ -208,45 +207,21 @@ export default function ProfilePage() {
                   <Button 
                     onClick={handleSaveKey} 
                     disabled={isUpdating}
-                    className="rounded-2xl py-6 font-bold shadow-lg transition-all active:scale-95"
+                    className="rounded-2xl py-6 font-bold shadow-lg transition-all active:scale-95 bg-slate-900"
                   >
                     {isUpdating ? "Saving..." : "Save Key"}
                   </Button>
-                  <a 
-                    href="https://aistudio.google.com/app/apikey" 
-                    target="_blank"
-                    className="flex items-center justify-center gap-2 text-xs font-bold text-primary hover:underline"
-                  >
-                    Get your free key from Google AI Studio <ChevronRight className="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
-
-              <div className="pt-8 border-t space-y-4">
-                <h4 className="text-sm font-bold text-slate-800">Why do I need this?</h4>
-                <div className="space-y-3">
-                  {[
-                    "Zero costs for your NEET preparation platform.",
-                    "Unlimited AI tutor sessions (within Google's free tier).",
-                    "Direct control over your AI compute resources.",
-                    "100% privacy—no third-party data tracking."
-                  ].map((text, i) => (
-                    <div key={i} className="flex items-center gap-3 text-xs text-slate-500 font-medium">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary/40 shrink-0" />
-                      {text}
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
 
             <Link 
               href="/ai-friend/vidhyamithra" 
-              className="group flex items-center justify-between p-6 bg-slate-900 rounded-[2rem] text-white hover:bg-slate-800 transition-all shadow-xl"
+              className="group flex items-center justify-between p-6 bg-indigo-600 rounded-[2rem] text-white hover:bg-indigo-700 transition-all shadow-xl"
             >
               <div className="flex items-center gap-4">
                 <div className="bg-white/10 p-3 rounded-2xl group-hover:scale-110 transition-transform">
-                  <Sparkles className="w-6 h-6 text-primary" />
+                  <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <div>
                   <h4 className="font-bold">Chat with Vidhyamithra</h4>
