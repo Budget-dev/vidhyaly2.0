@@ -4,7 +4,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles, Zap, ShieldCheck, Trophy, Bot, ArrowRight, Star } from "lucide-react";
+import { Check, Sparkles, Zap, ShieldCheck, Star, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PricingSectionProps {
@@ -47,23 +47,6 @@ const plans = [
     popular: true,
     icon: Star,
     color: "blue"
-  },
-  {
-    name: "Elite Annual",
-    price: 1499,
-    interval: "/ Year",
-    description: "The complete AI-powered mentor system",
-    features: [
-      "Everything in Pro",
-      "Priority WhatsApp Support",
-      "AI Rank & College Predictor",
-      "Custom Study Plan Generation",
-      "Best Value (Save ₹889)"
-    ],
-    buttonText: "Go Elite",
-    variant: "accent",
-    icon: Trophy,
-    color: "amber"
   }
 ];
 
@@ -90,7 +73,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
           {plans.map((plan, idx) => (
             <motion.div
               key={plan.name}
@@ -112,7 +95,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
                 <div className={cn(
                   "w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-inner",
                   plan.color === 'blue' ? "bg-blue-50 text-blue-600" : 
-                  plan.color === 'amber' ? "bg-amber-50 text-amber-600" : "bg-slate-50 text-slate-600"
+                  "bg-slate-50 text-slate-600"
                 )}>
                   <plan.icon className="w-6 h-6" />
                 </div>
@@ -141,7 +124,6 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
                 variant={plan.variant === 'outline' ? 'outline' : 'default'}
                 className={cn(
                   "group w-full py-7 rounded-[1.5rem] font-bold text-lg transition-all active:scale-[0.98] shadow-lg",
-                  plan.variant === 'accent' ? "bg-amber-500 hover:bg-amber-600 text-white" : 
                   plan.variant === 'primary' ? "bg-primary hover:bg-primary/90 text-white" : ""
                 )}
               >
@@ -159,7 +141,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
         </div>
         
         <p className="mt-12 text-center text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
-          <ShieldCheck className="w-4 h-4" /> Secure Razorpay Checkout
+          <ShieldCheck className="w-4 h-4 text-primary" /> Secure Razorpay Checkout
         </p>
       </div>
     </section>
