@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { StatCard } from "@/components/ui/StatCard";
-import { FileText, Eye, Share2, Bookmark, Pencil, Trash2, Search, Star, ChevronRight, User, Plus } from "lucide-react";
+import { FileText, Eye, Share2, Bookmark, Pencil, Trash2, Search, Star, ChevronRight, User, Plus, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
