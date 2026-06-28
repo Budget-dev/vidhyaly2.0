@@ -12,7 +12,8 @@ import {
   Users, 
   Settings, 
   LogOut,
-  ChevronRight
+  ChevronRight,
+  CalendarDays
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -26,13 +27,14 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { id: 'dashboard',  label: 'Dashboard',     icon: Home },
-  { id: 'flashcards', label: 'Flashcards',    icon: Layers },
-  { id: 'smartlearn', label: 'Smart Learn',   icon: Brain },
-  { id: 'mcqs',       label: 'Practice MCQs', icon: ClipboardList },
-  { id: 'guides',     label: 'Study Guides',  icon: BookOpen },
-  { id: 'aitutor',    label: 'AI Tutor',      icon: Bot, badge: 'NEW' },
-  { id: 'groupstudy', label: 'Group Study',   icon: Users },
+  { id: 'dashboard',    label: 'Dashboard',      icon: Home },
+  { id: 'studyplanner', label: 'Study Planner',  icon: CalendarDays, badge: 'AI' },
+  { id: 'flashcards',   label: 'Flashcards',     icon: Layers },
+  { id: 'smartlearn',   label: 'Smart Learn',    icon: Brain },
+  { id: 'mcqs',         label: 'Practice MCQs',  icon: ClipboardList },
+  { id: 'guides',       label: 'Study Guides',   icon: BookOpen },
+  { id: 'aitutor',      label: 'AI Tutor',       icon: Bot, badge: 'NEW' },
+  { id: 'groupstudy',   label: 'Group Study',    icon: Users },
 ];
 
 export const Sidebar = ({ activeTool, setActiveTool }: SidebarProps) => {

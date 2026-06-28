@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -16,6 +17,7 @@ import { MCQsDashboard } from "@/components/dashboards/MCQsDashboard";
 import { GuidesDashboard } from "@/components/dashboards/GuidesDashboard";
 import { AITutorDashboard } from "@/components/dashboards/AITutorDashboard";
 import { GroupStudyDashboard } from "@/components/dashboards/GroupStudyDashboard";
+import { StudyPlannerDashboard } from "@/components/dashboards/StudyPlannerDashboard";
 
 export default function DashboardPage() {
   const [activeTool, setActiveTool] = useState('dashboard');
@@ -32,14 +34,15 @@ export default function DashboardPage() {
 
   const renderContent = () => {
     switch (activeTool) {
-      case 'dashboard':  return <HomeDashboard />;
-      case 'flashcards': return <FlashcardsDashboard />;
-      case 'smartlearn': return <SmartLearnDashboard />;
-      case 'mcqs':       return <MCQsDashboard />;
-      case 'guides':     return <GuidesDashboard />;
-      case 'aitutor':    return <AITutorDashboard />;
-      case 'groupstudy': return <GroupStudyDashboard />;
-      default:           return <HomeDashboard />;
+      case 'dashboard':    return <HomeDashboard />;
+      case 'studyplanner': return <StudyPlannerDashboard />;
+      case 'flashcards':   return <FlashcardsDashboard />;
+      case 'smartlearn':   return <SmartLearnDashboard />;
+      case 'mcqs':         return <MCQsDashboard />;
+      case 'guides':       return <GuidesDashboard />;
+      case 'aitutor':      return <AITutorDashboard />;
+      case 'groupstudy':   return <GroupStudyDashboard />;
+      default:             return <HomeDashboard />;
     }
   };
 

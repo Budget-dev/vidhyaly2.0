@@ -14,6 +14,7 @@ interface TopbarProps {
 
 const TOOL_TITLES: Record<string, string> = {
   dashboard: "Overview",
+  studyplanner: "NEET AI Planner",
   flashcards: "Flashcards",
   smartlearn: "Smart Learn",
   mcqs: "Practice MCQs",
