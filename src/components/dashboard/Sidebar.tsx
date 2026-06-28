@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -13,7 +12,8 @@ import {
   Settings, 
   LogOut,
   ChevronRight,
-  CalendarDays
+  CalendarDays,
+  History
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -29,6 +29,7 @@ interface SidebarProps {
 const navItems = [
   { id: 'dashboard',    label: 'Dashboard',      icon: Home },
   { id: 'studyplanner', label: 'Study Planner',  icon: CalendarDays, badge: 'AI' },
+  { id: 'pyqs',         label: 'PYQ Bank',       icon: History, badge: 'NEW' },
   { id: 'flashcards',   label: 'Flashcards',     icon: Layers },
   { id: 'smartlearn',   label: 'Smart Learn',    icon: Brain },
   { id: 'mcqs',         label: 'Practice MCQs',  icon: ClipboardList },

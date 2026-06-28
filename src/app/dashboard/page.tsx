@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -18,6 +17,7 @@ import { GuidesDashboard } from "@/components/dashboards/GuidesDashboard";
 import { AITutorDashboard } from "@/components/dashboards/AITutorDashboard";
 import { GroupStudyDashboard } from "@/components/dashboards/GroupStudyDashboard";
 import { StudyPlannerDashboard } from "@/components/dashboards/StudyPlannerDashboard";
+import { PYQDashboard } from "@/components/dashboards/PYQDashboard";
 
 export default function DashboardPage() {
   const [activeTool, setActiveTool] = useState('dashboard');
@@ -36,6 +36,7 @@ export default function DashboardPage() {
     switch (activeTool) {
       case 'dashboard':    return <HomeDashboard />;
       case 'studyplanner': return <StudyPlannerDashboard />;
+      case 'pyqs':         return <PYQDashboard />;
       case 'flashcards':   return <FlashcardsDashboard />;
       case 'smartlearn':   return <SmartLearnDashboard />;
       case 'mcqs':         return <MCQsDashboard />;
