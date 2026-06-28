@@ -64,22 +64,21 @@ const navItems = [
     label: "Study tools",
     subMenus: [
       {
-        title: "Students",
+        title: "Preparation",
         items: [
-          { label: "Flashcards", description: "Master concepts with active recall", icon: "Layers", href: "/study-tools/flashcards" },
-          { label: "Learn", description: "Structured video lectures and content", icon: "BookOpen", href: "/study-tools/learn" },
+          { label: "Study Planner", description: "Your daily NCERT roadmap", icon: "Calendar", href: "/study-tools/planner" },
           { label: "PYQ Bank", description: "12+ Years Solved Papers (2014-2026)", icon: "History", href: "/study-tools/pyqs" },
-          { label: "Study Guides", description: "Comprehensive notes for all chapters", icon: "FileText", href: "/study-tools/guides" },
-          { label: "Practice MCQs", description: "Chapter-wise multiple choice questions", icon: "CheckSquare", href: "/study-tools/mcqs" },
-          { label: "AI Tutor", description: "24/7 personalized learning assistance", icon: "Bot", href: "/study-tools/ai-tutor" },
-          { label: "Rank Predictor", description: "Predict your NEET rank and colleges", icon: "Target", href: "/tools/neet-rank-predictor" },
-          { label: "Study groups", description: "Collaborate with fellow aspirants", icon: "Users", href: "/study-tools/groups" },
+          { label: "Practice MCQs", description: "20,000+ chapter-wise questions", icon: "CheckSquare", href: "/study-tools/mcqs" },
+          { label: "Flashcards", description: "Master concepts with active recall", icon: "Layers", href: "/study-tools/flashcards" },
         ],
       },
       {
-        title: "Teachers",
+        title: "Advanced",
         items: [
-          { label: "Live Teacher", description: "Connect with educators in real-time", icon: "Presentation", href: "/study-tools/live-teacher" },
+          { label: "AI Tutor", description: "24/7 personalized learning assistance", icon: "Bot", href: "/study-tools/ai-tutor" },
+          { label: "Performance Analytics", description: "Deep dive into your weak areas", icon: "BarChart3", href: "/analytics" },
+          { label: "Rank Predictor", description: "Predict your NEET rank and colleges", icon: "Target", href: "/tools/neet-rank-predictor" },
+          { label: "Study groups", description: "Collaborate with fellow aspirants", icon: "Users", href: "/study-tools/groups" },
         ],
       },
     ],
