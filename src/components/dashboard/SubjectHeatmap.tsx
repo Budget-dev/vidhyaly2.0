@@ -3,10 +3,29 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { masteryData } from "@/data/mockData";
 import { cn } from "@/lib/utils";
+import { AlertCircle } from "lucide-react";
 
 type Subject = 'biology' | 'chemistry' | 'physics';
+
+const INITIAL_CHAPTERS: Record<Subject, { name: string; accuracy: number; pyqHigh?: boolean }[]> = {
+  biology: [
+    { name: "Cell Biology", accuracy: 0, pyqHigh: true },
+    { name: "Genetics", accuracy: 0, pyqHigh: true },
+    { name: "Ecology", accuracy: 0, pyqHigh: true },
+    { name: "Human Physiology", accuracy: 0, pyqHigh: true }
+  ],
+  chemistry: [
+    { name: "Organic Reactions", accuracy: 0, pyqHigh: true },
+    { name: "Equilibrium", accuracy: 0, pyqHigh: true },
+    { name: "Thermodynamics", accuracy: 0, pyqHigh: true }
+  ],
+  physics: [
+    { name: "Laws of Motion", accuracy: 0, pyqHigh: true },
+    { name: "Optics", accuracy: 0, pyqHigh: true },
+    { name: "Electrostatics", accuracy: 0, pyqHigh: true }
+  ]
+};
 
 export const SubjectHeatmap = () => {
   const [activeTab, setActiveTab] = useState<Subject>('biology');
@@ -16,7 +35,7 @@ export const SubjectHeatmap = () => {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-xl font-headline font-bold text-[#1A1A2E]">Chapter Mastery Map</h2>
-          <p className="text-xs font-medium text-slate-400">Tap any chapter to drill practice questions</p>
+          <p className="text-xs font-medium text-slate-400">Real-time proficiency based on practice</p>
         </div>
         
         <div className="flex gap-2 bg-slate-50 p-1 rounded-full border">
@@ -37,7 +56,12 @@ export const SubjectHeatmap = () => {
         </div>
       </div>
 
-      <div className="flex-1 space-y-5 overflow-hidden">
+      <div className="flex-1 space-y-8 overflow-hidden">
+        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-3">
+          <AlertCircle className="w-4 h-4 text-slate-400" />
+          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Mastery data will populate after your first test</p>
+        </div>
+
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -47,47 +71,20 @@ export const SubjectHeatmap = () => {
             transition={{ duration: 0.2 }}
             className="space-y-6"
           >
-            {masteryData[activeTab].map((chapter, idx) => {
-              const color = chapter.accuracy > 80 ? '#10B981' : 
-                          chapter.accuracy > 60 ? '#3B82F6' : 
-                          chapter.accuracy > 40 ? '#F59E0B' : '#EF4444';
-              const bgColor = chapter.accuracy > 80 ? '#D1FAE5' : 
-                            chapter.accuracy > 60 ? '#DBEAFE' : 
-                            chapter.accuracy > 40 ? '#FEF3C7' : '#FEE2E2';
-
-              return (
-                <div key={chapter.name} className="group cursor-pointer">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-slate-700">{chapter.name}</span>
-                      {chapter.pyqHigh && (
-                        <span className="bg-[#FF6B9C]/10 text-[#FF6B9C] text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">
-                          HIGH PYQ
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-xs font-black" style={{ color }}>{chapter.accuracy}%</span>
+            {INITIAL_CHAPTERS[activeTab].map((chapter, idx) => (
+              <div key={chapter.name} className="group opacity-40">
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-bold text-slate-700">{chapter.name}</span>
                   </div>
-                  
-                  <div className="relative h-2 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${chapter.accuracy}%` }}
-                      transition={{ duration: 0.6, ease: "easeOut", delay: idx * 0.05 }}
-                      className="absolute inset-y-0 left-0 rounded-full relative overflow-hidden"
-                      style={{ backgroundColor: color }}
-                    >
-                      {/* Shimmer sweep */}
-                      <motion.div 
-                        animate={{ x: ['-100%', '200%'] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-y-0 w-1/3 bg-white/20 skew-x-12"
-                      />
-                    </motion.div>
-                  </div>
+                  <span className="text-xs font-black text-slate-300">0%</span>
                 </div>
-              );
-            })}
+                
+                <div className="relative h-2 w-full bg-slate-50 rounded-full overflow-hidden border border-slate-100">
+                  <div className="absolute inset-y-0 left-0 rounded-full bg-slate-200 w-0" />
+                </div>
+              </div>
+            ))}
           </motion.div>
         </AnimatePresence>
       </div>

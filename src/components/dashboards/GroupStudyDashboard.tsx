@@ -4,10 +4,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { StatCard } from "@/components/ui/StatCard";
-import { groupMembers } from "@/data/mockData";
-import { Users, Target, Video, Trophy, Hand, Plus, Play, ChevronRight, Pin, Lock, Crown } from "lucide-react";
+import { Users, Target, Video, Trophy, Lock, Crown, Search, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { useUser } from "@/firebase";
 import Link from "next/link";
 
@@ -47,75 +45,39 @@ export const GroupStudyDashboard = () => {
 
       {/* Stats Row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard label="Group Members" value={6} icon="Users" bg="#F0EEFF" color="#4F46E5" index={0} />
-        <StatCard label="Weekly Goal" value={68} suffix="%" icon="Target" bg="#E8F5EE" color="#10B981" index={1} />
-        <StatCard label="Sessions This Week" value={4} icon="Video" bg="#E8F4FF" color="#3B82F6" index={2} />
-        <StatCard label="Your Group Rank" value="#2" icon="Trophy" bg="#FFF4E8" color="#F59E0B" index={3} />
+        <StatCard label="Group Members" value={0} icon="Users" bg="#F0EEFF" color="#4F46E5" index={0} />
+        <StatCard label="Weekly Goal" value={0} suffix="%" icon="Target" bg="#E8F5EE" color="#10B981" index={1} />
+        <StatCard label="Sessions Attended" value={0} icon="Video" bg="#E8F4FF" color="#3B82F6" index={2} />
+        <StatCard label="Your Global Rank" value="--" icon="Trophy" bg="#FFF4E8" color="#F59E0B" index={3} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-        {/* Members */}
-        <div className="lg:col-span-3 bg-white rounded-[20px] p-6 shadow-sm flex flex-col">
-          <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-6">Who&apos;s Studying Today</h2>
-          <div className="space-y-6 flex-1">
-            {groupMembers.map((m, i) => (
-              <div key={m.name} className={cn(
-                "flex items-center justify-between group",
-                m.isUser && "bg-indigo-50/50 -mx-6 px-6 py-3 border-y border-indigo-100/50"
-              )}>
-                <div className="flex items-center gap-3">
-                  <div className={cn(
-                    "w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold text-white relative",
-                    i % 3 === 0 ? "bg-emerald-400" : i % 3 === 1 ? "bg-indigo-400" : "bg-amber-400"
-                  )}>
-                    {m.name.charAt(0)}
-                    {m.active && <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white" />}
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-800">{m.name} {m.isUser && "(You)"}</p>
-                    <p className="text-[9px] font-bold text-slate-400 uppercase">{m.active ? `${m.questions} Qs today` : 'Offline'}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+        {/* Search */}
+        <div className="lg:col-span-4 bg-white rounded-[20px] p-6 shadow-sm flex flex-col">
+          <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-6">Find Study Partners</h2>
+          <div className="relative mb-6">
+             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+             <input type="text" placeholder="Search by name or UID..." className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold focus:outline-none" />
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center text-center space-y-3 py-12">
+             <Users className="w-10 h-10 text-slate-200" />
+             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Connect with serious aspirants to stay accountable.</p>
           </div>
         </div>
 
         {/* Room */}
-        <div className="lg:col-span-6 space-y-6">
-          <div className="bg-white rounded-[20px] p-8 shadow-xl border-2 border-emerald-100 relative overflow-hidden h-full flex flex-col justify-center text-center">
+        <div className="lg:col-span-8 space-y-6">
+          <div className="bg-white rounded-[20px] p-12 shadow-xl border border-slate-50 relative overflow-hidden h-full flex flex-col justify-center text-center items-center">
             <div className="mb-8">
-              <div className="bg-emerald-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Video className="w-10 h-10 text-emerald-500" />
+              <div className="bg-indigo-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Video className="w-12 h-12 text-indigo-500" />
               </div>
-              <h2 className="text-2xl font-headline font-bold text-[#1A1A2E] mb-2">Genetics — Mock Drill</h2>
-              <p className="text-slate-500 font-medium">Started by Priya M · 14:32 elapsed</p>
+              <h2 className="text-3xl font-headline font-bold text-[#1A1A2E] mb-2">No Active Sessions</h2>
+              <p className="text-slate-500 font-medium max-w-md">Start your own live session to invite others to study specific chapters together.</p>
             </div>
-            <Button className="mx-auto px-12 py-7 rounded-2xl bg-emerald-500 text-white font-bold text-lg shadow-2xl shadow-emerald-100 hover:bg-emerald-600">
-              Join Session <ChevronRight className="ml-2 w-5 h-5" />
+            <Button className="px-12 py-7 rounded-2xl bg-indigo-600 text-white font-bold text-lg shadow-2xl shadow-indigo-100 hover:bg-indigo-700">
+              Create Study Room <ChevronRight className="ml-2 w-5 h-5" />
             </Button>
-          </div>
-        </div>
-
-        {/* Leaderboard */}
-        <div className="lg:col-span-3 bg-white rounded-[20px] p-6 shadow-sm space-y-8">
-          <div>
-            <h3 className="text-sm font-bold text-slate-900 mb-1">Weekly Rankings</h3>
-          </div>
-          
-          <div className="space-y-4">
-            {groupMembers.sort((a,b) => b.points - a.points).map((m, i) => (
-              <div key={m.name} className={cn(
-                "flex items-center justify-between p-3 rounded-xl transition-all",
-                m.isUser ? "bg-indigo-600 text-white shadow-lg shadow-indigo-100" : "bg-slate-50/50"
-              )}>
-                <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-black opacity-50 w-4">#{i+1}</span>
-                  <span className="text-xs font-bold">{m.name}</span>
-                </div>
-                <span className="text-xs font-black">{m.points} <span className="text-[8px] opacity-60">pts</span></span>
-              </div>
-            ))}
           </div>
         </div>
       </div>
