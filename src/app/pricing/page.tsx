@@ -63,7 +63,7 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-slate-50/50">
       {/* Reduced Top Padding */}
-      <div className="max-w-7xl mx-auto px-4 pt-6">
+      <div className="max-w-7xl mx-auto px-4 pt-4">
         <Button asChild variant="ghost" className="rounded-full gap-2 text-slate-500 font-bold">
           <Link href="/">
             <ArrowLeft className="h-4 w-4" />

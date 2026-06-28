@@ -1,7 +1,7 @@
 
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles, Zap, ShieldCheck, Star, ArrowRight } from "lucide-react";
@@ -52,28 +52,28 @@ const plans = [
 
 export default function PricingSection1({ onPlanSelect, isLoading }: PricingSectionProps) {
   return (
-    <section className="w-full py-8 md:py-12 flex flex-col items-center">
+    <section className="w-full pt-2 pb-12 flex flex-col items-center">
       <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
+        <div className="flex flex-col items-center justify-center space-y-2 text-center mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-2"
+            className="space-y-1"
           >
-            <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-bold text-primary mb-3">
-              <Sparkles className="mr-2 h-4 w-4 fill-primary" />
+            <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-bold text-primary mb-2">
+              <Sparkles className="mr-2 h-3 w-3 fill-primary" />
               NEET 2027 Batch Plans
             </div>
-            <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-slate-900">
+            <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-5xl text-slate-900 leading-tight">
               Choose Your <span className="text-primary">Success Path</span>
             </h2>
-            <p className="mx-auto max-w-[700px] text-slate-500 md:text-lg font-medium">
+            <p className="mx-auto max-w-[700px] text-slate-500 text-sm md:text-base font-medium">
               Start for free or unlock the full power of Vidhyaly for just &#8377;199.
             </p>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto items-stretch">
           {plans.map((plan, idx) => (
             <motion.div
               key={plan.name}
@@ -82,7 +82,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
               transition={{ delay: 0.1 * idx }}
               className={cn(
                 "relative flex flex-col rounded-[2.5rem] bg-white p-8 border transition-all duration-500 hover:shadow-2xl",
-                plan.popular ? "border-primary/50 shadow-xl scale-[1.02] z-10" : "border-slate-100 shadow-sm hover:-translate-y-2"
+                plan.popular ? "border-primary/50 shadow-xl scale-[1.02] z-10" : "border-slate-100 shadow-sm hover:-translate-y-1"
               )}
             >
               {plan.popular && (
@@ -93,14 +93,14 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
 
               <div className="mb-6">
                 <div className={cn(
-                  "w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-inner",
+                  "w-12 h-12 rounded-2xl flex items-center justify-center mb-4 shadow-inner",
                   plan.color === 'blue' ? "bg-blue-50 text-blue-600" : 
                   "bg-slate-50 text-slate-600"
                 )}>
                   <plan.icon className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3>
-                <p className="text-sm font-medium text-slate-400 mt-1">{plan.description}</p>
+                <p className="text-xs font-medium text-slate-400 mt-1">{plan.description}</p>
                 <div className="mt-4 flex items-baseline gap-1">
                   <span className="text-5xl font-black tracking-tight text-slate-900">&#8377;{plan.price}</span>
                   <span className="text-sm font-bold text-slate-400">{plan.interval}</span>
@@ -140,7 +140,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
           ))}
         </div>
         
-        <p className="mt-10 text-center text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
+        <p className="mt-8 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
           <ShieldCheck className="w-4 h-4 text-primary" /> Secure Razorpay Checkout
         </p>
       </div>
