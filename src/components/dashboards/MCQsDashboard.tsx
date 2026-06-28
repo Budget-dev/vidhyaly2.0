@@ -39,10 +39,10 @@ export const MCQsDashboard = () => {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard label="Total Attempted" value={1247} icon="Target" bg="#FFF4E8" color="#F59E0B" index={0} />
-        <StatCard label="Overall Accuracy" value={61} suffix="%" delta="↑ 3% this month" deltaType="success" icon="PieChart" bg="#E8F5EE" color="#10B981" index={1} />
-        <StatCard label="This Week" value={89} suffix=" Qs" icon="Calendar" bg="#E8F4FF" color="#3B82F6" index={2} />
-        <StatCard label="Best Streak" value={23} delta="in Physics · Optics" icon="Zap" bg="#F3EEFF" color="#4F46E5" index={3} />
+        <StatCard label="Total Attempted" value={0} icon="Target" bg="#FFF4E8" color="#F59E0B" index={0} />
+        <StatCard label="Overall Accuracy" value={0} suffix="%" delta="Start practicing" deltaType="neutral" icon="PieChart" bg="#E8F5EE" color="#10B981" index={1} />
+        <StatCard label="This Week" value={0} suffix=" Qs" icon="Calendar" bg="#E8F4FF" color="#3B82F6" index={2} />
+        <StatCard label="Best Streak" value={0} delta="No active streak" deltaType="neutral" icon="Zap" bg="#F3EEFF" color="#4F46E5" index={3} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
