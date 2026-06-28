@@ -862,7 +862,7 @@ export function FeaturesSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="w-full max-w-xl aspect-video rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-10"
+                        className="w-full max-xl aspect-video rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-10"
                     >
                         <img 
                             src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2004_17_11%20PM.png" 
@@ -1000,21 +1000,21 @@ export function ExamsSection() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-24 relative overflow-hidden rounded-3xl bg-slate-900 text-white p-10 md:p-16 border border-white/10"
+          className="mt-24 relative overflow-hidden rounded-[3rem] bg-white p-10 md:p-16 border border-slate-100 shadow-xl shadow-slate-200/50"
         >
           <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 text-center md:text-left">
-              <h2 className="text-3xl md:text-4xl font-headline font-bold">Our Achievements in Numbers</h2>
-              <p className="text-slate-400 max-w-md">
+              <h2 className="text-3xl md:text-4xl font-headline font-bold text-slate-900 leading-tight">Our Achievements <br className="hidden md:block" /> in Numbers</h2>
+              <p className="text-slate-500 max-w-md font-medium">
                 We measure our success through the performance of our students. Thousands of aspirants trust Vidhyaly for their NEET journey.
               </p>
             </div>
             
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-12">
               {achievements.map((item, idx) => (
-                <div className="space-y-2 text-center" key={item.label}>
-                  <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">{item.label}</p>
-                  <span className="text-3xl md:text-4xl font-bold text-primary block">
+                <div className="space-y-2 text-center md:text-left" key={item.label}>
+                  <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">{item.label}</p>
+                  <span className="text-3xl md:text-5xl font-bold text-primary block tracking-tight">
                     {item.value}
                   </span>
                 </div>
@@ -1022,7 +1022,7 @@ export function ExamsSection() {
             </div>
           </div>
           
-          <div className="pointer-events-none absolute -top-1 right-1 z-0 h-full w-full bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 [mask-image:radial-gradient(circle_at_top_right,#000,transparent_70%)] md:block"></div>
+          <div className="pointer-events-none absolute -top-1 right-1 z-0 h-full w-full bg-[linear-gradient(to_right,#00000005_1px,transparent_1px),linear-gradient(to_bottom,#00000005_1px,transparent_1px)] bg-[size:40px_40px] opacity-100 [mask-image:radial-gradient(circle_at_top_right,#000,transparent_70%)] md:block"></div>
         </motion.div>
       </div>
     </section>
