@@ -1,3 +1,4 @@
+
 "use client"
 
 import React from "react";
@@ -52,13 +53,13 @@ export default function AboutPage() {
         }}
       />
 
-      {/* Hero Section */}
-      <section className="relative z-10 pt-24 pb-12 px-4 flex flex-col items-center justify-center">
+      {/* Hero Section - Reduced padding */}
+      <section className="relative z-10 pt-12 pb-12 px-4 flex flex-col items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="flex flex-col items-center text-center max-w-4xl space-y-8"
+          className="flex flex-col items-center text-center max-w-4xl space-y-6"
         >
           {/* Badge */}
           <motion.div 
@@ -86,7 +87,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center gap-4 pt-4"
+            className="flex flex-col sm:flex-row items-center gap-4 pt-2"
           >
             <Button size="lg" className="rounded-full px-8 bg-slate-900 hover:bg-slate-800 text-white shadow-xl h-14 text-lg font-bold" asChild>
               <Link href="/auth">
@@ -104,7 +105,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-row items-center gap-4 pt-6"
+            className="flex flex-row items-center gap-4 pt-4"
           >
             <div className="flex flex-row -space-x-3">
               {[1, 2, 3, 4].map((i) => (
@@ -124,8 +125,8 @@ export default function AboutPage() {
       </section>
 
       {/* Pillars Carousel */}
-      <section className="relative z-10 w-full py-16">
-        <div className="text-center mb-12">
+      <section className="relative z-10 w-full py-12">
+        <div className="text-center mb-10">
           <h2 className="text-2xl font-headline font-bold text-slate-800">The Vidhyaly Advantage</h2>
         </div>
         
@@ -172,8 +173,8 @@ export default function AboutPage() {
       </section>
 
       {/* Founder Section */}
-      <section id="founder" className="relative z-10 py-24 px-4 bg-white/50 backdrop-blur-sm border-y">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
+      <section id="founder" className="relative z-10 py-16 px-4 bg-white/50 backdrop-blur-sm border-y">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -199,23 +200,20 @@ export default function AboutPage() {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex-1 space-y-8"
+            className="flex-1 space-y-6"
           >
             <div className="space-y-4">
               <span className="text-primary font-bold text-[10px] tracking-widest uppercase">Founder & Visionary</span>
               <h2 className="text-4xl md:text-5xl font-headline font-bold text-slate-900">Venkatesh Choppa</h2>
               <div className="space-y-4 text-slate-600 text-lg leading-relaxed">
                 <p>
-                  Venkatesh Choppa is a seasoned technologist who spent two years as a Software Engineer, honing his skills in building complex systems. But his true calling came from his personal struggle.
+                  Venkatesh Choppa is a seasoned technologist who spent two years as a Software Engineer, honing his skills in building complex systems.
                 </p>
                 <p>
                   Having faced the deep emotional toll of missing a NEET seat three times, Venkatesh realized that many hardworking aspirants fail not because of effort, but because of a lack of precision in their preparation.
                 </p>
                 <p className="font-bold text-slate-900">
                   He built Vidhyaly with one singular vision: "No more failures due to the gap between NCERT and execution."
-                </p>
-                <p>
-                  By combining AI-driven analytics with software precision, he is dedicated to providing every future doctor with the exact tools he wished he had during his journey.
                 </p>
               </div>
             </div>
@@ -237,7 +235,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="pt-6">
+            <div className="pt-4">
               <Button asChild className="rounded-full px-8 h-14 bg-primary hover:bg-primary/90">
                 <Link href="/contact">Get in Touch</Link>
               </Button>

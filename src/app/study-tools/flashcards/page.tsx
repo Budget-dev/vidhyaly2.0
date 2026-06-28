@@ -443,9 +443,9 @@ export default function FlashcardsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50/30 pb-32">
-      {/* Dynamic Header */}
-      <section className="pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-slate-50/30 pb-20">
+      {/* Dynamic Header - Reduced Padding */}
+      <section className="pt-10 pb-8 px-4">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
           <AnimatePresence mode="wait">
             <motion.div
@@ -453,7 +453,7 @@ export default function FlashcardsPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="space-y-4"
+              className="space-y-3"
             >
               {step !== "subject" && (
                 <button 
@@ -507,12 +507,12 @@ export default function FlashcardsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="max-w-5xl mx-auto px-4 mt-20"
+            className="max-w-5xl mx-auto px-4 mt-12"
           >
-            <div className="grid md:grid-cols-2 gap-12 items-center bg-white rounded-[3rem] p-12 border shadow-sm">
-              <div className="space-y-8">
+            <div className="grid md:grid-cols-2 gap-10 items-center bg-white rounded-[3rem] p-10 border shadow-sm">
+              <div className="space-y-6">
                 <h2 className="text-3xl font-headline font-bold">Why Flashcards?</h2>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {[
                     { icon: Layers, title: "Spaced Repetition", text: "Algorithm-based review cycles to ensure long-term retention." },
                     { icon: Zap, title: "NCERT Mapping", text: "Every card is verified against the latest NTA syllabus lines." },
@@ -530,9 +530,9 @@ export default function FlashcardsPage() {
                   ))}
                 </div>
               </div>
-              <div className="bg-slate-50 rounded-[2.5rem] p-8 text-center space-y-6 border border-slate-100">
-                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm">
-                  <Sparkles className="w-8 h-8 text-primary" />
+              <div className="bg-slate-50 rounded-[2.5rem] p-8 text-center space-y-4 border border-slate-100">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+                  <Sparkles className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-xl font-bold">Daily Mastery Goal</h3>
                 <p className="text-sm text-slate-500">Practice just 20 cards daily to master Biology Class 11 in under 3 months.</p>

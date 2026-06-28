@@ -91,9 +91,9 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/50 py-12 px-4">
-      <div className="max-w-4xl mx-auto space-y-8">
-        {/* Header */}
+    <div className="min-h-screen bg-slate-50/50 pt-6 pb-12 px-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header - Reduced spacing */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button asChild variant="ghost" size="icon" className="rounded-full">
@@ -163,7 +163,7 @@ export default function ProfilePage() {
               </p>
               {!isPro && (
                 <Button asChild className="w-full rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg transition-all hover:scale-[1.02]">
-                  <Link href="/pricing">Unlock All Features (₹199)</Link>
+                  <Link href="/pricing">Unlock All Features (&#8377;199)</Link>
                 </Button>
               )}
             </div>

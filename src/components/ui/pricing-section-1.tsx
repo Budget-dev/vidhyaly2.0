@@ -1,3 +1,4 @@
+
 "use client"
 
 import React from "react";
@@ -51,23 +52,23 @@ const plans = [
 
 export default function PricingSection1({ onPlanSelect, isLoading }: PricingSectionProps) {
   return (
-    <section className="w-full py-12 md:py-24 flex flex-col items-center">
+    <section className="w-full py-8 md:py-12 flex flex-col items-center">
       <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+        <div className="flex flex-col items-center justify-center space-y-4 text-center mb-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="space-y-2"
           >
-            <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-bold text-primary mb-4">
+            <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-sm font-bold text-primary mb-3">
               <Sparkles className="mr-2 h-4 w-4 fill-primary" />
               NEET 2027 Batch Plans
             </div>
             <h2 className="text-3xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-slate-900">
               Choose Your <span className="text-primary">Success Path</span>
             </h2>
-            <p className="mx-auto max-w-[700px] text-slate-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed font-medium">
-              Start for free or unlock the full power of Vidhyaly for just ₹199.
+            <p className="mx-auto max-w-[700px] text-slate-500 md:text-lg font-medium">
+              Start for free or unlock the full power of Vidhyaly for just &#8377;199.
             </p>
           </motion.div>
         </div>
@@ -90,7 +91,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
                 </div>
               )}
 
-              <div className="mb-8">
+              <div className="mb-6">
                 <div className={cn(
                   "w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-inner",
                   plan.color === 'blue' ? "bg-blue-50 text-blue-600" : 
@@ -100,13 +101,13 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3>
                 <p className="text-sm font-medium text-slate-400 mt-1">{plan.description}</p>
-                <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-5xl font-black tracking-tight text-slate-900">₹{plan.price}</span>
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-5xl font-black tracking-tight text-slate-900">&#8377;{plan.price}</span>
                   <span className="text-sm font-bold text-slate-400">{plan.interval}</span>
                 </div>
               </div>
 
-              <div className="space-y-4 mb-10 flex-1">
+              <div className="space-y-3 mb-8 flex-1">
                 {plan.features.map((feature, fIdx) => (
                   <div key={fIdx} className="flex items-start gap-3">
                     <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 shrink-0 mt-0.5">
@@ -139,7 +140,7 @@ export default function PricingSection1({ onPlanSelect, isLoading }: PricingSect
           ))}
         </div>
         
-        <p className="mt-12 text-center text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
+        <p className="mt-10 text-center text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center justify-center gap-2">
           <ShieldCheck className="w-4 h-4 text-primary" /> Secure Razorpay Checkout
         </p>
       </div>

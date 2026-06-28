@@ -7,12 +7,12 @@ import Link from "next/link"
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
-      <div className="bg-primary/10 p-6 rounded-full mb-8">
-        <Phone className="w-16 h-16 text-primary" />
+    <div className="min-h-screen py-12 px-4 flex flex-col items-center">
+      <div className="bg-primary/10 p-6 rounded-full mb-6">
+        <Phone className="w-12 h-12 text-primary" />
       </div>
-      <h1 className="text-4xl font-headline font-bold mb-4">Contact Us</h1>
-      <p className="text-xl text-muted-foreground max-w-2xl mb-8 leading-relaxed">
+      <h1 className="text-4xl font-headline font-bold mb-3">Contact Us</h1>
+      <p className="text-lg text-muted-foreground max-w-2xl mb-10 leading-relaxed text-center">
         Have questions about your NEET preparation? Our expert counselors are here to help you 24/7.
       </p>
       
@@ -36,7 +36,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <div className="mt-12 bg-primary/5 border border-primary/10 rounded-2xl p-6 max-w-md">
+      <div className="mt-10 bg-primary/5 border border-primary/10 rounded-2xl p-6 max-w-md text-center">
         <p className="text-sm font-bold text-primary italic">
           "We are working on each feature with more efforts every single day to bring you the best counseling experience."
         </p>

@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState } from "react";
@@ -61,8 +62,8 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50/50">
-      {/* Navbar Padding & Back Button */}
-      <div className="max-w-7xl mx-auto px-4 pt-12">
+      {/* Reduced Top Padding */}
+      <div className="max-w-7xl mx-auto px-4 pt-6">
         <Button asChild variant="ghost" className="rounded-full gap-2 text-slate-500 font-bold">
           <Link href="/">
             <ArrowLeft className="h-4 w-4" />
@@ -76,7 +77,7 @@ export default function PricingPage() {
         isLoading={loading} 
       />
 
-      <div className="text-center pb-24">
+      <div className="text-center pb-12">
         <p className="text-sm text-slate-400 font-medium">
           Have questions? <Link href="/contact" className="text-primary hover:underline font-bold">Talk to a counselor</Link>
         </p>
