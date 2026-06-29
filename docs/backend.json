@@ -1,4 +1,3 @@
-
 {
   "entities": {
     "UserProfile": {
@@ -11,8 +10,6 @@
         "email": { "type": "string" },
         "phoneNumber": { "type": "string" },
         "photoURL": { "type": "string" },
-        "age": { "type": "string" },
-        "role": { "type": "string", "enum": ["student", "admin", "super-admin"] },
         "status": { "type": "string", "enum": ["active", "blocked"] },
         "subscriptionPlan": { "type": "string", "enum": ["free", "pro"] },
         "subscriptionStartDate": { "type": "string", "format": "date-time" },
@@ -20,6 +17,8 @@
         "registrationDate": { "type": "string", "format": "date-time" },
         "lastLoginAt": { "type": "string", "format": "date-time" },
         "loginProvider": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "admin", "super-admin"] },
+        "age": { "type": "string" },
         "googleAiApiKey": { "type": "string" },
         "isVerified": { "type": "boolean" },
         "createdAt": { "type": "string", "format": "date-time" },
@@ -39,7 +38,8 @@
         "permissions": { "type": "array", "items": { "type": "string" } },
         "createdDate": { "type": "string", "format": "date-time" },
         "lastLogin": { "type": "string", "format": "date-time" }
-      }
+      },
+      "required": ["adminId", "email"]
     },
     "AdminAuditLog": {
       "title": "Admin Audit Log",
@@ -52,7 +52,8 @@
         "targetUserId": { "type": "string" },
         "details": { "type": "string" },
         "timestamp": { "type": "string", "format": "date-time" }
-      }
+      },
+      "required": ["adminId", "action", "timestamp"]
     }
   },
   "auth": {
@@ -60,15 +61,15 @@
   },
   "firestore": {
     "/users/{userId}": {
-      "schema": "#/entities/UserProfile",
-      "description": "User profile collection."
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profile collection storing student data."
     },
     "/admins/{adminId}": {
-      "schema": "#/entities/AdminProfile",
+      "schema": { "$ref": "#/entities/AdminProfile" },
       "description": "Privileged admin collection."
     },
     "/audit_logs/{logId}": {
-      "schema": "#/entities/AdminAuditLog",
+      "schema": { "$ref": "#/entities/AdminAuditLog" },
       "description": "System-wide audit logs."
     }
   }
