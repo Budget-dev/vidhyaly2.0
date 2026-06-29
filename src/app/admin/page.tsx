@@ -19,6 +19,7 @@ import { useCollection } from '@/firebase';
 import { collection, query } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
 import { format } from 'date-fns';
+import Link from 'next/link';
 
 export default function AdminDashboard() {
   const db = useFirestore();
@@ -71,7 +72,6 @@ export default function AdminDashboard() {
             icon={s.icon as any}
             color={s.color}
             bg={s.bg}
-            delta={s.delta}
             deltaType="success"
           />
         ))}
@@ -97,17 +97,17 @@ export default function AdminDashboard() {
         </div>
 
         {/* Recent Admin Actions */}
-        <div className="bg-white p-8 rounded-[2.5rem] border shadow-sm">
+        <div className="bg-white p-8 rounded-[2.5rem] border shadow-sm flex flex-col">
           <h2 className="text-xl font-headline font-bold text-slate-900 mb-6">Recent Actions</h2>
-          <div className="space-y-6">
-            <div className="flex flex-col items-center justify-center py-12 text-center space-y-3 opacity-30">
+          <div className="flex-1 flex flex-col items-center justify-center py-12 text-center space-y-3 opacity-30">
                <ShieldAlert className="w-10 h-10 text-slate-300" />
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">No recent administrative logs</p>
-            </div>
           </div>
-          <button className="w-full mt-8 py-3 rounded-xl border border-slate-100 text-xs font-bold text-slate-400 hover:bg-slate-50 transition-all">
-            View All Audit Logs
-          </button>
+          <Link href="/admin/logs" className="block w-full mt-auto">
+            <button className="w-full py-3 rounded-xl border border-slate-100 text-xs font-bold text-slate-400 hover:bg-slate-50 transition-all">
+              View All Audit Logs
+            </button>
+          </Link>
         </div>
       </div>
     </div>
