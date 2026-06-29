@@ -14,9 +14,10 @@ service cloud.firestore {
     // Helper function to check if the user has an admin or super-admin role
     function isAdmin() {
       return isAuthenticated() && 
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' || 
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'super-admin' ||
-         request.auth.token.email == 'venkateshchop14@gmail.com');
+        (request.auth.token.email == 'venkateshchop14@gmail.com' ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' || 
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'super-admin')));
     }
 
     // User profiles collection

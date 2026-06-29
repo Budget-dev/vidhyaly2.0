@@ -10,7 +10,7 @@ import {
   Calendar,
   ShieldAlert,
   Crown,
-  Clock
+  Loader2
 } from 'lucide-react';
 import { StatCard } from '@/components/ui/StatCard';
 import { useCollection, useFirestore } from '@/firebase';
@@ -31,14 +31,14 @@ export default function AdminDashboard() {
     return query(collection(db, 'users'));
   }, [db]);
 
-  const { data: allUsers } = useCollection(usersQuery);
+  const { data: allUsers, loading: usersLoading } = useCollection(usersQuery);
 
   const stats = useMemo(() => {
-    if (!allUsers) return [
-      { label: 'Total Users', value: 0, icon: Users, color: '#4F46E5', bg: '#EEF2FF' },
-      { label: 'Active Students', value: 0, icon: UserCheck, color: '#10B981', bg: '#ECFDF5' },
-      { label: 'Blocked Accounts', value: 0, icon: UserX, color: '#EF4444', bg: '#FEF2F2' },
-      { label: 'Premium Users', value: 0, icon: Crown, color: '#F59E0B', bg: '#FFFBEB' },
+    if (usersLoading || !allUsers) return [
+      { label: 'Total Users', value: '...', icon: Users, color: '#4F46E5', bg: '#EEF2FF' },
+      { label: 'Active Students', value: '...', icon: UserCheck, color: '#10B981', bg: '#ECFDF5' },
+      { label: 'Blocked Accounts', value: '...', icon: UserX, color: '#EF4444', bg: '#FEF2F2' },
+      { label: 'Premium Users', value: '...', icon: Crown, color: '#F59E0B', bg: '#FFFBEB' },
     ];
 
     const active = allUsers.filter(u => u.status === 'active').length;
@@ -60,7 +60,7 @@ export default function AdminDashboard() {
       { label: 'Blocked Accounts', value: blocked, icon: UserX, color: '#EF4444', bg: '#FEF2F2' },
       { label: 'Premium Users', value: premium, icon: Crown, color: '#F59E0B', bg: '#FFFBEB' },
     ];
-  }, [allUsers]);
+  }, [allUsers, usersLoading]);
 
   return (
     <div className="space-y-8">
@@ -101,8 +101,14 @@ export default function AdminDashboard() {
           </div>
           <div className="flex-1 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-100 flex items-center justify-center">
             <div className="text-center text-slate-400">
-              <TrendingUp className="w-12 h-12 mx-auto mb-2 opacity-20" />
-              <p className="text-xs font-bold uppercase tracking-widest">Active Data Syncing...</p>
+              {usersLoading ? (
+                <Loader2 className="w-8 h-8 mx-auto mb-2 animate-spin opacity-40" />
+              ) : (
+                <TrendingUp className="w-12 h-12 mx-auto mb-2 opacity-20" />
+              )}
+              <p className="text-xs font-bold uppercase tracking-widest">
+                {usersLoading ? 'Syncing Live Data...' : 'Active Data Syncing...'}
+              </p>
             </div>
           </div>
         </div>
