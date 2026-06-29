@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -17,7 +16,11 @@ import {
   Calendar,
   Globe,
   Users as UsersIcon,
-  ShieldCheck
+  Crown,
+  ShieldCheck,
+  CheckCircle2,
+  Lock,
+  History
 } from 'lucide-react';
 import {
   Table,
@@ -31,7 +34,8 @@ import {
   DropdownMenu, 
   DropdownMenuContent, 
   DropdownMenuItem, 
-  DropdownMenuTrigger 
+  DropdownMenuTrigger,
+  DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -46,9 +50,11 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 export default function UserManagementPage() {
   const db = useFirestore();
+  const { toast } = useToast();
   const { user: currentAdmin, profile: adminProfile } = useUser();
   const adminService = useMemo(() => (db ? new AdminService(db) : null), [db]);
 
@@ -57,9 +63,7 @@ export default function UserManagementPage() {
   
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [blockReason, setBlockReason] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const usersQuery = useMemo(() => {
     if (!db) return null;
@@ -90,30 +94,65 @@ export default function UserManagementPage() {
     });
   }, [users, searchTerm, filterStatus]);
 
-  const handleToggleBlock = async () => {
-    if (!selectedUser || !currentAdmin || !adminService) return;
-    const nextStatus = selectedUser.status === 'blocked' ? 'active' : 'blocked';
-    await adminService.updateUserStatus(
-      currentAdmin.uid, 
-      adminProfile?.displayName || currentAdmin.email || 'Admin',
-      selectedUser.uid, 
-      nextStatus, 
-      blockReason
-    );
-    setIsBlockModalOpen(false);
-    setSelectedUser(null);
-    setBlockReason('');
+  const handleToggleBlock = async (user: any) => {
+    if (!currentAdmin || !adminService) return;
+    setIsProcessing(true);
+    const nextStatus = user.status === 'blocked' ? 'active' : 'blocked';
+    
+    try {
+      await adminService.updateUserStatus(
+        currentAdmin.uid, 
+        adminProfile?.displayName || currentAdmin.email || 'Admin',
+        user.uid, 
+        nextStatus
+      );
+      toast({
+        title: nextStatus === 'active' ? "Access Reactivated" : "Access Restricted",
+        description: `Student account status updated successfully.`,
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const handleDeleteUser = async () => {
-    if (!selectedUser || !currentAdmin || !adminService) return;
-    await adminService.softDeleteUser(
-      currentAdmin.uid, 
-      adminProfile?.displayName || currentAdmin.email || 'Admin',
-      selectedUser.uid
-    );
-    setIsDeleteModalOpen(false);
-    setSelectedUser(null);
+  const handlePromoteToPro = async (user: any) => {
+    if (!currentAdmin || !adminService) return;
+    setIsProcessing(true);
+    
+    try {
+      await adminService.updateSubscription(
+        currentAdmin.uid, 
+        adminProfile?.displayName || currentAdmin.email || 'Admin',
+        user.uid, 
+        'pro'
+      );
+      toast({
+        title: "Promoted to Premium",
+        description: "User now has unlimited access for 12 months.",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleDeleteUser = async (user: any) => {
+    if (!window.confirm("Are you sure you want to archive this user record?")) return;
+    if (!currentAdmin || !adminService) return;
+    setIsProcessing(true);
+    
+    try {
+      await adminService.softDeleteUser(
+        currentAdmin.uid, 
+        adminProfile?.displayName || currentAdmin.email || 'Admin',
+        user.uid
+      );
+      toast({
+        title: "Record Archived",
+        description: "Student data has been removed from active repository.",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -166,14 +205,6 @@ export default function UserManagementPage() {
             <div className="h-96 flex flex-col items-center justify-center gap-4">
               <Loader2 className="w-8 h-8 text-primary animate-spin" />
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Synchronizing User Data...</p>
-            </div>
-          ) : users?.length === 0 ? (
-            <div className="h-96 flex flex-col items-center justify-center text-center p-12">
-               <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 text-slate-200">
-                  <UsersIcon className="w-10 h-10" />
-               </div>
-               <h3 className="text-lg font-bold text-slate-900 mb-1">No Students in Database</h3>
-               <p className="text-sm text-slate-400 max-w-sm mx-auto">Student records will appear here as soon as they sign up through the public site.</p>
             </div>
           ) : (
             <Table>
@@ -228,8 +259,9 @@ export default function UserManagementPage() {
                       <TableCell>
                         <Badge className={cn(
                           "rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-wider",
-                          u.subscriptionPlan === 'pro' ? "bg-amber-100 text-amber-600" : "bg-slate-100 text-slate-500"
+                          u.subscriptionPlan === 'pro' ? "bg-amber-100 text-amber-600 border border-amber-200" : "bg-slate-100 text-slate-500"
                         )}>
+                          {u.subscriptionPlan === 'pro' && <Crown className="w-2.5 h-2.5 mr-1" />}
                           {u.subscriptionPlan || 'free'}
                         </Badge>
                       </TableCell>
@@ -256,26 +288,34 @@ export default function UserManagementPage() {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon" className="rounded-full opacity-0 group-hover:opacity-100">
-                              <MoreVertical className="w-4 h-4" />
+                              {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <MoreVertical className="w-4 h-4" />}
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-48 p-2 rounded-2xl shadow-xl border-slate-100">
+                          <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl shadow-xl border-slate-100">
                             <DropdownMenuItem className="rounded-xl py-3 cursor-pointer" onClick={() => { setSelectedUser(u); setIsDetailsOpen(true); }}>
                               <Eye className="w-4 h-4 mr-3 text-slate-400" />
                               <span className="font-bold text-xs">Profile Overview</span>
                             </DropdownMenuItem>
                             <DropdownMenuItem 
                               className="rounded-xl py-3 cursor-pointer"
-                              onClick={() => { setSelectedUser(u); setIsBlockModalOpen(true); }}
+                              onClick={() => handlePromoteToPro(u)}
                             >
-                              <UserX className="w-4 h-4 mr-3 text-amber-500" />
-                              <span className="font-bold text-xs text-amber-600">
-                                {u.status === 'blocked' ? 'Unblock Account' : 'Restrict Access'}
+                              <Crown className="w-4 h-4 mr-3 text-amber-500" />
+                              <span className="font-bold text-xs text-amber-600">Promote to Premium</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem 
+                              className="rounded-xl py-3 cursor-pointer"
+                              onClick={() => handleToggleBlock(u)}
+                            >
+                              <UserX className={cn("w-4 h-4 mr-3", u.status === 'blocked' ? "text-emerald-500" : "text-amber-500")} />
+                              <span className={cn("font-bold text-xs", u.status === 'blocked' ? "text-emerald-600" : "text-amber-600")}>
+                                {u.status === 'blocked' ? 'Reactivate Access' : 'Restrict Access'}
                               </span>
                             </DropdownMenuItem>
                             <DropdownMenuItem 
                               className="rounded-xl py-3 cursor-pointer"
-                              onClick={() => { setSelectedUser(u); setIsDeleteModalOpen(true); }}
+                              onClick={() => handleDeleteUser(u)}
                             >
                               <Trash2 className="w-4 h-4 mr-3 text-red-500" />
                               <span className="font-bold text-xs text-red-600">Archive Record</span>
@@ -300,12 +340,12 @@ export default function UserManagementPage() {
           </DialogHeader>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-6">
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border">
                  <Mail className="w-5 h-5 text-slate-400" />
                  <div>
                    <p className="text-[10px] font-black text-slate-400 uppercase">Email</p>
-                   <p className="text-sm font-bold text-slate-700">{selectedUser?.email}</p>
+                   <p className="text-sm font-bold text-slate-700 truncate max-w-[200px]">{selectedUser?.email}</p>
                  </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border">
@@ -324,24 +364,62 @@ export default function UserManagementPage() {
               </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="p-6 rounded-[2rem] bg-indigo-50 border border-indigo-100 flex flex-col items-center text-center">
-                 <Badge className="mb-3 bg-indigo-600 text-white font-black text-[9px] uppercase">Plan: {selectedUser?.subscriptionPlan || 'free'}</Badge>
-                 <p className="text-xs text-indigo-700 font-medium leading-relaxed">
+            <div className="space-y-4">
+              <div className={cn(
+                "p-6 rounded-[2rem] border flex flex-col items-center text-center h-full justify-center",
+                selectedUser?.subscriptionPlan === 'pro' ? "bg-indigo-50 border-indigo-100" : "bg-slate-50 border-slate-100"
+              )}>
+                 <div className={cn(
+                   "w-12 h-12 rounded-2xl flex items-center justify-center mb-4",
+                   selectedUser?.subscriptionPlan === 'pro' ? "bg-indigo-600 text-white" : "bg-slate-200 text-slate-500"
+                 )}>
+                   <Crown className="w-6 h-6" />
+                 </div>
+                 <Badge className={cn(
+                   "mb-3 font-black text-[9px] uppercase",
+                   selectedUser?.subscriptionPlan === 'pro' ? "bg-indigo-600 text-white" : "bg-slate-200 text-slate-600"
+                 )}>
+                   Plan: {selectedUser?.subscriptionPlan || 'free'}
+                 </Badge>
+                 <p className={cn(
+                   "text-xs font-medium leading-relaxed px-4",
+                   selectedUser?.subscriptionPlan === 'pro' ? "text-indigo-700" : "text-slate-500"
+                 )}>
                    {selectedUser?.subscriptionPlan === 'pro' 
-                     ? `Subscription active until ${selectedUser.subscriptionExpiryDate ? format(selectedUser.subscriptionExpiryDate.toDate(), 'PP') : 'Indefinite'}`
-                     : 'Standard free access tier'}
+                     ? `Subscription active until ${selectedUser.subscriptionExpiryDate ? format(selectedUser.subscriptionExpiryDate.toDate(), 'PPP') : 'Indefinite'}`
+                     : 'Standard free access tier with limited tool usage.'}
                  </p>
-              </div>
-              <div className="p-4 bg-slate-900 rounded-2xl text-white text-center">
-                 <p className="text-[10px] font-black uppercase text-slate-500 mb-1">Internal Reference</p>
-                 <p className="text-[9px] font-mono opacity-50 truncate">{selectedUser?.uid}</p>
+                 {selectedUser?.subscriptionPlan !== 'pro' && (
+                    <Button 
+                      variant="link" 
+                      className="text-primary font-bold text-xs mt-2"
+                      onClick={() => { handlePromoteToPro(selectedUser); setIsDetailsOpen(false); }}
+                    >
+                      Promote to Pro?
+                    </Button>
+                 )}
               </div>
             </div>
           </div>
 
-          <DialogFooter>
-            <Button onClick={() => setIsDetailsOpen(false)} className="rounded-xl h-12 font-bold px-10">Close Record</Button>
+          <div className="bg-slate-900 rounded-3xl p-6 text-white flex items-center justify-between">
+             <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                   <p className="text-[10px] font-black uppercase text-slate-500">Security Status</p>
+                   <p className="text-sm font-bold capitalize">{selectedUser?.status || 'Active'}</p>
+                </div>
+             </div>
+             <div className="text-right">
+                <p className="text-[10px] font-black uppercase text-slate-500">User ID</p>
+                <p className="text-[9px] font-mono opacity-50 truncate max-w-[120px]">{selectedUser?.uid}</p>
+             </div>
+          </div>
+
+          <DialogFooter className="mt-8">
+            <Button onClick={() => setIsDetailsOpen(false)} variant="outline" className="rounded-xl h-12 font-bold px-10">Close Profile</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

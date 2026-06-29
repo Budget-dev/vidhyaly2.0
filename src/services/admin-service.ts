@@ -1,4 +1,3 @@
-
 'use client';
 
 import { 
@@ -7,7 +6,8 @@ import {
   updateDoc, 
   serverTimestamp, 
   addDoc, 
-  collection
+  collection,
+  Timestamp
 } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
@@ -26,16 +26,17 @@ export class AdminService {
       updatedAt: serverTimestamp()
     };
 
-    updateDoc(userRef, data).catch(async (err) => {
+    try {
+      await updateDoc(userRef, data);
+      // Log the action
+      this.logAction(adminId, adminName, status === 'blocked' ? 'RESTRICT_USER' : 'REACTIVATE_USER', userId, reason);
+    } catch (err: any) {
       errorEmitter.emit('permission-error', new FirestorePermissionError({
         path: userRef.path,
         operation: 'update',
         requestResourceData: data
       }));
-    });
-
-    // Log the action
-    this.logAction(adminId, adminName, status === 'blocked' ? 'RESTRICT_USER' : 'UNBLOCK_USER', userId, reason);
+    }
   }
 
   /**
@@ -48,41 +49,45 @@ export class AdminService {
       status: 'inactive'
     };
 
-    updateDoc(userRef, data).catch(async (err) => {
+    try {
+      await updateDoc(userRef, data);
+      this.logAction(adminId, adminName, 'ARCHIVE_USER', userId);
+    } catch (err: any) {
       errorEmitter.emit('permission-error', new FirestorePermissionError({
         path: userRef.path,
         operation: 'update',
         requestResourceData: data
       }));
-    });
-
-    this.logAction(adminId, adminName, 'SOFT_DELETE_USER', userId);
+    }
   }
 
   /**
-   * Update Subscription
+   * Update Subscription / Promote to Pro
    */
-  async updateSubscription(adminId: string, adminName: string, userId: string, plan: 'free' | 'pro', months: number = 1) {
+  async updateSubscription(adminId: string, adminName: string, userId: string, plan: 'free' | 'pro', months: number = 12) {
     const userRef = doc(this.db, 'users', userId);
-    const expiry = new Date();
-    expiry.setMonth(expiry.getMonth() + months);
+    
+    // Calculate expiry date (default 1 year for promotion)
+    const expiryDate = new Date();
+    expiryDate.setMonth(expiryDate.getMonth() + months);
 
     const data = {
       subscriptionPlan: plan,
       subscriptionStartDate: serverTimestamp(),
-      subscriptionExpiryDate: expiry,
+      subscriptionExpiryDate: Timestamp.fromDate(expiryDate),
       updatedAt: serverTimestamp()
     };
 
-    updateDoc(userRef, data).catch(async (err) => {
+    try {
+      await updateDoc(userRef, data);
+      this.logAction(adminId, adminName, 'PROMOTE_PREMIUM', userId, `Plan set to ${plan} for ${months} months`);
+    } catch (err: any) {
       errorEmitter.emit('permission-error', new FirestorePermissionError({
         path: userRef.path,
         operation: 'update',
         requestResourceData: data
       }));
-    });
-
-    this.logAction(adminId, adminName, 'UPDATE_SUBSCRIPTION', userId, `Plan set to ${plan} for ${months} months`);
+    }
   }
 
   /**
@@ -99,8 +104,6 @@ export class AdminService {
       timestamp: serverTimestamp()
     };
 
-    addDoc(logsRef, logData).catch(async () => {
-      // Silently fail logging if permissions are missing for logs
-    });
+    addDoc(logsRef, logData).catch(() => {});
   }
 }
