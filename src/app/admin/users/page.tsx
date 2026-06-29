@@ -3,20 +3,21 @@
 
 import React, { useState, useMemo } from 'react';
 import { useCollection, useFirestore, useUser } from '@/firebase';
-import { collection, query, doc, deleteDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, query } from 'firebase/firestore';
 import { 
   Search, 
   MoreVertical, 
   Eye, 
   Trash2, 
   UserX, 
-  CheckCircle2, 
   Loader2,
   AlertCircle,
   Mail,
   Smartphone,
   Calendar,
-  Globe
+  Globe,
+  Users as UsersIcon,
+  ShieldCheck
 } from 'lucide-react';
 import {
   Table,
@@ -42,7 +43,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
@@ -123,6 +123,15 @@ export default function UserManagementPage() {
           <h1 className="text-3xl font-headline font-bold text-slate-900">User Repository</h1>
           <p className="text-sm text-slate-500 font-medium">Manage student accounts, permissions, and security status.</p>
         </div>
+        <div className="bg-white px-6 py-3 rounded-2xl border shadow-sm flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+            <UsersIcon className="w-4 h-4" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Registered Students</p>
+            <p className="text-lg font-black text-slate-900">{users?.length || 0}</p>
+          </div>
+        </div>
       </div>
 
       <div className="bg-white rounded-[2.5rem] border shadow-sm overflow-hidden">
@@ -158,11 +167,20 @@ export default function UserManagementPage() {
               <Loader2 className="w-8 h-8 text-primary animate-spin" />
               <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Synchronizing User Data...</p>
             </div>
+          ) : users?.length === 0 ? (
+            <div className="h-96 flex flex-col items-center justify-center text-center p-12">
+               <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 text-slate-200">
+                  <UsersIcon className="w-10 h-10" />
+               </div>
+               <h3 className="text-lg font-bold text-slate-900 mb-1">No Students in Database</h3>
+               <p className="text-sm text-slate-400 max-w-sm mx-auto">Student records will appear here as soon as they sign up through the public site.</p>
+            </div>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow className="bg-slate-50/50 border-none">
                   <TableHead className="w-[300px] py-6 font-bold text-slate-500 uppercase text-[10px] tracking-widest pl-8">Student</TableHead>
+                  <TableHead className="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Role</TableHead>
                   <TableHead className="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Plan</TableHead>
                   <TableHead className="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Status</TableHead>
                   <TableHead className="font-bold text-slate-500 uppercase text-[10px] tracking-widest">Provider</TableHead>
@@ -173,10 +191,10 @@ export default function UserManagementPage() {
               <TableBody>
                 {filteredUsers.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="h-64 text-center">
+                    <TableCell colSpan={7} className="h-64 text-center">
                       <div className="flex flex-col items-center gap-2">
                         <AlertCircle className="w-8 h-8 text-slate-200" />
-                        <p className="text-slate-400 font-bold text-sm">No records found matching criteria.</p>
+                        <p className="text-slate-400 font-bold text-sm">No records found matching search criteria.</p>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -185,14 +203,27 @@ export default function UserManagementPage() {
                     <TableRow key={u.uid} className="hover:bg-slate-50/50 border-slate-50 group">
                       <TableCell className="py-5 pl-8">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black">
-                            {u.displayName?.charAt(0) || u.email?.charAt(0)}
+                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black relative overflow-hidden">
+                            {u.photoURL ? (
+                              <img src={u.photoURL} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              u.displayName?.charAt(0) || u.email?.charAt(0)
+                            )}
                           </div>
                           <div>
                             <p className="text-sm font-bold text-slate-900">{u.displayName || 'Unnamed Student'}</p>
                             <p className="text-[10px] text-slate-400 font-bold uppercase truncate max-w-[150px]">{u.email}</p>
                           </div>
                         </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={cn(
+                          "rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-wider",
+                          u.role === 'super-admin' ? "bg-purple-100 text-purple-600" : 
+                          u.role === 'admin' ? "bg-blue-100 text-blue-600" : "bg-slate-100 text-slate-500"
+                        )}>
+                          {u.role || 'student'}
+                        </Badge>
                       </TableCell>
                       <TableCell>
                         <Badge className={cn(
@@ -218,7 +249,7 @@ export default function UserManagementPage() {
                       </TableCell>
                       <TableCell>
                         <p className="text-xs font-bold text-slate-600">
-                          {u.registrationDate ? format(u.registrationDate.toDate(), 'MMM d, yyyy') : 'Pre-alpha'}
+                          {u.registrationDate ? format(u.registrationDate.toDate(), 'MMM d, yyyy') : 'Recently'}
                         </p>
                       </TableCell>
                       <TableCell className="text-right pr-8">
@@ -311,58 +342,6 @@ export default function UserManagementPage() {
 
           <DialogFooter>
             <Button onClick={() => setIsDetailsOpen(false)} className="rounded-xl h-12 font-bold px-10">Close Record</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Block Confirmation Modal */}
-      <Dialog open={isBlockModalOpen} onOpenChange={setIsBlockModalOpen}>
-        <DialogContent className="max-w-md rounded-[2rem] p-8">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-headline font-bold">
-              {selectedUser?.status === 'blocked' ? 'Restore Access?' : 'Restrict Student?'}
-            </DialogTitle>
-          </DialogHeader>
-          
-          {selectedUser?.status !== 'blocked' && (
-            <div className="py-4">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Incident Narrative</label>
-              <Input 
-                placeholder="Briefly state reason for restriction..." 
-                value={blockReason}
-                onChange={(e) => setBlockReason(e.target.value)}
-                className="rounded-xl bg-slate-50"
-              />
-            </div>
-          )}
-
-          <DialogFooter className="gap-2 mt-4">
-            <Button variant="outline" onClick={() => setIsBlockModalOpen(false)} className="rounded-xl h-12 font-bold">Cancel</Button>
-            <Button 
-              onClick={handleToggleBlock}
-              className={cn(
-                "rounded-xl h-12 font-bold px-8 shadow-lg",
-                selectedUser?.status === 'blocked' ? "bg-emerald-500 hover:bg-emerald-600" : "bg-red-500 hover:bg-red-600"
-              )}
-            >
-              Confirm {selectedUser?.status === 'blocked' ? 'Unblock' : 'Block'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Delete Confirmation Modal */}
-      <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
-        <DialogContent className="max-w-md rounded-[2rem] p-8">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-headline font-bold text-red-600">Archive Identity?</DialogTitle>
-            <DialogDescription className="text-slate-500 font-medium pt-2">
-              This will mark the student record as deleted. The data will be moved to the soft-delete archival queue for compliance.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="gap-2 mt-6">
-            <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)} className="rounded-xl h-12 font-bold px-8">Cancel</Button>
-            <Button onClick={handleDeleteUser} className="rounded-xl h-12 font-bold px-8 bg-red-600 hover:bg-red-700 text-white">Archive Now</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
