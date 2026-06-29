@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -22,7 +21,8 @@ import {
   Settings,
   ArrowRight,
   LayoutDashboard,
-  LogOut
+  LogOut,
+  Bell
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -42,6 +42,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Layers,
@@ -210,6 +211,8 @@ export function DropdownNavigation({ navItems }: Props) {
         <div className="hidden md:flex items-center gap-3">
           {user ? (
             <>
+              <NotificationBell />
+              <div className="h-6 w-px bg-slate-200" />
               <Button asChild variant="ghost" className="rounded-full px-5 font-bold hover:bg-primary/5 transition-all">
                 <Link href="/dashboard" className="flex items-center gap-2">
                   <LayoutDashboard className="w-4 h-4" />
@@ -240,7 +243,8 @@ export function DropdownNavigation({ navItems }: Props) {
         </div>
 
         {/* Mobile Toggle */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center gap-3">
+          {user && <NotificationBell />}
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full">

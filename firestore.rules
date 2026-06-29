@@ -22,34 +22,31 @@ service cloud.firestore {
 
     // User profiles collection
     match /users/{userId} {
-      // Users can read their own profile; Admins can read all profiles
       allow read: if isOwner(userId) || isAdmin();
-      
-      // Allow creation during signup
       allow create: if isAuthenticated() && request.auth.uid == userId;
-      
-      // Users can update their own profile; Admins can update any profile (e.g., for blocking)
       allow update: if isOwner(userId) || isAdmin();
-      
-      // Only admins can delete user records
+      allow delete: if isAdmin();
+    }
+
+    // Notifications collection
+    match /notifications/{notifId} {
+      // Users can read and update (for mark-as-read) their own notifications
+      // Admins can read all and write notifications
+      allow read: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
+      allow create: if isAdmin() || (isAuthenticated() && request.resource.data.userId == request.auth.uid);
+      allow update: if isAdmin() || (isAuthenticated() && resource.data.userId == request.auth.uid);
       allow delete: if isAdmin();
     }
 
     // Privileged admin collection
     match /admins/{adminId} {
-      // Only established admins can access this collection
       allow read, write: if isAdmin();
     }
 
     // Security and activity audit logs
     match /audit_logs/{logId} {
-      // Admins can view the logs
       allow read: if isAdmin();
-      
-      // Logs are created by administrative actions
       allow create: if isAuthenticated() && isAdmin();
-      
-      // Audit logs are immutable; no updates or deletes allowed for integrity
       allow update, delete: if false;
     }
   }

@@ -16,6 +16,25 @@ export class AdminService {
   constructor(private db: Firestore) {}
 
   /**
+   * Send a notification to a specific user
+   */
+  async sendNotification(userId: string, title: string, message: string, type: 'message' | 'promotion' | 'system' = 'message') {
+    const notificationsRef = collection(this.db, 'notifications');
+    try {
+      await addDoc(notificationsRef, {
+        userId,
+        title,
+        message,
+        type,
+        read: false,
+        createdAt: serverTimestamp()
+      });
+    } catch (err: any) {
+      console.error("Failed to send notification:", err);
+    }
+  }
+
+  /**
    * Block or Unblock a user
    */
   async updateUserStatus(adminId: string, adminName: string, userId: string, status: 'active' | 'blocked', reason?: string) {
@@ -28,6 +47,14 @@ export class AdminService {
 
     try {
       await updateDoc(userRef, data);
+      
+      // Send notification about status change if relevant
+      if (status === 'blocked') {
+        this.sendNotification(userId, "Account Restricted", "Your account has been restricted by an administrator. Please contact support.", 'system');
+      } else {
+        this.sendNotification(userId, "Access Reactivated", "Welcome back! Your account access has been fully restored.", 'system');
+      }
+
       // Log the action
       this.logAction(adminId, adminName, status === 'blocked' ? 'RESTRICT_USER' : 'REACTIVATE_USER', userId, reason);
     } catch (err: any) {
@@ -67,7 +94,6 @@ export class AdminService {
   async updateSubscription(adminId: string, adminName: string, userId: string, plan: 'free' | 'pro', months: number = 12) {
     const userRef = doc(this.db, 'users', userId);
     
-    // Calculate expiry date (default 1 year for promotion)
     const expiryDate = new Date();
     expiryDate.setMonth(expiryDate.getMonth() + months);
 
@@ -80,6 +106,12 @@ export class AdminService {
 
     try {
       await updateDoc(userRef, data);
+      
+      // Send Promotion Notification
+      if (plan === 'pro') {
+        this.sendNotification(userId, "Welcome to Premium!", `Congratulations! You have been promoted to Premium. Enjoy unlimited access for ${months} months.`, 'promotion');
+      }
+
       this.logAction(adminId, adminName, 'PROMOTE_PREMIUM', userId, `Plan set to ${plan} for ${months} months`);
     } catch (err: any) {
       errorEmitter.emit('permission-error', new FirestorePermissionError({

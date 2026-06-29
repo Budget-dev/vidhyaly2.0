@@ -1,18 +1,26 @@
-
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PricingSection1 from "@/components/ui/pricing-section-1";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useFirestore, useUser } from "@/firebase";
+import { doc, updateDoc, serverTimestamp, collection, addDoc, Timestamp } from "firebase/firestore";
 
 export default function PricingPage() {
   const [loading, setLoading] = useState(false);
+  const db = useFirestore();
+  const { user, profile } = useUser();
 
   const handlePayment = async (planName: string, amount: number) => {
     if (amount === 0) {
       window.location.href = "/dashboard";
+      return;
+    }
+
+    if (!user || !db) {
+      alert("Please login to proceed with purchase.");
       return;
     }
 
@@ -32,14 +40,39 @@ export default function PricingPage() {
       name: "Vidhyaly Education",
       description: `NEET ${planName} Plan - 1 Year`,
       image: "https://vidhyaly.com/logo.svg",
-      handler: function (response: any) {
-        alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-        window.location.href = "/dashboard";
+      handler: async function (response: any) {
+        // Handle Successful Payment in Firestore
+        const expiryDate = new Date();
+        expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+
+        try {
+          await updateDoc(doc(db, "users", user.uid), {
+            subscriptionPlan: "pro",
+            subscriptionStartDate: serverTimestamp(),
+            subscriptionExpiryDate: Timestamp.fromDate(expiryDate),
+            status: "active"
+          });
+
+          // Push Congratulations Notification
+          await addDoc(collection(db, "notifications"), {
+            userId: user.uid,
+            title: "Congratulations!",
+            message: "Welcome to Vidhyaly Pro. Your unlimited preparation journey starts now. Happy Learning!",
+            type: "promotion",
+            read: false,
+            createdAt: serverTimestamp()
+          });
+
+          alert("Payment Successful! Welcome to Vidhyaly Pro.");
+          window.location.href = "/dashboard";
+        } catch (err) {
+          console.error("Purchase sync error:", err);
+        }
       },
       prefill: {
-        name: "Aspirant User",
-        email: "user@example.com",
-        contact: "+919876543210",
+        name: profile?.displayName || "Aspirant User",
+        email: user.email || "user@example.com",
+        contact: profile?.phoneNumber || "",
       },
       notes: {
         address: "Vidhyaly Education, India",
@@ -62,7 +95,6 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50/50">
-      {/* Reduced Top Padding */}
       <div className="max-w-7xl mx-auto px-4 pt-4">
         <Button asChild variant="ghost" className="rounded-full gap-2 text-slate-500 font-bold">
           <Link href="/">

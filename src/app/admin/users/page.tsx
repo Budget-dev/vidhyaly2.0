@@ -20,7 +20,9 @@ import {
   ShieldCheck,
   CheckCircle2,
   Lock,
-  History
+  History,
+  MessageSquare,
+  Send
 } from 'lucide-react';
 import {
   Table,
@@ -40,6 +42,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
 import { AdminService } from '@/services/admin-service';
 import {
@@ -63,7 +66,12 @@ export default function UserManagementPage() {
   
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Message state
+  const [msgTitle, setMsgTitle] = useState('');
+  const [msgBody, setMsgBody] = useState('');
 
   const usersQuery = useMemo(() => {
     if (!db) return null;
@@ -150,6 +158,23 @@ export default function UserManagementPage() {
         title: "Record Archived",
         description: "Student data has been removed from active repository.",
       });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (!selectedUser || !msgTitle || !msgBody || !adminService) return;
+    setIsProcessing(true);
+    try {
+      await adminService.sendNotification(selectedUser.uid, msgTitle, msgBody, 'message');
+      toast({
+        title: "Message Dispatched",
+        description: `Your notification has been sent to ${selectedUser.displayName}.`,
+      });
+      setIsMessageOpen(false);
+      setMsgTitle('');
+      setMsgBody('');
     } finally {
       setIsProcessing(false);
     }
@@ -296,6 +321,10 @@ export default function UserManagementPage() {
                               <Eye className="w-4 h-4 mr-3 text-slate-400" />
                               <span className="font-bold text-xs">Profile Overview</span>
                             </DropdownMenuItem>
+                            <DropdownMenuItem className="rounded-xl py-3 cursor-pointer" onClick={() => { setSelectedUser(u); setIsMessageOpen(true); }}>
+                              <MessageSquare className="w-4 h-4 mr-3 text-primary" />
+                              <span className="font-bold text-xs text-primary">Send Message</span>
+                            </DropdownMenuItem>
                             <DropdownMenuItem 
                               className="rounded-xl py-3 cursor-pointer"
                               onClick={() => handlePromoteToPro(u)}
@@ -389,15 +418,6 @@ export default function UserManagementPage() {
                      ? `Subscription active until ${selectedUser.subscriptionExpiryDate ? format(selectedUser.subscriptionExpiryDate.toDate(), 'PPP') : 'Indefinite'}`
                      : 'Standard free access tier with limited tool usage.'}
                  </p>
-                 {selectedUser?.subscriptionPlan !== 'pro' && (
-                    <Button 
-                      variant="link" 
-                      className="text-primary font-bold text-xs mt-2"
-                      onClick={() => { handlePromoteToPro(selectedUser); setIsDetailsOpen(false); }}
-                    >
-                      Promote to Pro?
-                    </Button>
-                 )}
               </div>
             </div>
           </div>
@@ -420,6 +440,55 @@ export default function UserManagementPage() {
 
           <DialogFooter className="mt-8">
             <Button onClick={() => setIsDetailsOpen(false)} variant="outline" className="rounded-xl h-12 font-bold px-10">Close Profile</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Message Dialog */}
+      <Dialog open={isMessageOpen} onOpenChange={setIsMessageOpen}>
+        <DialogContent className="max-w-md rounded-[2.5rem] p-10">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-headline font-bold">Compose Notification</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-6">
+             <div className="space-y-2">
+               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Message Title</label>
+               <Input 
+                 placeholder="e.g. Welcome to NEET 2027 Batch"
+                 value={msgTitle}
+                 onChange={(e) => setMsgTitle(e.target.value)}
+                 className="rounded-xl border-slate-100 bg-slate-50/50"
+               />
+             </div>
+             <div className="space-y-2">
+               <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Content</label>
+               <Textarea 
+                 placeholder="Enter your message to the student..."
+                 value={msgBody}
+                 onChange={(e) => setMsgBody(e.target.value)}
+                 className="min-h-[120px] rounded-xl border-slate-100 bg-slate-50/50 resize-none"
+               />
+             </div>
+             <div className="bg-primary/5 p-4 rounded-2xl flex gap-3 items-center">
+                <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <p className="text-[10px] text-primary/70 font-bold leading-tight">
+                  Student will receive this instantly in their dashboard notification center.
+                </p>
+             </div>
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button onClick={() => setIsMessageOpen(false)} variant="ghost" className="rounded-xl h-12 font-bold">Discard</Button>
+            <Button 
+              disabled={!msgTitle || !msgBody || isProcessing}
+              onClick={handleSendMessage}
+              className="rounded-xl h-12 font-bold bg-primary hover:bg-primary/90 px-8"
+            >
+              {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Send className="w-4 h-4 mr-2" /> Send to Student</>}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
