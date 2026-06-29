@@ -11,6 +11,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
+const AUTHORIZED_ADMIN_EMAIL = "venkateshchop14@gmail.com";
+
 const AdminLoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +24,8 @@ const AdminLoginPage = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (user && (profile?.role === 'admin' || profile?.role === 'super-admin')) {
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'super-admin' || user?.email?.toLowerCase() === AUTHORIZED_ADMIN_EMAIL.toLowerCase();
+    if (user && isAdmin) {
       router.push("/admin");
     }
   }, [user, profile, router]);

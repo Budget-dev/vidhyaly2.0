@@ -9,6 +9,8 @@ import { Lock, ShieldAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
+const AUTHORIZED_ADMIN_EMAIL = "venkateshchop14@gmail.com";
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, profile, loading } = useUser();
   const pathname = usePathname();
@@ -16,7 +18,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   // Exclude login and signup pages from the strict RBAC layout check
   const isAuthPage = pathname === '/admin/login' || pathname === '/admin/signup';
 
-  const isAdmin = profile?.role === 'admin' || profile?.role === 'super-admin';
+  // Check role or explicit email for the owner
+  const isAdmin = profile?.role === 'admin' || profile?.role === 'super-admin' || user?.email?.toLowerCase() === AUTHORIZED_ADMIN_EMAIL.toLowerCase();
 
   if (loading) {
     return (
