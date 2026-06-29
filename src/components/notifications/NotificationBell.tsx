@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { Bell, MessageCircle, Star, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCollection, useFirestore, useUser } from '@/firebase';
-import { collection, query, where, orderBy, doc, updateDoc, limit } from 'firebase/firestore';
+import { collection, query, where, doc, updateDoc, limit } from 'firebase/firestore';
 import { format } from 'date-fns';
 import {
   Popover,
@@ -24,10 +24,10 @@ export function NotificationBell() {
     if (!db || !user || userLoading) return null;
     
     try {
+      // Simplified query to avoid immediate index requirement/denials
       return query(
         collection(db, 'notifications'),
         where('userId', '==', user.uid),
-        orderBy('createdAt', 'desc'),
         limit(20)
       );
     } catch (e) {
@@ -36,10 +36,20 @@ export function NotificationBell() {
     }
   }, [db, user, userLoading]);
 
-  const { data: notifications, loading: collectionLoading } = useCollection(notificationsQuery);
+  const { data: rawNotifications, loading: collectionLoading } = useCollection(notificationsQuery);
+
+  // Perform sorting on client-side to avoid permission denials on complex queries
+  const notifications = useMemo(() => {
+    if (!rawNotifications) return [];
+    return [...rawNotifications].sort((a, b) => {
+      const timeA = a.createdAt?.toMillis?.() || 0;
+      const timeB = b.createdAt?.toMillis?.() || 0;
+      return timeB - timeA;
+    });
+  }, [rawNotifications]);
 
   const unreadCount = useMemo(() => {
-    return notifications?.filter(n => !n.read).length || 0;
+    return notifications.filter(n => !n.read).length || 0;
   }, [notifications]);
 
   const markAsRead = async (id: string) => {
@@ -67,7 +77,7 @@ export function NotificationBell() {
     }
   };
 
-  // Don't render anything if auth is still resolving to avoid premature rule checks
+  // Don't render anything if auth is still resolving
   if (userLoading) return null;
 
   return (
@@ -106,7 +116,7 @@ export function NotificationBell() {
                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Syncing Inbox...</p>
             </div>
-          ) : !notifications || notifications.length === 0 ? (
+          ) : notifications.length === 0 ? (
             <div className="p-12 text-center flex flex-col items-center gap-4 opacity-30">
                <Bell className="w-12 h-12 text-slate-300" />
                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">No notifications yet</p>

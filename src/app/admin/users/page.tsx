@@ -18,11 +18,9 @@ import {
   Users as UsersIcon,
   Crown,
   ShieldCheck,
-  CheckCircle2,
-  Lock,
-  History,
   MessageSquare,
-  Send
+  Send,
+  Zap
 } from 'lucide-react';
 import {
   Table,
@@ -123,20 +121,24 @@ export default function UserManagementPage() {
     }
   };
 
-  const handlePromoteToPro = async (user: any) => {
+  const handleToggleSubscription = async (user: any) => {
     if (!currentAdmin || !adminService) return;
     setIsProcessing(true);
+    
+    const nextPlan = user.subscriptionPlan === 'pro' ? 'free' : 'pro';
     
     try {
       await adminService.updateSubscription(
         currentAdmin.uid, 
         adminProfile?.displayName || currentAdmin.email || 'Admin',
         user.uid, 
-        'pro'
+        nextPlan
       );
       toast({
-        title: "Promoted to Premium",
-        description: "User now has unlimited access for 12 months.",
+        title: nextPlan === 'pro' ? "Promoted to Premium" : "Plan Set to Free",
+        description: nextPlan === 'pro' 
+          ? "User now has unlimited access for 12 months." 
+          : "User has been moved back to standard tier.",
       });
     } finally {
       setIsProcessing(false);
@@ -327,10 +329,19 @@ export default function UserManagementPage() {
                             </DropdownMenuItem>
                             <DropdownMenuItem 
                               className="rounded-xl py-3 cursor-pointer"
-                              onClick={() => handlePromoteToPro(u)}
+                              onClick={() => handleToggleSubscription(u)}
                             >
-                              <Crown className="w-4 h-4 mr-3 text-amber-500" />
-                              <span className="font-bold text-xs text-amber-600">Promote to Premium</span>
+                              {u.subscriptionPlan === 'pro' ? (
+                                <>
+                                  <Zap className="w-4 h-4 mr-3 text-slate-400" />
+                                  <span className="font-bold text-xs text-slate-600">Downgrade to Free</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Crown className="w-4 h-4 mr-3 text-amber-500" />
+                                  <span className="font-bold text-xs text-amber-600">Promote to Premium</span>
+                                </>
+                              )}
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem 

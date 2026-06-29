@@ -48,7 +48,7 @@ export class AdminService {
     try {
       await updateDoc(userRef, data);
       
-      // Send notification about status change if relevant
+      // Send notification about status change
       if (status === 'blocked') {
         this.sendNotification(userId, "Account Restricted", "Your account has been restricted by an administrator. Please contact support.", 'system');
       } else {
@@ -89,7 +89,7 @@ export class AdminService {
   }
 
   /**
-   * Update Subscription / Promote to Pro
+   * Update Subscription / Promote or Downgrade
    */
   async updateSubscription(adminId: string, adminName: string, userId: string, plan: 'free' | 'pro', months: number = 12) {
     const userRef = doc(this.db, 'users', userId);
@@ -99,20 +99,38 @@ export class AdminService {
 
     const data = {
       subscriptionPlan: plan,
-      subscriptionStartDate: serverTimestamp(),
-      subscriptionExpiryDate: Timestamp.fromDate(expiryDate),
+      subscriptionStartDate: plan === 'pro' ? serverTimestamp() : null,
+      subscriptionExpiryDate: plan === 'pro' ? Timestamp.fromDate(expiryDate) : null,
       updatedAt: serverTimestamp()
     };
 
     try {
       await updateDoc(userRef, data);
       
-      // Send Promotion Notification
+      // Send appropriate notification
       if (plan === 'pro') {
-        this.sendNotification(userId, "Welcome to Premium!", `Congratulations! You have been promoted to Premium. Enjoy unlimited access for ${months} months.`, 'promotion');
+        await this.sendNotification(
+          userId, 
+          "Welcome to Premium!", 
+          `Congratulations! You have been promoted to Premium by an administrator. Enjoy unlimited access for ${months} months.`, 
+          'promotion'
+        );
+      } else {
+        await this.sendNotification(
+          userId, 
+          "Subscription Updated", 
+          "Your account has been switched to the standard Free tier. Some premium features may now be limited.", 
+          'system'
+        );
       }
 
-      this.logAction(adminId, adminName, 'PROMOTE_PREMIUM', userId, `Plan set to ${plan} for ${months} months`);
+      this.logAction(
+        adminId, 
+        adminName, 
+        plan === 'pro' ? 'PROMOTE_PREMIUM' : 'DOWNGRADE_FREE', 
+        userId, 
+        `Plan set to ${plan}`
+      );
     } catch (err: any) {
       errorEmitter.emit('permission-error', new FirestorePermissionError({
         path: userRef.path,

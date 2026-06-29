@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from "react";
@@ -19,7 +18,9 @@ import {
   Smartphone,
   Crown,
   Calendar,
-  UserCheck
+  UserCheck,
+  Zap,
+  CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -28,6 +29,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 export default function ProfilePage() {
   const { user, profile, loading } = useUser();
@@ -40,7 +42,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const isPro = profile?.role === 'admin' || profile?.role === 'super-admin' || profile?.isPro;
+  const isPro = profile?.subscriptionPlan === 'pro' || profile?.role === 'admin' || profile?.role === 'super-admin';
 
   useEffect(() => {
     if (profile?.googleAiApiKey) {
@@ -93,7 +95,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-50/50 pt-6 pb-12 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header - Reduced spacing */}
+        {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button asChild variant="ghost" size="icon" className="rounded-full">
@@ -113,7 +115,15 @@ export default function ProfilePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Column: Profile Info */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center text-center">
+            <div className="bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center text-center relative overflow-hidden">
+              {isPro && (
+                <div className="absolute top-0 right-0 p-4">
+                   <Badge className="bg-amber-100 text-amber-600 border-amber-200 font-black text-[10px] uppercase tracking-widest">
+                     <Crown className="w-3 h-3 mr-1" /> Pro Member
+                   </Badge>
+                </div>
+              )}
+              
               <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mb-4 relative">
                 <UserIcon className="w-12 h-12 text-primary" />
                 <div className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md border">
@@ -126,9 +136,9 @@ export default function ProfilePage() {
               <div className="w-full space-y-4">
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                   <Mail className="w-4 h-4 text-slate-400" />
-                  <div className="text-left">
+                  <div className="text-left overflow-hidden">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Email</p>
-                    <p className="text-sm font-bold text-slate-700 truncate max-w-[180px]">{user.email}</p>
+                    <p className="text-sm font-bold text-slate-700 truncate">{user.email}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
@@ -138,35 +148,80 @@ export default function ProfilePage() {
                     <p className="text-sm font-bold text-slate-700">{profile?.phoneNumber || "Not provided"}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <Calendar className="w-4 h-4 text-slate-400" />
-                  <div className="text-left">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Age</p>
-                    <p className="text-sm font-bold text-slate-700">{profile?.age || "Not provided"}</p>
-                  </div>
-                </div>
               </div>
             </div>
 
-            <div className={cn(
-              "rounded-[2rem] p-8 space-y-4 shadow-xl border",
-              isPro ? "bg-gradient-to-br from-emerald-600 to-emerald-800 border-emerald-500" : "bg-gradient-to-br from-slate-900 to-slate-800 border-slate-800"
-            )}>
-              <div className="flex items-center gap-3">
-                <div className="bg-white/20 p-2 rounded-xl">
-                  <Crown className="w-5 h-5 text-white" />
+            {/* Premium Card Design */}
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className={cn(
+                "rounded-[2.5rem] p-8 space-y-6 shadow-2xl border relative overflow-hidden transition-all duration-500",
+                isPro 
+                  ? "bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 border-emerald-400 text-white" 
+                  : "bg-gradient-to-br from-slate-900 to-slate-800 border-slate-800 text-white"
+              )}
+            >
+              {isPro && (
+                <div className="absolute top-[-20%] right-[-20%] w-64 h-64 bg-white/10 rounded-full blur-[60px]" />
+              )}
+              
+              <div className="flex items-center justify-between relative z-10">
+                <div className="flex items-center gap-3">
+                  <div className={cn(
+                    "p-3 rounded-2xl",
+                    isPro ? "bg-white/20" : "bg-primary/20"
+                  )}>
+                    {isPro ? <Crown className="w-6 h-6 text-white" /> : <Zap className="w-6 h-6 text-primary" />}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black uppercase tracking-widest">
+                      {isPro ? "Pro Subscription" : "Free Access"}
+                    </h3>
+                    <p className={cn(
+                      "text-[10px] font-bold uppercase opacity-60",
+                      isPro ? "text-emerald-100" : "text-slate-400"
+                    )}>
+                      {isPro ? "Unlimited NCERT Mastery" : "Standard Tier"}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="font-bold text-white">Subscription</h3>
               </div>
-              <p className="text-sm text-white/70 leading-relaxed font-medium">
-                {isPro ? "Pro Plan Active - Enjoy unlimited NCERT mastery." : "Free Tier - Upgrade to unlock all study tools."}
-              </p>
+
+              <div className="space-y-4 relative z-10">
+                {isPro ? (
+                  <div className="space-y-2">
+                    {[
+                      "Unlimited MCQ Bank (20k+)",
+                      "Unlimited Spaced-Repetition",
+                      "Priority AI Mentorship",
+                      "Full Mock Test Series"
+                    ].map(f => (
+                      <div key={f} className="flex items-center gap-2 text-xs font-bold">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-200" />
+                        {f}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-300 leading-relaxed font-medium">
+                    Upgrade to Pro to unlock unlimited preparation tools and boost your rank.
+                  </p>
+                )}
+              </div>
+
               {!isPro && (
-                <Button asChild className="w-full rounded-xl font-bold bg-primary hover:bg-primary/90 text-white shadow-lg transition-all hover:scale-[1.02]">
+                <Button asChild className="w-full rounded-2xl font-bold py-7 bg-primary hover:bg-primary/90 text-white shadow-xl transition-all relative z-10">
                   <Link href="/pricing">Unlock All Features (&#8377;199)</Link>
                 </Button>
               )}
-            </div>
+
+              {isPro && (
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[10px] font-black uppercase relative z-10">
+                  <span>Status: Lifetime/Active</span>
+                  <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+                </div>
+              )}
+            </motion.div>
           </div>
 
           {/* Right Column: AI Config */}
