@@ -25,11 +25,11 @@ import {
   Bell
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -85,6 +85,11 @@ export function DropdownNavigation({ navItems }: Props) {
   const { user, profile } = useUser();
   const auth = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Hide Navbar on dashboard and admin routes to prevent overlap
+  const isAppRoute = pathname.startsWith('/admin') || pathname.startsWith('/dashboard');
+  if (isAppRoute) return null;
 
   const handleHover = (menuLabel: string | null) => {
     setOpenMenu(menuLabel);

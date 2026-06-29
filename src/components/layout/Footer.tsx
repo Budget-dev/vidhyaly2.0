@@ -15,6 +15,7 @@ import {
   Phone
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
@@ -92,6 +93,12 @@ export const Footer = ({
   copyright = "© 2027 Vidhyaly Education. All rights reserved.",
   legalLinks = defaultLegalLinks,
 }: FooterProps) => {
+  const pathname = usePathname();
+
+  // Hide Footer on app routes for cleaner workspace
+  const isAppRoute = pathname.startsWith('/admin') || pathname.startsWith('/dashboard');
+  if (isAppRoute) return null;
+
   return (
     <footer className="relative bg-white/70 backdrop-blur-xl text-slate-600 pt-20 pb-12 overflow-hidden border-t border-slate-200/60 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
       {/* Background decoration */}

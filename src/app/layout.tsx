@@ -160,7 +160,7 @@ export default function RootLayout({
         <FirebaseClientProvider>
           <AuthGuard>
             <DropdownNavigation navItems={navItems} />
-            <main className="flex-grow pt-16">
+            <main className="flex-grow">
               {children}
             </main>
             <Footer />
