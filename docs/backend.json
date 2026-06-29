@@ -3,32 +3,51 @@
   "entities": {
     "UserProfile": {
       "title": "User Profile",
-      "description": "Stores user-specific settings including their personal AI API key and preparation details.",
+      "description": "Comprehensive student profile including subscription and activity tracking.",
       "type": "object",
       "properties": {
         "uid": { "type": "string" },
         "displayName": { "type": "string" },
         "email": { "type": "string" },
         "phoneNumber": { "type": "string" },
+        "photoURL": { "type": "string" },
         "age": { "type": "string" },
-        "googleAiApiKey": { "type": "string" },
-        "role": { "type": "string", "enum": ["student", "admin", "super-admin"], "default": "student" },
-        "status": { "type": "string", "enum": ["active", "inactive", "blocked"], "default": "active" },
-        "isVerified": { "type": "boolean", "default": false },
-        "profileCompletion": { "type": "number" },
-        "blockReason": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "admin", "super-admin"] },
+        "status": { "type": "string", "enum": ["active", "blocked"] },
+        "subscriptionPlan": { "type": "string", "enum": ["free", "pro"] },
+        "subscriptionStartDate": { "type": "string", "format": "date-time" },
+        "subscriptionExpiryDate": { "type": "string", "format": "date-time" },
+        "registrationDate": { "type": "string", "format": "date-time" },
         "lastLoginAt": { "type": "string", "format": "date-time" },
+        "loginProvider": { "type": "string" },
+        "googleAiApiKey": { "type": "string" },
+        "isVerified": { "type": "boolean" },
         "createdAt": { "type": "string", "format": "date-time" },
         "deletedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["uid", "email"]
     },
-    "AdminAuditLog": {
-      "title": "Admin Audit Log",
-      "description": "Tracks all administrative actions for security.",
+    "AdminProfile": {
+      "title": "Admin Profile",
+      "description": "Restricted document for administrative accounts.",
       "type": "object",
       "properties": {
         "adminId": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string" },
+        "permissions": { "type": "array", "items": { "type": "string" } },
+        "createdDate": { "type": "string", "format": "date-time" },
+        "lastLogin": { "type": "string", "format": "date-time" }
+      }
+    },
+    "AdminAuditLog": {
+      "title": "Admin Audit Log",
+      "description": "Immutable record of administrative actions for security tracking.",
+      "type": "object",
+      "properties": {
+        "adminId": { "type": "string" },
+        "adminName": { "type": "string" },
         "action": { "type": "string" },
         "targetUserId": { "type": "string" },
         "details": { "type": "string" },
@@ -42,11 +61,15 @@
   "firestore": {
     "/users/{userId}": {
       "schema": "#/entities/UserProfile",
-      "description": "User profile document containing settings and API keys."
+      "description": "User profile collection."
+    },
+    "/admins/{adminId}": {
+      "schema": "#/entities/AdminProfile",
+      "description": "Privileged admin collection."
     },
     "/audit_logs/{logId}": {
       "schema": "#/entities/AdminAuditLog",
-      "description": "Logs of administrative actions."
+      "description": "System-wide audit logs."
     }
   }
 }
