@@ -31,7 +31,7 @@ const AuthPage = () => {
 
   useEffect(() => {
     if (user) {
-      router.push("/dashboard");
+      router.push("/");
     }
   }, [user, router]);
 
@@ -99,7 +99,7 @@ const AuthPage = () => {
           description: "Successfully signed in.",
         });
       }
-      router.push("/dashboard");
+      router.push("/");
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -119,7 +119,7 @@ const AuthPage = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-sm bg-white rounded-[2rem] shadow-2xl shadow-primary/5 p-8 flex flex-col items-center border border-slate-100 z-10"
+        className="w-full max-sm bg-white rounded-[2rem] shadow-2xl shadow-primary/5 p-8 flex flex-col items-center border border-slate-100 z-10"
       >
         <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-6 shadow-inner">
           <AnimatePresence mode="wait">

@@ -1,3 +1,4 @@
+
 "use client"
 
 import { cn } from "@/lib/utils";
@@ -38,6 +39,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Banner } from "@/components/ui/banner";
+import { useUser } from "@/firebase";
 
 export const LampContainer = ({
   children,
@@ -132,6 +134,7 @@ export const LampContainer = ({
 };
 
 export function DemoWalkaround() {
+  const { user } = useUser();
   const features = [
     {
       title: "Vidhyamithra AI",
@@ -212,10 +215,14 @@ export function DemoWalkaround() {
           </div>
 
           <div className="p-6 rounded-2xl bg-slate-900 text-white space-y-4">
-            <h4 className="font-bold text-lg">Ready to start your journey?</h4>
-            <p className="text-slate-400 text-sm">Join the 2027 Batch today and get access to all features immediately.</p>
+            <h4 className="font-bold text-lg">{user ? "Continue your preparation" : "Ready to start your journey?"}</h4>
+            <p className="text-slate-400 text-sm">
+              {user ? "Your personalized dashboard is waiting with updated NCERT modules." : "Join the 2027 Batch today and get access to all features immediately."}
+            </p>
             <Button className="w-full rounded-xl py-6 font-bold bg-primary hover:bg-primary/90" asChild>
-              <Link href="/auth">Create Free Account <ArrowRight className="ml-2 w-4 h-4" /></Link>
+              <Link href={user ? "/dashboard" : "/auth"}>
+                {user ? "Go to Dashboard" : "Create Free Account"} <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
             </Button>
           </div>
         </div>
@@ -225,6 +232,7 @@ export function DemoWalkaround() {
 }
 
 export function HeroSection() {
+  const { user } = useUser();
 	return (
 		<section className="mx-auto w-full overflow-hidden flex flex-col items-center">
       <LampContainer>
@@ -238,7 +246,7 @@ export function HeroSection() {
             className={cn(
               "group flex w-fit items-center gap-3 rounded-full border border-white/80 bg-white/40 backdrop-blur-2xl p-1.5 pr-5 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all hover:bg-white/60 hover:border-white border-white/20"
             )}
-            href="/auth"
+            href={user ? "/dashboard" : "/auth"}
           >
             <div className="rounded-full border border-primary/20 bg-primary/20 text-primary px-3 py-1 shadow-sm">
               <p className="font-mono text-[10px] font-black">2027</p>
@@ -276,8 +284,8 @@ export function HeroSection() {
               </DialogContent>
             </Dialog>
             <Button size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90 text-white" asChild>
-              <Link href="/auth">
-                Get Started{" "}
+              <Link href={user ? "/dashboard" : "/auth"}>
+                {user ? "Go to Dashboard" : "Get Started"}{" "}
                 <ArrowRightIcon className="size-4 ml-2" />
               </Link>
             </Button>
