@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Users, 
@@ -11,15 +11,22 @@ import {
   TrendingUp,
   ArrowUpRight,
   Calendar,
-  Search
+  Search,
+  ShieldAlert
 } from 'lucide-react';
 import { StatCard } from '@/components/ui/StatCard';
 import { useCollection } from '@/firebase';
 import { collection, query } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
+import { format } from 'date-fns';
 
 export default function AdminDashboard() {
   const db = useFirestore();
+  const [currentDate, setCurrentDate] = useState<string>('');
+
+  useEffect(() => {
+    setCurrentDate(format(new Date(), 'MMM d, yyyy'));
+  }, []);
   
   // Real-time metrics - Memoized to prevent infinite re-renders
   const usersQuery = useMemo(() => {
@@ -33,7 +40,7 @@ export default function AdminDashboard() {
     { label: 'Total Users', value: allUsers?.length || 0, icon: Users, color: '#4F46E5', bg: '#EEF2FF' },
     { label: 'Active Students', value: allUsers?.filter(u => u.status === 'active').length || 0, icon: UserCheck, color: '#10B981', bg: '#ECFDF5' },
     { label: 'Blocked Accounts', value: allUsers?.filter(u => u.status === 'blocked').length || 0, icon: UserX, color: '#EF4444', bg: '#FEF2F2' },
-    { label: 'New Today', value: 12, icon: UserPlus, color: '#F59E0B', bg: '#FFFBEB', delta: '+15%' },
+    { label: 'New Today', value: 0, icon: UserPlus, color: '#F59E0B', bg: '#FFFBEB' },
   ];
 
   return (
@@ -46,7 +53,7 @@ export default function AdminDashboard() {
         <div className="flex gap-4">
           <div className="bg-white px-4 py-2 rounded-2xl border shadow-sm flex items-center gap-2">
             <Calendar className="w-4 h-4 text-slate-400" />
-            <span className="text-xs font-bold text-slate-700">Oct 24, 2027</span>
+            <span className="text-xs font-bold text-slate-700">{currentDate || 'Loading...'}</span>
           </div>
           <button className="bg-slate-900 text-white px-6 py-2 rounded-2xl text-xs font-bold shadow-lg hover:bg-slate-800 transition-all">
             Generate Growth Report
@@ -93,16 +100,10 @@ export default function AdminDashboard() {
         <div className="bg-white p-8 rounded-[2.5rem] border shadow-sm">
           <h2 className="text-xl font-headline font-bold text-slate-900 mb-6">Recent Actions</h2>
           <div className="space-y-6">
-            {[1,2,3,4,5].map(i => (
-              <div key={i} className="flex gap-4 group cursor-pointer">
-                <div className="w-2 h-2 rounded-full bg-primary mt-1.5" />
-                <div>
-                  <p className="text-xs font-bold text-slate-800">Admin blocked Arjun S.</p>
-                  <p className="text-[10px] text-slate-400 font-medium">14 minutes ago · Reason: Terms Violation</p>
-                </div>
-                <ArrowUpRight className="w-3 h-3 text-slate-300 ml-auto group-hover:text-primary transition-colors" />
-              </div>
-            ))}
+            <div className="flex flex-col items-center justify-center py-12 text-center space-y-3 opacity-30">
+               <ShieldAlert className="w-10 h-10 text-slate-300" />
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">No recent administrative logs</p>
+            </div>
           </div>
           <button className="w-full mt-8 py-3 rounded-xl border border-slate-100 text-xs font-bold text-slate-400 hover:bg-slate-50 transition-all">
             View All Audit Logs

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   Users, 
   LayoutDashboard, 
@@ -16,6 +16,9 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
+import { useUser, useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
+import { Button } from '@/components/ui/button';
 
 const menuItems = [
   { id: 'overview', label: 'Dashboard', icon: LayoutDashboard, href: '/admin' },
@@ -27,14 +30,22 @@ const menuItems = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const { profile, loading } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut(auth!);
+    router.push('/');
+  };
 
   return (
     <aside className="w-64 bg-white border-r h-screen fixed left-0 top-0 z-50 flex flex-col">
       <div className="p-8 border-b">
-        <h1 className="text-xl font-headline font-bold text-slate-900 flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">V</div>
-          Vidhyaly Admin
-        </h1>
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">V</div>
+          <h1 className="text-xl font-headline font-bold text-slate-900">Vidhyaly Admin</h1>
+        </Link>
       </div>
 
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
@@ -62,13 +73,23 @@ export function AdminSidebar() {
       <div className="p-6 border-t mt-auto">
         <div className="bg-slate-50 p-4 rounded-2xl border flex flex-col gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white text-xs font-bold">AD</div>
+            <div className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-white text-xs font-bold shrink-0">
+              {profile?.displayName?.charAt(0) || 'A'}
+            </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-bold text-slate-900 truncate">System Admin</p>
-              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Super Admin</p>
+              <p className="text-xs font-bold text-slate-900 truncate">
+                {loading ? '...' : (profile?.displayName || 'Admin')}
+              </p>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest truncate">
+                {profile?.role || 'Administrator'}
+              </p>
             </div>
           </div>
-          <Button variant="ghost" className="w-full justify-start text-destructive hover:bg-red-50 hover:text-destructive h-9 p-2">
+          <Button 
+            variant="ghost" 
+            onClick={handleSignOut}
+            className="w-full justify-start text-destructive hover:bg-red-50 hover:text-destructive h-9 p-2"
+          >
             <LogOut className="w-4 h-4 mr-2" />
             <span className="text-xs font-bold">Sign Out</span>
           </Button>
@@ -77,5 +98,3 @@ export function AdminSidebar() {
     </aside>
   );
 }
-
-import { Button } from '@/components/ui/button';
