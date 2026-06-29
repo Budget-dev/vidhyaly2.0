@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from 'react';
-import { Bell, Mail, CheckCircle2, Star, MessageCircle, Info } from 'lucide-react';
+import { Bell, MessageCircle, Star, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCollection, useFirestore, useUser } from '@/firebase';
 import { collection, query, where, orderBy, doc, updateDoc, limit } from 'firebase/firestore';
@@ -16,20 +16,27 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 export function NotificationBell() {
-  const { user } = useUser();
+  const { user, loading: userLoading } = useUser();
   const db = useFirestore();
 
   const notificationsQuery = useMemo(() => {
-    if (!db || !user) return null;
-    return query(
-      collection(db, 'notifications'),
-      where('userId', '==', user.uid),
-      orderBy('createdAt', 'desc'),
-      limit(20)
-    );
-  }, [db, user]);
+    // Only attempt to create query if database is ready and user is fully authenticated
+    if (!db || !user || userLoading) return null;
+    
+    try {
+      return query(
+        collection(db, 'notifications'),
+        where('userId', '==', user.uid),
+        orderBy('createdAt', 'desc'),
+        limit(20)
+      );
+    } catch (e) {
+      console.error("Failed to build notifications query:", e);
+      return null;
+    }
+  }, [db, user, userLoading]);
 
-  const { data: notifications, loading } = useCollection(notificationsQuery);
+  const { data: notifications, loading: collectionLoading } = useCollection(notificationsQuery);
 
   const unreadCount = useMemo(() => {
     return notifications?.filter(n => !n.read).length || 0;
@@ -40,7 +47,15 @@ export function NotificationBell() {
     try {
       await updateDoc(doc(db, 'notifications', id), { read: true });
     } catch (e) {
-      console.error(e);
+      console.error("Failed to mark notification as read:", e);
+    }
+  };
+
+  const markAllAsRead = async () => {
+    if (!notifications || !db) return;
+    const unread = notifications.filter(n => !n.read);
+    for (const n of unread) {
+      markAsRead(n.id);
     }
   };
 
@@ -51,6 +66,9 @@ export function NotificationBell() {
       default: return <MessageCircle className="w-4 h-4 text-primary" />;
     }
   };
+
+  // Don't render anything if auth is still resolving to avoid premature rule checks
+  if (userLoading) return null;
 
   return (
     <Popover>
@@ -76,14 +94,14 @@ export function NotificationBell() {
              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{unreadCount} Unread Messages</p>
            </div>
            {unreadCount > 0 && (
-             <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase text-primary" onClick={() => notifications?.forEach(n => !n.read && markAsRead(n.id))}>
+             <Button variant="ghost" size="sm" className="text-[10px] font-black uppercase text-primary" onClick={markAllAsRead}>
                Mark all read
              </Button>
            )}
         </div>
 
         <ScrollArea className="h-[400px]">
-          {loading ? (
+          {collectionLoading ? (
             <div className="p-12 text-center flex flex-col items-center gap-3">
                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Syncing Inbox...</p>
@@ -95,7 +113,7 @@ export function NotificationBell() {
             </div>
           ) : (
             <div className="divide-y divide-slate-50">
-              {notifications.map((n) => (
+              {notifications.map((n: any) => (
                 <div 
                   key={n.id} 
                   className={cn(
