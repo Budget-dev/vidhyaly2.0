@@ -3,7 +3,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { useCollection, useFirestore, useUser } from '@/firebase';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { collection, query } from 'firebase/firestore';
 import { 
   Search, 
   MoreVertical, 
@@ -57,22 +57,31 @@ export default function UserManagementPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [blockReason, setBlockReason] = useState('');
 
-  // Memoized query to prevent infinite re-renders
+  // Simplified query without orderBy to ensure data loads without index issues
   const usersQuery = useMemo(() => {
     if (!db) return null;
-    return query(collection(db, 'users'), orderBy('createdAt', 'desc'));
+    return query(collection(db, 'users'));
   }, [db]);
 
   const { data: users, loading } = useCollection(usersQuery);
 
   const filteredUsers = useMemo(() => {
     if (!users) return [];
-    return users.filter(u => {
-      const matchesSearch = 
-        u.displayName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        u.uid?.includes(searchTerm);
-      
+    
+    // Sort manually on client side to avoid index dependency
+    const sorted = [...users].sort((a, b) => {
+      const dateA = a.createdAt?.toDate?.() || new Date(0);
+      const dateB = b.createdAt?.toDate?.() || new Date(0);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    return sorted.filter(u => {
+      const name = (u.displayName || "").toLowerCase();
+      const email = (u.email || "").toLowerCase();
+      const uid = (u.uid || "");
+      const search = searchTerm.toLowerCase();
+
+      const matchesSearch = name.includes(search) || email.includes(search) || uid.includes(search);
       const matchesStatus = filterStatus === 'all' || u.status === filterStatus;
       
       return matchesSearch && matchesStatus && !u.deletedAt;
@@ -170,7 +179,7 @@ export default function UserManagementPage() {
                       <TableCell className="py-5 pl-8">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black">
-                            {u.displayName?.charAt(0) || 'A'}
+                            {u.displayName?.charAt(0) || u.email?.charAt(0) || 'A'}
                           </div>
                           <div>
                             <p className="text-sm font-bold text-slate-900">{u.displayName || 'Anonymous Aspirant'}</p>
@@ -181,7 +190,7 @@ export default function UserManagementPage() {
                       <TableCell>
                         <Badge className={cn(
                           "rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-wider",
-                          u.status === 'active' ? "bg-emerald-100 text-emerald-600 hover:bg-emerald-100" : "bg-red-100 text-red-600 hover:bg-red-100"
+                          u.status === 'blocked' ? "bg-red-100 text-red-600 hover:bg-red-100" : "bg-emerald-100 text-emerald-600 hover:bg-emerald-100"
                         )}>
                           {u.status || 'active'}
                         </Badge>
@@ -259,8 +268,8 @@ export default function UserManagementPage() {
             </DialogTitle>
             <DialogDescription className="text-slate-500 font-medium">
               {selectedUser?.status === 'blocked' 
-                ? `This will restore full access for ${selectedUser?.displayName}.`
-                : `This will prevent ${selectedUser?.displayName} from logging into Vidhyaly.`
+                ? `This will restore full access for ${selectedUser?.displayName || selectedUser?.email}.`
+                : `This will prevent ${selectedUser?.displayName || selectedUser?.email} from logging into Vidhyaly.`
               }
             </DialogDescription>
           </DialogHeader>
@@ -283,7 +292,7 @@ export default function UserManagementPage() {
               onClick={handleToggleBlock}
               className={cn(
                 "rounded-xl h-12 font-bold px-8 shadow-lg transition-all",
-                selectedUser?.status === 'blocked' ? "bg-emerald-500 hover:bg-emerald-600" : "bg-red-500 hover:bg-red-600"
+                selectedUser?.status === 'blocked' ? "bg-emerald-500 hover:bg-emerald-600 text-white" : "bg-red-500 hover:bg-red-600 text-white"
               )}
             >
               Confirm {selectedUser?.status === 'blocked' ? 'Unblock' : 'Block'}
@@ -298,12 +307,12 @@ export default function UserManagementPage() {
           <DialogHeader>
             <DialogTitle className="text-2xl font-headline font-bold text-red-600">Delete Account?</DialogTitle>
             <DialogDescription className="text-slate-500 font-medium">
-              Are you sure you want to delete {selectedUser?.displayName}? This action is permanent and will move the user to the soft-delete queue.
+              Are you sure you want to delete {selectedUser?.displayName || selectedUser?.email}? This action is permanent and will move the user to the soft-delete queue.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 mt-6">
             <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)} className="rounded-xl h-12 font-bold px-8">Cancel</Button>
-            <Button onClick={handleDeleteUser} className="rounded-xl h-12 font-bold px-8 bg-red-600 hover:bg-red-700 shadow-xl shadow-red-100">
+            <Button onClick={handleDeleteUser} className="rounded-xl h-12 font-bold px-8 bg-red-600 hover:bg-red-700 text-white shadow-xl shadow-red-100">
               Permanently Delete
             </Button>
           </DialogFooter>
