@@ -169,7 +169,7 @@ export function DemoWalkaround() {
     <div className="space-y-6 py-4">
       <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 shadow-2xl border-4 border-white">
         <video 
-          src="https://1234567890.sirv.com/Firefly%20Create%20an%20ultra-premium%20cinematic%208-second%20AI%20tutoring%20interface%20animation%20based%20EXACTLY%20on%20.mp4"
+          src="https://vennky.sirv.com/Firefly%20Create%20an%20ultra-premium%20cinematic%208-second%20AI%20tutoring%20interface%20animation%20based%20EXACTLY%20on%20.mp4"
           autoPlay 
           muted 
           loop 
@@ -379,7 +379,7 @@ export function AITutorSection() {
           />
           <div className="relative bg-white rounded-3xl border shadow-xl overflow-hidden h-full">
             <video
-              src="https://1234567890.sirv.com/Firefly%20Create%20an%20ultra-premium%20cinematic%208-second%20AI%20tutoring%20interface%20animation%20based%20EXACTLY%20on%20.mp4"
+              src="https://vennky.sirv.com/Firefly%20Create%20an%20ultra-premium%20cinematic%208-second%20AI%20tutoring%20interface%20animation%20based%20EXACTLY%20on%20.mp4"
               autoPlay
               muted
               loop
