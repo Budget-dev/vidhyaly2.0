@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -9,6 +10,7 @@
         "displayName": { "type": "string" },
         "email": { "type": "string" },
         "phoneNumber": { "type": "string" },
+        "parentPhoneNumber": { "type": "string" },
         "photoURL": { "type": "string" },
         "status": { "type": "string", "enum": ["active", "blocked"] },
         "subscriptionPlan": { "type": "string", "enum": ["free", "pro"] },
@@ -19,6 +21,12 @@
         "loginProvider": { "type": "string" },
         "role": { "type": "string", "enum": ["student", "admin", "super-admin"] },
         "age": { "type": "string" },
+        "attemptNumber": { "type": "string" },
+        "previousScore": { "type": "number" },
+        "targetGoal": { "type": "number" },
+        "location": { "type": "string" },
+        "targetCollege": { "type": "string" },
+        "referralSource": { "type": "string" },
         "googleAiApiKey": { "type": "string" },
         "isVerified": { "type": "boolean" },
         "createdAt": { "type": "string", "format": "date-time" },
