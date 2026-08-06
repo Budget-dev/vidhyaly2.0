@@ -303,7 +303,7 @@ export function HeroSection() {
 					<img
 						alt="Vidhyaly Platform Preview - NEET Dashboard"
 						className="z-2 aspect-video rounded-xl w-full object-cover"
-						src="https://1234567890.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2012_31_25%20PM.png"
+						src="https://vennky.sirv.com/ChatGPT%20Image%20May%2021%2C%202026%2C%2012_31_25%20PM.png"
             data-ai-hint="neet platform"
 					/>
 				</div>
