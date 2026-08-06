@@ -46,7 +46,6 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
-import { Banner } from "@/components/ui/banner";
 
 const ICON_MAP: Record<string, React.ElementType> = {
   Layers,
@@ -85,7 +84,6 @@ export function DropdownNavigation({ navItems }: Props) {
   const [openMenu, setOpenMenu] = React.useState<string | null>(null);
   const [isHover, setIsHover] = useState<number | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showBanner, setShowBanner] = useState(true);
 
   const { user, profile } = useUser();
   const auth = useAuth();
@@ -94,17 +92,6 @@ export function DropdownNavigation({ navItems }: Props) {
 
   // Hide Navbar on dashboard and admin routes to prevent overlap
   const isAppRoute = pathname.startsWith('/admin') || pathname.startsWith('/dashboard');
-
-  useEffect(() => {
-    // Re-show banner on homepage if hidden elsewhere? No, keep user preference.
-    const hidden = localStorage.getItem("vidhyaly_banner_hidden");
-    if (hidden) setShowBanner(false);
-  }, []);
-
-  const handleHideBanner = () => {
-    setShowBanner(false);
-    localStorage.setItem("vidhyaly_banner_hidden", "true");
-  };
 
   if (isAppRoute) return null;
 
@@ -119,30 +106,6 @@ export function DropdownNavigation({ navItems }: Props) {
 
   return (
     <header className="fixed top-0 w-full z-50 flex flex-col">
-      {/* Global AI Launch Banner */}
-      <Banner
-        show={showBanner && pathname === "/"}
-        onHide={handleHideBanner}
-        variant="primary"
-        title="AI Dashboard is here!"
-        description="Experience the future of medical entrance analytics"
-        showShade={true}
-        closable={true}
-        icon={<Rocket />}
-        action={
-          <Button
-            asChild
-            className="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary px-4 py-1.5 text-[10px] font-black uppercase transition-all hover:bg-primary/20 h-auto"
-            variant="ghost"
-          >
-            <Link href="/dashboard">
-              Try now
-              <ArrowRightIcon className="h-3 w-3 ml-1" />
-            </Link>
-          </Button>
-        }
-      />
-
       <nav className="w-full border-b bg-white/80 backdrop-blur-md shadow-sm">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* Logo */}
